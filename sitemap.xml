@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://sgyliu8.github.io/</loc>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/"/>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sgyliu8.github.io/zh/</loc>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/"/>
     <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://sgyliu8.github.io/cv/</loc>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/cv/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/cv/"/>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sgyliu8.github.io/zh/cv/</loc>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/cv/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/cv/"/>
     <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

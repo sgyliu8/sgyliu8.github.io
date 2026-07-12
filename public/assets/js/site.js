@@ -6,12 +6,14 @@
   const menu = document.querySelector('[data-menu]');
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const pageContent = document.querySelectorAll('main, footer');
+  const openLabel = menuToggle?.dataset.openLabel || 'Open navigation';
+  const closeLabel = menuToggle?.dataset.closeLabel || 'Close navigation';
 
   const closeMenu = ({ restoreFocus = false } = {}) => {
     if (!menu || !menuToggle) return;
     menu.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.querySelector('.sr-only').textContent = 'Open navigation';
+    menuToggle.querySelector('.sr-only').textContent = openLabel;
     body.classList.remove('menu-open');
     header?.classList.remove('menu-active');
     pageContent.forEach((element) => element.removeAttribute('inert'));
@@ -28,7 +30,7 @@
 
       menu.classList.add('is-open');
       menuToggle.setAttribute('aria-expanded', 'true');
-      menuToggle.querySelector('.sr-only').textContent = 'Close navigation';
+      menuToggle.querySelector('.sr-only').textContent = closeLabel;
       body.classList.add('menu-open');
       header?.classList.add('menu-active');
       pageContent.forEach((element) => element.setAttribute('inert', ''));

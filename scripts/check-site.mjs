@@ -13,17 +13,22 @@ const prohibited = [
   ['compensation detail', /65000\s*(?:元|RMB|CNY)|15\s*薪/i],
   ['incorrect ASME paper number', /GT2024-123937/i],
   ['incorrect UAV patent number', /CN2058762433?U/i],
+  ['incorrect CEng capitalisation', /CENG/],
 ];
 
 const requiredFiles = [
   'index.html',
   'cv/index.html',
+  'zh/index.html',
+  'zh/cv/index.html',
   '404.html',
   'assets/css/site.css',
   'assets/js/site.js',
   'assets/icons/favicon.svg',
   'assets/img/og-card.png',
+  'assets/img/og-card-zh.png',
   'assets/Curriculum_Vitae.pdf',
+  'assets/Curriculum_Vitae_ZH.pdf',
   'about.html',
   'robots.txt',
   'sitemap.xml',
@@ -142,12 +147,15 @@ for (const file of htmlFiles) {
     errors.push(`${relative(file)} is missing a title`);
   }
 
-  if (['index.html', 'cv/index.html'].includes(relative(file))) {
+  if (['index.html', 'cv/index.html', 'zh/index.html', 'zh/cv/index.html'].includes(relative(file))) {
     if (!/<meta\s+name=["']description["']/i.test(html)) {
       errors.push(`${relative(file)} is missing a meta description`);
     }
     if (!/<link\s+rel=["']canonical["']/i.test(html)) {
       errors.push(`${relative(file)} is missing a canonical URL`);
+    }
+    if (!/hreflang=["']en-GB["']/i.test(html) || !/hreflang=["']zh-CN["']/i.test(html)) {
+      errors.push(`${relative(file)} is missing bilingual hreflang links`);
     }
   }
 
