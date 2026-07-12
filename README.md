@@ -8,14 +8,18 @@ The site presents a concise, public-safe record of work across gas-turbine perfo
 
 ```text
 public/
-  index.html              Main portfolio
-  cv/index.html           Printable public CV
+  index.html              English portfolio
+  zh/index.html           Chinese portfolio
+  cv/index.html           Printable English public CV
+  zh/cv/index.html        Printable Chinese public CV
   assets/css/site.css     Responsive design and print styles
   assets/js/site.js       Navigation and progressive enhancement
   assets/img/             Social preview artwork
   404.html                Custom not-found page
 scripts/
   check-site.mjs          HTML, link and privacy guardrails
+docs/
+  ui-audit-2026-07.md     UX, visual and accessibility decision record
 .github/workflows/
   quality.yml             Pull-request validation
   static.yml              GitHub Pages deployment

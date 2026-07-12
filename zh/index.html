@@ -14,7 +14,8 @@
   <link rel="alternate" hreflang="x-default" href="https://sgyliu8.github.io/">
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260713">
+  <link rel="stylesheet" href="/assets/fonts/inter/index.css">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260713b">
   <link rel="stylesheet" href="/assets/fonts/noto-sans-sc/index.css">
 
   <meta property="og:type" content="profile">
@@ -86,11 +87,10 @@
 
       <nav class="primary-nav" id="primary-nav" aria-label="主导航" data-menu>
         <a href="#about">关于我</a>
-        <a href="#expertise">专业方向</a>
         <a href="#work">代表工作</a>
         <a href="#experience">职业经历</a>
         <a href="#research">研究成果</a>
-        <a class="language-switch" href="/" lang="en-GB" hreflang="en-GB" aria-label="Switch to English">EN</a>
+        <a class="language-switch" href="/" hreflang="en-GB" aria-label="切换至英文（English）"><span lang="en-GB">EN</span></a>
         <a class="nav-cta" href="/zh/cv/">公开简历</a>
       </nav>
     </div>
@@ -104,9 +104,9 @@
 
       <div class="shell hero-layout">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow"><span></span> 英国特许工程师（CEng · IMechE） · 工业研发 · 英国林肯</p>
+          <p class="eyebrow"><span></span> 刘杨博士 · PhD · CEng（经 IMechE 注册）</p>
           <h1 id="hero-title">将复杂测量转化为<em>值得信赖的工程决策。</em></h1>
-          <p class="hero-lead">我是刘杨博士，现任高级工程师，工作横跨燃气轮机性能、先进测量、工业成像和可部署的工程软件。</p>
+          <p class="hero-lead">高级工程师，现于英国林肯从事燃气轮机研发，工作横跨性能分析、先进测量、工业成像和可部署的工程软件。</p>
 
           <div class="hero-actions">
             <a class="button button-primary" href="#work">
@@ -124,13 +124,13 @@
 
         <div class="hero-visual" data-reveal data-reveal-delay="1">
           <div class="visual-frame">
-            <aside class="visual-profile" aria-label="个人信息">
+            <div class="visual-profile">
               <picture>
-                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="96px">
+                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="80px">
                 <img src="/assets/img/profile/yang-portrait-640.jpg" width="640" height="800" alt="刘杨的职业肖像" fetchpriority="high" decoding="async">
               </picture>
-              <span><strong>刘杨</strong><small>PhD · CEng · IMechE</small></span>
-            </aside>
+              <span><strong>刘杨</strong><small>高级工程师 · 研发</small></span>
+            </div>
             <div class="visual-label visual-label-top">
               <span class="status-dot"></span>
               工程决策闭环
@@ -248,19 +248,16 @@
           <strong>厘清物理机制</strong>
           <p>明确主导机理、约束条件与所需证据。</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>02</span>
           <strong>测量与标定</strong>
           <p>建立可复现、数据质量可追溯的测量链。</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>03</span>
           <strong>建模与验证</strong>
           <p>结合物理模型与数据方法，并清楚说明适用边界。</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>04</span>
           <strong>交付工程工具</strong>
@@ -271,8 +268,8 @@
       <aside class="shell personal-story" aria-labelledby="outside-title" data-reveal>
         <figure class="personal-story-media">
           <picture>
-            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 42vw">
-            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="刘杨在林地山坡上将山地自行车举过头顶" loading="eager" decoding="async">
+            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 360px">
+            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="刘杨在林地山坡上将山地自行车举过头顶" loading="lazy" decoding="async">
           </picture>
           <figcaption>在山路上——工程好奇心也延伸到实验室之外。</figcaption>
         </figure>
@@ -374,7 +371,7 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <article class="work-card work-card-primary" data-reveal>
             <div class="work-meta">
               <span>已发表研究</span>
               <span>2024—2025</span>
@@ -393,7 +390,7 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <article class="work-card work-card-primary" data-reveal>
             <div class="work-meta">
               <span>工业合作研究</span>
               <span>2016—2021</span>
@@ -411,7 +408,12 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <div class="work-tier-heading">
+            <p>其他工程工作</p>
+            <span>早期科研转化与应用研发</span>
+          </div>
+
+          <article class="work-card work-card-supporting" data-reveal>
             <div class="work-meta">
               <span>科研成果转化</span>
               <span>2022—2024</span>
@@ -429,7 +431,7 @@
             </div>
           </article>
 
-          <article class="work-card work-card-direction" data-reveal>
+          <article class="work-card work-card-supporting" data-reveal>
             <div class="work-meta">
               <span>已授权专利</span>
               <span>2015—2016</span>
@@ -545,7 +547,7 @@
               <h3>Off-design performance control and simulation for gas turbine engines with sequential combustors</h3>
               <p>Yi-Guang Li &amp; Yang Liu · Proceedings of the IMechE, Part A: Journal of Power and Energy</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1177/09576509251327695" aria-label="打开期刊论文" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1177/09576509251327695" aria-label="打开期刊论文" rel="noreferrer"><span>期刊</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -555,7 +557,7 @@
               <h3>Performance Simulation and Off-Design Performance Control of Reheat Gas Turbine Engines</h3>
               <p>Yi-Guang Li &amp; Yang Liu · ASME Turbo Expo · GT2024-124937</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1115/GT2024-124937" aria-label="打开 2024 ASME 论文" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1115/GT2024-124937" aria-label="打开 2024 ASME 论文" rel="noreferrer"><span>ASME</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -565,7 +567,7 @@
               <h3>An Integrated PCA, Artificial Neural Network and Gas Path Analysis Approach for Multi-Component Fault Diagnostics</h3>
               <p>O. Alozie, Y.-G. Li, P. Pilidis, Y. Liu et al. · ASME Turbo Expo · GT2020-15740</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1115/GT2020-15740" aria-label="打开 2020 ASME 论文" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1115/GT2020-15740" aria-label="打开 2020 ASME 论文" rel="noreferrer"><span>ASME</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -575,7 +577,7 @@
               <h3>Sensor system for a rotating gear wheel</h3>
               <p>发明人：Roberto Palazzetti、刘杨 · 申请人：米兰理工大学 · WO2025108683A1</p>
             </div>
-            <a class="research-link" href="https://patents.google.com/patent/WO2025108683A1/en" aria-label="打开已公开专利申请" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://patents.google.com/patent/WO2025108683A1/en" aria-label="打开已公开专利申请" rel="noreferrer"><span>PCT</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -585,7 +587,7 @@
               <h3>无人机的减振组件及具有其的无人机</h3>
               <p>发明人：刘杨 · 申请人：广州极飞科技有限公司 · CN205872433U</p>
             </div>
-            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="打开已授权无人机减振实用新型专利" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="打开已授权无人机减振实用新型专利" rel="noreferrer"><span>专利</span><span aria-hidden="true">↗</span></a>
           </article>
         </div>
 
@@ -627,6 +629,6 @@
     </div>
   </footer>
 
-  <script src="/assets/js/site.js" defer></script>
+  <script src="/assets/js/site.js?v=20260713b" defer></script>
 </body>
 </html>
