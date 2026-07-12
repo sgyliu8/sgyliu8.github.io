@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g" cx="0" cy="0" r="1" gradientTransform="translate(930 120) rotate(135) scale(650)">
+      <stop stop-color="#234d58"/>
+      <stop offset="1" stop-color="#071a24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f3f1e9"/>
+      <stop offset="1" stop-color="#73979a"/>
+    </linearGradient>
+    <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse">
+      <path d="M52 0H0V52" fill="none" stroke="#83a7aa" stroke-opacity=".09"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#071a24"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1015" cy="315" r="198" fill="none" stroke="#9bb9b9" stroke-opacity=".2"/>
+  <circle cx="1015" cy="315" r="142" fill="none" stroke="#9bb9b9" stroke-opacity=".16" stroke-dasharray="7 11"/>
+  <path d="M982 145c35-18 91-15 116 12 20 22 15 58 4 91-10 29-6 54 10 82 25 43 26 86 6 119-19 31-54 45-99 41-25-2-45-13-58-32 26-10 43-27 52-48 15-36 5-69-12-101-20-38-32-74-23-108 5-20 9-38 14-56Z" fill="url(#b)" opacity=".78"/>
+  <path d="M846 242h330M830 291h346M840 340h326" stroke="#f08a4e" stroke-opacity=".56"/>
+  <circle cx="862" cy="242" r="5" fill="#f08a4e"/>
+  <circle cx="1140" cy="340" r="5" fill="#f08a4e"/>
+  <text x="72" y="98" fill="#f08a4e" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="4">YANG LIU · PHD · CENG</text>
+  <text x="72" y="226" fill="#fffefa" font-family="Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="-2">Engineering from</text>
+  <text x="72" y="302" fill="#c8dcdc" font-family="Georgia, serif" font-size="68" font-style="italic">measurement to decision.</text>
+  <text x="72" y="405" fill="#a8b9bb" font-family="Arial, sans-serif" font-size="25">Gas-turbine R&amp;D · Advanced measurement · Industrial AI</text>
+  <path d="M72 510h520" stroke="#a8b9bb" stroke-opacity=".28"/>
+  <text x="72" y="553" fill="#81989c" font-family="Arial, sans-serif" font-size="19" letter-spacing="2">SGYLIU8.GITHUB.IO</text>
+</svg>
