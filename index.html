@@ -14,7 +14,9 @@
   <link rel="alternate" hreflang="x-default" href="https://sgyliu8.github.io/">
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260713">
+  <link rel="preload" href="/assets/fonts/inter/files/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/fonts/inter/index.css">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260713b">
 
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="en_GB">
@@ -84,11 +86,10 @@
 
       <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation" data-menu>
         <a href="#about">About</a>
-        <a href="#expertise">Expertise</a>
         <a href="#work">Selected work</a>
         <a href="#experience">Experience</a>
         <a href="#research">Research</a>
-        <a class="language-switch" href="/zh/" lang="zh-CN" hreflang="zh-CN" aria-label="切换至中文">中文</a>
+        <a class="language-switch" href="/zh/" hreflang="zh-CN" aria-label="Switch to Chinese"><span lang="zh-CN">中文</span></a>
         <a class="nav-cta" href="/cv/">Public CV</a>
       </nav>
     </div>
@@ -102,11 +103,11 @@
 
       <div class="shell hero-layout">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow"><span></span> Chartered Engineer (CEng · IMechE) · Industrial R&amp;D · Lincoln, UK</p>
+          <p class="eyebrow"><span></span> Dr Yang Liu · PhD · CEng through IMechE</p>
           <h1 id="hero-title">Turning complex measurements into <em>trustworthy engineering decisions.</em></h1>
           <p class="hero-lead">
-            I am Dr Yang Liu, a Senior Engineer working across gas-turbine performance,
-            advanced measurement, industrial imaging and deployable engineering software.
+            Senior Engineer in gas-turbine R&amp;D, based in Lincoln, UK, working across
+            performance, advanced measurement, industrial imaging and deployable engineering software.
           </p>
 
           <div class="hero-actions">
@@ -125,13 +126,13 @@
 
         <div class="hero-visual" data-reveal data-reveal-delay="1">
           <div class="visual-frame">
-            <aside class="visual-profile" aria-label="Profile">
+            <div class="visual-profile">
               <picture>
-                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="96px">
+                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="80px">
                 <img src="/assets/img/profile/yang-portrait-640.jpg" width="640" height="800" alt="Portrait of Yang Liu" fetchpriority="high" decoding="async">
               </picture>
-              <span><strong>Yang Liu</strong><small>PhD · CEng · IMechE</small></span>
-            </aside>
+              <span><strong>Yang Liu</strong><small>Senior Engineer · R&amp;D</small></span>
+            </div>
             <div class="visual-label visual-label-top">
               <span class="status-dot"></span>
               Engineering decision loop
@@ -261,19 +262,16 @@
           <strong>Frame the physics</strong>
           <p>Define the mechanism, constraints and evidence needed.</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>02</span>
           <strong>Measure &amp; calibrate</strong>
           <p>Build a repeatable chain with traceable data quality.</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>03</span>
           <strong>Model &amp; validate</strong>
           <p>Combine physical and data-driven methods with clear limits.</p>
         </li>
-        <li class="approach-arrow" aria-hidden="true">→</li>
         <li class="approach-step">
           <span>04</span>
           <strong>Deliver a tool</strong>
@@ -284,8 +282,8 @@
       <aside class="shell personal-story" aria-labelledby="outside-title" data-reveal>
         <figure class="personal-story-media">
           <picture>
-            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 42vw">
-            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="Yang Liu holding a mountain bike above his head on a forested hillside" loading="eager" decoding="async">
+            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 360px">
+            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="Yang Liu holding a mountain bike above his head on a forested hillside" loading="lazy" decoding="async">
           </picture>
           <figcaption>On the trail — engineering curiosity also travels beyond the laboratory.</figcaption>
         </figure>
@@ -392,7 +390,7 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <article class="work-card work-card-primary" data-reveal>
             <div class="work-meta">
               <span>Published research</span>
               <span>2024—2025</span>
@@ -415,7 +413,7 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <article class="work-card work-card-primary" data-reveal>
             <div class="work-meta">
               <span>Industrial research</span>
               <span>2016—2021</span>
@@ -437,7 +435,12 @@
             </div>
           </article>
 
-          <article class="work-card" data-reveal>
+          <div class="work-tier-heading">
+            <p>Additional engineering work</p>
+            <span>Earlier research translation and applied development</span>
+          </div>
+
+          <article class="work-card work-card-supporting" data-reveal>
             <div class="work-meta">
               <span>Research translation</span>
               <span>2022—2024</span>
@@ -459,7 +462,7 @@
             </div>
           </article>
 
-          <article class="work-card work-card-direction" data-reveal>
+          <article class="work-card work-card-supporting" data-reveal>
             <div class="work-meta">
               <span>Granted patent</span>
               <span>2015—2016</span>
@@ -578,7 +581,7 @@
               <h3>Off-design performance control and simulation for gas turbine engines with sequential combustors</h3>
               <p>Yi-Guang Li &amp; Yang Liu · Proceedings of the IMechE, Part A: Journal of Power and Energy</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1177/09576509251327695" aria-label="Open journal article" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1177/09576509251327695" aria-label="Open journal article" rel="noreferrer"><span>Journal</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -588,7 +591,7 @@
               <h3>Performance Simulation and Off-Design Performance Control of Reheat Gas Turbine Engines</h3>
               <p>Yi-Guang Li &amp; Yang Liu · ASME Turbo Expo · GT2024-124937</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1115/GT2024-124937" aria-label="Open ASME 2024 paper" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1115/GT2024-124937" aria-label="Open ASME 2024 paper" rel="noreferrer"><span>ASME</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -598,7 +601,7 @@
               <h3>An Integrated PCA, Artificial Neural Network and Gas Path Analysis Approach for Multi-Component Fault Diagnostics</h3>
               <p>O. Alozie, Y.-G. Li, P. Pilidis, Y. Liu et al. · ASME Turbo Expo · GT2020-15740</p>
             </div>
-            <a class="research-link" href="https://doi.org/10.1115/GT2020-15740" aria-label="Open ASME 2020 paper" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://doi.org/10.1115/GT2020-15740" aria-label="Open ASME 2020 paper" rel="noreferrer"><span>ASME</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -608,7 +611,7 @@
               <h3>Sensor system for a rotating gear wheel</h3>
               <p>Inventors: Roberto Palazzetti &amp; Yang Liu · Applicant: Politecnico di Milano · WO2025108683A1</p>
             </div>
-            <a class="research-link" href="https://patents.google.com/patent/WO2025108683A1/en" aria-label="Open published patent application" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://patents.google.com/patent/WO2025108683A1/en" aria-label="Open published patent application" rel="noreferrer"><span>PCT</span><span aria-hidden="true">↗</span></a>
           </article>
 
           <article class="research-item" data-reveal>
@@ -618,7 +621,7 @@
               <h3>Vibration damping component for a drone and drone with the same</h3>
               <p>Inventor: Yang Liu · Applicant: Guangzhou Xaircraft Technology Co., Ltd. · CN205872433U</p>
             </div>
-            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="Open granted UAV vibration damping utility model" rel="noreferrer">↗</a>
+            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="Open granted UAV vibration damping utility model" rel="noreferrer"><span>Patent</span><span aria-hidden="true">↗</span></a>
           </article>
         </div>
 
@@ -667,6 +670,6 @@
     </div>
   </footer>
 
-  <script src="/assets/js/site.js" defer></script>
+  <script src="/assets/js/site.js?v=20260713b" defer></script>
 </body>
 </html>

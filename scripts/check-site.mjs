@@ -24,6 +24,10 @@ const requiredFiles = [
   '404.html',
   'assets/css/site.css',
   'assets/js/site.js',
+  'assets/fonts/inter/index.css',
+  'assets/fonts/inter/LICENSE',
+  'assets/fonts/inter/files/inter-latin-wght-normal.woff2',
+  'assets/fonts/inter/files/inter-latin-ext-wght-normal.woff2',
   'assets/icons/favicon.svg',
   'assets/img/og-card.png',
   'assets/img/og-card-zh.png',
@@ -157,6 +161,15 @@ for (const file of htmlFiles) {
     if (!/hreflang=["']en-GB["']/i.test(html) || !/hreflang=["']zh-CN["']/i.test(html)) {
       errors.push(`${relative(file)} is missing bilingual hreflang links`);
     }
+    if (!/assets\/fonts\/inter\/index\.css/i.test(html)) {
+      errors.push(`${relative(file)} is missing the self-hosted Inter stylesheet`);
+    }
+
+    const navigation = html.match(/<nav class=["']primary-nav["'][\s\S]*?<\/nav>/i)?.[0] || '';
+    const contentAnchors = [...navigation.matchAll(/href=["'](?:\/zh\/|\/)?#(?:about|expertise|work|experience|research|contact)["']/gi)];
+    if (contentAnchors.length > 4) {
+      errors.push(`${relative(file)} has more than four primary content anchors`);
+    }
   }
 
   for (const reference of collectReferences(html)) {
@@ -183,6 +196,14 @@ for (const file of htmlFiles) {
       }
     }
   }
+}
+
+const chineseCv = await readFile(path.join(root, 'zh/cv/index.html'), 'utf8');
+if (/<a\s+class=["']brand["']\s+href=["']\/["']/i.test(chineseCv)) {
+  errors.push('zh/cv/index.html brand must return to the Chinese homepage');
+}
+if (/<a\s+href=["']\/["']>个人主页<\/a>/i.test(chineseCv)) {
+  errors.push('zh/cv/index.html contact link must return to the Chinese homepage');
 }
 
 if (errors.length) {
