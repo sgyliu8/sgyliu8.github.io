@@ -9,11 +9,16 @@
 
   <title>Dr Yang Liu | Gas Turbine R&amp;D &amp; Industrial AI</title>
   <link rel="canonical" href="https://sgyliu8.github.io/">
+  <link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/">
+  <link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://sgyliu8.github.io/">
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260712">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260713">
 
   <meta property="og:type" content="profile">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="zh_CN">
   <meta property="og:title" content="Dr Yang Liu | Engineering from measurement to decision">
   <meta property="og:description" content="Gas-turbine R&amp;D, advanced measurement, industrial imaging and dependable engineering software.">
   <meta property="og:url" content="https://sgyliu8.github.io/">
@@ -44,8 +49,7 @@
       {"@type": "CollegeOrUniversity", "name": "University of Liverpool"}
     ],
     "sameAs": [
-      "https://www.linkedin.com/in/yliu991/",
-      "https://github.com/sgyliu8"
+      "https://www.linkedin.com/in/yliu991/"
     ],
     "knowsAbout": [
       "Gas turbine performance",
@@ -68,11 +72,11 @@
         <span class="brand-mark" aria-hidden="true">YL</span>
         <span class="brand-copy">
           <strong>Yang Liu</strong>
-          <small>PhD · CEng</small>
+          <small>PhD · CEng · IMechE</small>
         </span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-menu-toggle>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-menu-toggle data-open-label="Open navigation" data-close-label="Close navigation">
         <span class="sr-only">Open navigation</span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -84,6 +88,7 @@
         <a href="#work">Selected work</a>
         <a href="#experience">Experience</a>
         <a href="#research">Research</a>
+        <a class="language-switch" href="/zh/" lang="zh-CN" hreflang="zh-CN" aria-label="切换至中文">中文</a>
         <a class="nav-cta" href="/cv/">Public CV</a>
       </nav>
     </div>
@@ -97,7 +102,7 @@
 
       <div class="shell hero-layout">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow"><span></span> Chartered Engineer · Industrial R&amp;D · Lincoln, UK</p>
+          <p class="eyebrow"><span></span> Chartered Engineer (CEng · IMechE) · Industrial R&amp;D · Lincoln, UK</p>
           <h1 id="hero-title">Turning complex measurements into <em>trustworthy engineering decisions.</em></h1>
           <p class="hero-lead">
             I am Dr Yang Liu, a Senior Engineer working across gas-turbine performance,
@@ -114,16 +119,22 @@
 
           <nav class="hero-links" aria-label="Professional links">
             <a href="https://www.linkedin.com/in/yliu991/" rel="me noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-            <a href="https://github.com/sgyliu8" rel="me noreferrer">GitHub <span aria-hidden="true">↗</span></a>
             <a href="mailto:sgyliu@gmail.com">Email</a>
           </nav>
         </div>
 
         <div class="hero-visual" data-reveal data-reveal-delay="1">
           <div class="visual-frame">
+            <aside class="visual-profile" aria-label="Profile">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="96px">
+                <img src="/assets/img/profile/yang-portrait-640.jpg" width="640" height="800" alt="Portrait of Yang Liu" fetchpriority="high" decoding="async">
+              </picture>
+              <span><strong>Yang Liu</strong><small>PhD · CEng · IMechE</small></span>
+            </aside>
             <div class="visual-label visual-label-top">
               <span class="status-dot"></span>
-              Engineering evidence chain
+              Engineering decision loop
             </div>
 
             <svg class="turbine-graphic" viewBox="0 0 620 620" role="img" aria-labelledby="visual-title visual-desc">
@@ -186,28 +197,30 @@
             </svg>
 
             <div class="visual-readout visual-readout-left">
-              <small>01</small>
+              <small>02</small>
               <strong>Measure</strong>
-              <span>Calibrated evidence</span>
+              <span>Traceable evidence</span>
             </div>
             <div class="visual-readout visual-readout-right">
               <small>03</small>
               <strong>Validate</strong>
-              <span>Engineering confidence</span>
+              <span>Model against evidence</span>
             </div>
             <div class="visual-label visual-label-bottom">
-              <span>Physics</span>
-              <span>Data</span>
-              <span>Decision</span>
+              <span>01 Define</span>
+              <span>02 Measure</span>
+              <span>03 Validate</span>
+              <span>04 Decide</span>
             </div>
           </div>
+          <p class="visual-caption"><strong>From physical question to engineering decision:</strong> define the problem, build reliable measurements, model and validate, then decide with stated confidence.</p>
         </div>
       </div>
 
       <div class="shell hero-facts" data-reveal>
         <div><strong>10+ years</strong><span>Engineering &amp; research</span></div>
         <div><strong>UK · Italy · China</strong><span>International R&amp;D experience</span></div>
-        <div><strong>PhD · CEng</strong><span>Research depth, professional practice</span></div>
+        <div><strong>PhD · CEng · IMechE</strong><span>Research depth, professional practice</span></div>
       </div>
     </section>
 
@@ -237,7 +250,12 @@
         </div>
       </div>
 
-      <ol class="shell approach" aria-label="Engineering approach" data-reveal>
+      <div class="shell approach-heading" data-reveal>
+        <p class="section-index">Engineering decision loop</p>
+        <p>A four-step, auditable route from an engineering question to a decision. Measurement and validation can loop back to refine the physical definition whenever the evidence demands it.</p>
+      </div>
+
+      <ol class="shell approach" aria-label="Engineering decision loop" data-reveal>
         <li class="approach-step">
           <span>01</span>
           <strong>Frame the physics</strong>
@@ -262,6 +280,21 @@
           <p>Translate the method into a usable engineering workflow.</p>
         </li>
       </ol>
+
+      <aside class="shell personal-story" aria-labelledby="outside-title" data-reveal>
+        <figure class="personal-story-media">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 42vw">
+            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="Yang Liu holding a mountain bike above his head on a forested hillside" loading="eager" decoding="async">
+          </picture>
+          <figcaption>On the trail — engineering curiosity also travels beyond the laboratory.</figcaption>
+        </figure>
+        <div class="personal-story-copy">
+          <p class="section-index">Beyond engineering</p>
+          <h3 id="outside-title">The same curiosity, in a different landscape.</h3>
+          <p>Cycling gives me space to reset, observe and keep moving through difficult terrain. I also enjoy RC aircraft modelling and tennis—interests that have kept experimentation, motion and practical problem-solving close throughout my career.</p>
+        </div>
+      </aside>
     </section>
 
     <section class="section section-paper" id="expertise" aria-labelledby="expertise-title">
@@ -364,6 +397,9 @@
               <span>Published research</span>
               <span>2024—2025</span>
             </div>
+            <div class="work-card-art" aria-hidden="true">
+              <svg viewBox="0 0 180 120"><path d="M18 86h144M28 76c18-34 34-40 52-10s38 24 54-8 22-32 30-20"/><circle cx="46" cy="66" r="13"/><circle cx="108" cy="63" r="13"/><path d="M46 53V31M108 50V22M38 31h16M100 22h16"/></svg>
+            </div>
             <div class="work-body">
               <p class="work-kicker">Gas-turbine thermodynamics</p>
               <h3>Reheat and sequential-combustion performance modelling</h3>
@@ -384,6 +420,9 @@
               <span>Industrial research</span>
               <span>2016—2021</span>
             </div>
+            <div class="work-card-art" aria-hidden="true">
+              <svg viewBox="0 0 180 120"><path d="M18 92h144M24 74l18-12 16 9 19-32 18 41 18-23 18 8 25-28"/><circle cx="77" cy="39" r="5"/><path d="M24 25h44M24 34h29"/></svg>
+            </div>
             <div class="work-body">
               <p class="work-kicker">Performance &amp; diagnostics</p>
               <h3>Gas-path diagnostics software and validated data interfaces</h3>
@@ -403,6 +442,9 @@
               <span>Research translation</span>
               <span>2022—2024</span>
             </div>
+            <div class="work-card-art" aria-hidden="true">
+              <svg viewBox="0 0 180 120"><circle cx="68" cy="61" r="31"/><circle cx="68" cy="61" r="11"/><path d="M68 22v14M68 86v14M29 61h14M93 61h14M41 34l10 10M85 78l10 10M95 34 85 44M51 78 41 88M112 76c12-23 22-23 34 0s21 23 28 0"/></svg>
+            </div>
             <div class="work-body">
               <p class="work-kicker">Rotating machinery</p>
               <h3>Wireless measurement chain for dynamic gear testing</h3>
@@ -421,6 +463,9 @@
             <div class="work-meta">
               <span>Granted patent</span>
               <span>2015—2016</span>
+            </div>
+            <div class="work-card-art" aria-hidden="true">
+              <svg viewBox="0 0 180 120"><path d="M55 58h70M90 33v51M72 48l18 10 18-10M70 82h40M76 82l-8 18M104 82l8 18"/><circle cx="48" cy="58" r="18"/><circle cx="132" cy="58" r="18"/><path d="M48 40v36M30 58h36M132 40v36M114 58h36"/></svg>
             </div>
             <div class="work-body">
               <p class="work-kicker">UAV aerodynamics &amp; vibration</p>
@@ -448,7 +493,7 @@
         <div class="section-heading" data-reveal>
           <div>
             <p class="section-index">04 / Experience</p>
-            <h2 id="experience-title">A career built across the full evidence chain.</h2>
+            <h2 id="experience-title">A career connecting physics, measurement, models and decisions.</h2>
           </div>
           <a class="text-link" href="/cv/">Detailed public CV <span aria-hidden="true">→</span></a>
         </div>
@@ -458,7 +503,7 @@
             <div class="timeline-date">2024—Now</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <p class="timeline-place">Siemens Energy · Lincoln, UK</p>
+              <div class="institution-heading"><span class="institution-logo institution-logo-dark"><img src="/assets/img/logos/siemens-energy.png" alt="" width="291" height="101" loading="lazy" decoding="async"></span><p class="timeline-place">Siemens Energy · Lincoln, UK</p></div>
               <h3>Senior Engineer — Digital Tools &amp; Instrumentation (R&amp;D)</h3>
               <p>Gas-turbine digital methods, performance analysis, industrial imaging and next-generation measurement.</p>
             </div>
@@ -467,7 +512,7 @@
             <div class="timeline-date">2022—2024</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <p class="timeline-place">Politecnico di Milano · Milan, Italy</p>
+              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/polimi.svg" alt="" width="131" height="43" loading="lazy" decoding="async"></span><p class="timeline-place">Politecnico di Milano · Milan, Italy</p></div>
               <h3>Postdoctoral Researcher — Mechanical Engineering</h3>
               <p>Wireless data acquisition, rotating-machinery measurement, gear NVH and experimental system development.</p>
             </div>
@@ -476,7 +521,7 @@
             <div class="timeline-date">2016—2021</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <p class="timeline-place">Cranfield University · Cranfield, UK</p>
+              <div class="institution-heading"><span class="institution-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="192" height="192" loading="lazy" decoding="async"></span><p class="timeline-place">Cranfield University · Cranfield, UK</p></div>
               <h3>Gas-Turbine Performance &amp; Diagnostics Researcher</h3>
               <p>Performance simulation, gas-path diagnostics, prognostics, software integration and PhD research.</p>
             </div>
@@ -485,7 +530,7 @@
             <div class="timeline-date">2015—2016</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <p class="timeline-place">XAG · Guangzhou, China</p>
+              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/xag.svg" alt="" width="70" height="25" loading="lazy" decoding="async"></span><p class="timeline-place">XAG · Guangzhou, China</p></div>
               <h3>Control &amp; Algorithms Engineer / R&amp;D Engineer — Aerodynamics</h3>
               <p>Propeller–motor matching, UAV aerodynamics, CFD, aeroacoustics and validation-rig development.</p>
             </div>
@@ -494,16 +539,19 @@
 
         <div class="education-strip" data-reveal>
           <div>
+            <span class="education-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="192" height="192" loading="lazy" decoding="async"></span>
             <span>PhD · Aerospace</span>
             <strong>Cranfield University</strong>
             <small>Gas-turbine performance &amp; thermodynamics</small>
           </div>
           <div>
+            <span class="education-logo education-logo-wide"><img src="/assets/img/logos/imperial.png" alt="" width="700" height="77" loading="lazy" decoding="async"></span>
             <span>MSc · Advanced Aeronautical Engineering</span>
             <strong>Imperial College London</strong>
             <small>Fluid mechanics</small>
           </div>
           <div>
+            <span class="education-logo"><img src="/assets/img/logos/liverpool.svg" alt="" width="97" height="145" loading="lazy" decoding="async"></span>
             <span>BEng · First Class Honours</span>
             <strong>University of Liverpool</strong>
             <small>Aerospace engineering</small>
@@ -610,7 +658,7 @@
       <p class="footer-note">
         Views expressed here are my own. This site is intended to include only publicly available
         or independently developed material, without confidential information belonging to current
-        or former employers or collaborators.
+        or former employers or collaborators. Institution names and marks are used for identification only.
       </p>
       <div class="footer-meta">
         <a href="#top">Back to top ↑</a>
