@@ -41,6 +41,7 @@ const prohibited = [
   ['incorrect power-distribution wording', /workload\s+distribution/i],
   ['misleading CEng and IMechE credential grouping', /PhD\s*·\s*CEng\s*·\s*IMechE/i],
   ['retired CEng-through-IMechE label', /CEng\s+through\s+IMechE/i],
+  ['retired IMechE review wording', /IMechE\s+(?:reviewed|professional review)|Professionally reviewed by the Institution of Mechanical Engineers|经\s*(?:英国机械工程师学会（IMechE）|IMechE)\s*专业评审/i],
   ['Dr and PhD used together in a name line', /Dr\s+Yang\s+Liu\s*,?\s*PhD|Yang\s+Liu\s*,\s*PhD\s*,\s*CEng|刘杨(?:博士)?\s*[，,·]\s*PhD/i],
   ['retired gas-turbine-only hero label', /Dr\s+Yang\s+Liu\s*·\s*Gas-turbine\s+R&D|刘杨博士\s*·\s*燃气轮机研发/i],
   ['stale static CV download link', /href=["']\/assets\/Curriculum_Vitae(?:_ZH)?\.pdf["']/i],
@@ -359,14 +360,14 @@ const positioningRequirements = {
   'zh/index.html': [
     '刘杨博士，CEng',
     '热能动力与推进系统',
-    '数学与物理建模',
+    '数学建模与基于物理的建模',
     '振动、测量与试验',
     '机械设计与实体原型开发',
     '工业成像、AI/ML 与工程系统',
     '四次大学纸飞机比赛夺冠——三次在克兰菲尔德、一次在利物浦',
   ],
-  'cv/index.html': ['Dr Yang Liu, CEng', 'Chartered Engineer (CEng)', 'Professionally reviewed by the Institution of Mechanical Engineers (IMechE)'],
-  'zh/cv/index.html': ['刘杨博士，CEng', '英国特许工程师（CEng）', '经英国机械工程师学会（IMechE）专业评审'],
+  'cv/index.html': ['Dr Yang Liu, CEng', 'Chartered Engineer (CEng)', 'Institution of Mechanical Engineers (IMechE)'],
+  'zh/cv/index.html': ['刘杨博士，CEng', '英国特许工程师（CEng）', '英国机械工程师学会（IMechE）'],
 };
 
 for (const page of primaryPages) {
@@ -401,8 +402,8 @@ const pathwayRequirements = {
     distinction: 'Why are Steps 02 and 03 separate gates? Step 02 asks whether the evidence is fit for the intended decision; Step 03 asks whether the model and interpretation are supported by that qualified evidence. If either gate fails, return upstream before deployment.',
   },
   'zh/index.html': {
-    steps: ['定义工程问题', '获取并确认数据可信度', '验证模型与解释', '决策、交付与监测'],
-    distinction: '为什么第 02、03 步是两道独立门槛？ 第 02 步判断证据是否足以支撑预期决策；第 03 步判断模型与解释能否得到合格证据支持。任一道未通过，都应在交付前返回上游重新检查。',
+    steps: ['定义工程问题', '获取并评价工程证据', '验证模型与解释', '决策、交付与监测'],
+    distinction: '为什么第 02 步和第 03 步是两道独立门槛？第 02 步判断证据是否适用于预期决策；第 03 步判断模型与解释是否得到这些合格证据的支持。任一道未通过，都应在交付前返回上游重新检查。',
   },
 };
 
@@ -417,6 +418,17 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
 
 for (const page of homePages) {
   const html = pageHtml.get(page) || '';
+  const sectionLabels = html.match(/class=["']section-label["']/g) || [];
+  const romanExpertiseMarkers = html.match(/class=["']card-number["'][^>]*aria-hidden=["']true["'][^>]*>\s*(?:I|II|III|IV|V|VI)\s*</g) || [];
+  if (sectionLabels.length !== 7) {
+    errors.push(`${page} must expose exactly seven unnumbered main-section labels`);
+  }
+  if (romanExpertiseMarkers.length !== 6) {
+    errors.push(`${page} must use six decorative Roman-numeral expertise markers`);
+  }
+  if (/class=["']section-index["'][^>]*>\s*0[1-7]\s*\//i.test(html)) {
+    errors.push(`${page} still exposes numbered 01–07 main-section labels`);
+  }
   if (hasClass(html, 'work-card-art') || hasClass(html, 'work-symbol')) {
     errors.push(`${page} must use real evidence assets instead of handcrafted work-card illustrations`);
   }

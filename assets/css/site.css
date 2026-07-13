@@ -168,14 +168,20 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   z-index: 1000;
   inset: 0 0 auto;
   height: var(--header-height);
+  isolation: isolate;
   color: rgba(255, 254, 250, 0.9);
+  background: rgba(7, 26, 36, 0.96);
   border-bottom: 1px solid transparent;
   transition: background-color 220ms ease, border-color 220ms ease, backdrop-filter 220ms ease;
 }
 
+.js body:not(.cv-page) .site-header:not(.is-scrolled):not(.menu-active) {
+  background: transparent;
+}
+
 .site-header.is-scrolled,
 .site-header.menu-active {
-  background: rgba(7, 26, 36, 0.9);
+  background: rgba(7, 26, 36, 0.96);
   border-bottom-color: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
@@ -400,8 +406,19 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   color: var(--accent);
 }
 
+.section-label {
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-size: clamp(1.15rem, 1.05vw, 1.3rem);
+  font-weight: 760;
+  letter-spacing: 0.045em;
+  line-height: 1.25;
+}
+
 .section-dark .section-index,
-.contact-section .section-index {
+.contact-section .section-index,
+.section-dark .section-label,
+.contact-section .section-label {
   color: var(--accent-bright);
 }
 
@@ -757,14 +774,14 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   line-height: 1.08;
 }
 
-.zh-page :is(.eyebrow, .section-index, .pathway-kicker, .work-kicker, .work-meta, .timeline-place, .research-type) {
+.zh-page :is(.eyebrow, .section-index, .section-label, .pathway-kicker, .work-kicker, .work-meta, .timeline-place, .research-type) {
   letter-spacing: 0.035em;
   text-transform: none;
 }
 
 .section {
   position: relative;
-  padding: clamp(88px, 8vw, 118px) 0;
+  padding: clamp(78px, 7vw, 104px) 0;
 }
 
 .section-light {
@@ -782,13 +799,27 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .about-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(60px, 10vw, 150px);
+  grid-template-columns: minmax(340px, 0.84fr) minmax(0, 1.16fr);
+  gap: clamp(48px, 7vw, 96px);
+  align-items: start;
 }
 
 .section-intro h2,
 .section-heading h2,
-.contact-layout h2,
+.contact-layout h2 {
+  margin-bottom: 0;
+  font-size: clamp(2.15rem, 3.15vw, 3.35rem);
+  font-weight: 610;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.zh-page :is(.section-intro h2, .section-heading h2, .contact-layout h2) {
+  font-size: clamp(2rem, 2.9vw, 3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+
 .cv-title {
   margin-bottom: 0;
   font-size: clamp(2.6rem, 4.25vw, 4.45rem);
@@ -798,12 +829,12 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .section-intro h2 {
-  max-width: 540px;
+  max-width: 560px;
 }
 
 .about-copy {
-  max-width: 700px;
-  padding-top: 46px;
+  max-width: 660px;
+  padding-top: 38px;
   color: var(--ink-muted);
   font-size: 1.02rem;
 }
@@ -813,9 +844,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .about-copy .large-copy {
-  margin-bottom: 34px;
+  max-width: 34ch;
+  margin-bottom: 28px;
   color: var(--ink);
-  font-size: clamp(1.45rem, 2.15vw, 2rem);
+  font-size: clamp(1.28rem, 1.65vw, 1.62rem);
   font-weight: 470;
   letter-spacing: -0.028em;
   line-height: 1.35;
@@ -963,16 +995,19 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .section-heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.34fr);
-  gap: 60px;
+  grid-template-columns: minmax(0, 760px) minmax(220px, 320px);
+  gap: clamp(32px, 5vw, 72px);
   align-items: end;
-  margin-bottom: clamp(44px, 5vw, 68px);
+  justify-content: space-between;
+  margin-bottom: clamp(36px, 4vw, 52px);
 }
 
 .section-heading > p {
-  margin-bottom: 8px;
+  max-width: 34ch;
+  margin-bottom: 4px;
   color: var(--ink-muted);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
+  line-height: 1.6;
 }
 
 .section-heading-dark > p {
@@ -1694,8 +1729,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .beyond-gallery {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-  gap: clamp(18px, 2.5vw, 30px);
+  width: min(100%, 960px);
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 3fr) minmax(260px, 2fr);
+  gap: clamp(18px, 2.2vw, 28px);
   align-items: start;
 }
 
@@ -1707,7 +1744,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  box-shadow: 0 18px 46px rgba(7, 26, 36, 0.09);
+  box-shadow: 0 12px 32px rgba(7, 26, 36, 0.075);
 }
 
 .beyond-card picture,
@@ -1722,14 +1759,15 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .beyond-card-portrait img {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 8 / 9;
   object-fit: cover;
+  object-position: 50% 52%;
 }
 
 .beyond-card figcaption {
   display: flex;
-  min-height: 88px;
-  padding: 18px 20px;
+  min-height: 76px;
+  padding: 15px 18px;
   flex-direction: column;
   justify-content: center;
 }
@@ -1831,7 +1869,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .contact-section {
   position: relative;
-  padding: clamp(88px, 8vw, 118px) 0;
+  padding: clamp(78px, 7vw, 104px) 0;
   overflow: hidden;
   color: var(--white);
   background:
@@ -1849,18 +1887,24 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.65fr);
-  gap: clamp(60px, 10vw, 150px);
-  align-items: end;
+  max-width: 900px;
+  grid-template-columns: 1fr;
+  gap: 26px;
+  align-items: start;
 }
 
 .contact-layout h2 {
-  max-width: 750px;
+  max-width: 820px;
+}
+
+.contact-copy {
+  max-width: 720px;
 }
 
 .contact-copy p {
-  margin-bottom: 30px;
-  color: rgba(255, 255, 255, 0.58);
+  max-width: 60ch;
+  margin-bottom: 26px;
+  color: rgba(255, 255, 255, 0.64);
 }
 
 .site-footer {
@@ -2240,6 +2284,16 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     font-size: 0.78rem;
   }
 
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-copy {
+    max-width: 760px;
+    padding-top: 0;
+  }
+
   .work-card-featured {
     grid-template-columns: minmax(110px, 0.28fr) minmax(0, 1.72fr);
   }
@@ -2393,8 +2447,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     justify-self: center;
   }
 
-  .about-layout,
-  .contact-layout {
+  .about-layout {
     grid-template-columns: 1fr;
     gap: 44px;
   }
@@ -2481,6 +2534,17 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
   .cv-actions {
     flex-direction: row;
+  }
+}
+
+@media (max-width: 960px) {
+  .section-heading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-heading > p {
+    max-width: 560px;
   }
 }
 
@@ -2632,7 +2696,16 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
   .section-intro h2,
   .section-heading h2,
-  .contact-layout h2,
+  .contact-layout h2 {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    line-height: 1.1;
+  }
+
+  .zh-page :is(.section-intro h2, .section-heading h2, .contact-layout h2) {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+    line-height: 1.2;
+  }
+
   .cv-title {
     font-size: clamp(2.45rem, 12vw, 3.6rem);
   }
@@ -2690,7 +2763,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   }
 
   .beyond-card-portrait {
-    width: min(100%, 520px);
+    width: min(88%, 360px);
     justify-self: center;
   }
 
