@@ -1729,10 +1729,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .beyond-gallery {
   display: grid;
-  width: min(100%, 960px);
+  width: min(100%, 780px);
   margin-inline: auto;
-  grid-template-columns: minmax(0, 3fr) minmax(260px, 2fr);
-  gap: clamp(18px, 2.2vw, 28px);
+  grid-template-columns: minmax(0, 16fr) minmax(220px, 9fr);
+  gap: clamp(16px, 2vw, 22px);
   align-items: start;
 }
 
@@ -1747,21 +1747,26 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   box-shadow: 0 12px 32px rgba(7, 26, 36, 0.075);
 }
 
-.beyond-card picture,
+.beyond-card picture {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+
 .beyond-card img {
   display: block;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.beyond-card-wide img {
+.beyond-card-wide picture {
   aspect-ratio: 4 / 3;
-  object-fit: cover;
 }
 
-.beyond-card-portrait img {
-  aspect-ratio: 8 / 9;
-  object-fit: cover;
-  object-position: 50% 52%;
+.beyond-card-portrait picture {
+  aspect-ratio: 3 / 4;
 }
 
 .beyond-card figcaption {
@@ -2002,14 +2007,16 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 .cv-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 60px;
+  gap: 48px;
   align-items: end;
-  padding-bottom: 55px;
+  padding-bottom: 60px;
   border-bottom: 2px solid var(--ink);
 }
 
 .cv-title {
   max-width: 880px;
+  font-size: clamp(2.8rem, 3.65vw, 3.9rem);
+  line-height: 1.04;
 }
 
 .cv-title span {
@@ -2020,9 +2027,11 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .cv-summary {
-  margin-bottom: 5px;
+  max-width: 880px;
+  margin: clamp(18px, 2vw, 24px) 0 6px;
   color: var(--ink-muted);
-  font-size: 0.82rem;
+  font-size: clamp(0.9rem, 0.95vw, 1rem);
+  line-height: 1.65;
 }
 
 .cv-print-contact {
@@ -2762,8 +2771,13 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     grid-template-columns: 1fr;
   }
 
+  .beyond-card-wide {
+    width: min(100%, 560px);
+    justify-self: center;
+  }
+
   .beyond-card-portrait {
-    width: min(88%, 360px);
+    width: min(82%, 360px);
     justify-self: center;
   }
 

@@ -88,10 +88,14 @@ const requiredFiles = [
   'assets/img/profile/yang-polimiride-family-1280.webp',
   'assets/img/profile/yang-polimiride-family-1600.webp',
   'assets/img/profile/yang-polimiride-family-1600.jpg',
+  'assets/img/profile/yang-polimiride-family-2048.webp',
+  'assets/img/profile/yang-polimiride-family-2048.jpg',
   'assets/img/profile/tennis-racket-collection-480.webp',
   'assets/img/profile/tennis-racket-collection-720.webp',
   'assets/img/profile/tennis-racket-collection-960.webp',
   'assets/img/profile/tennis-racket-collection-960.jpg',
+  'assets/img/profile/tennis-racket-collection-1536.webp',
+  'assets/img/profile/tennis-racket-collection-1536.jpg',
   'about.html',
   'robots.txt',
   'sitemap.xml',
@@ -451,8 +455,8 @@ for (const page of homePages) {
     'polimi-gear-test-bench-1469',
     'xag-p20-cfd-928',
     'xag-evtol-study-public-414',
-    'yang-polimiride-family-1600',
-    'tennis-racket-collection-960',
+    'yang-polimiride-family-2048',
+    'tennis-racket-collection-1536',
   ]) {
     if (!html.includes(requiredImage)) errors.push(`${page} is missing required media placement: ${requiredImage}`);
   }
