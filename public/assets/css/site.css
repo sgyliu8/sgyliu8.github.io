@@ -236,6 +236,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
 .primary-nav {
@@ -419,7 +420,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 .hero h1 {
   max-width: 780px;
   margin-bottom: 30px;
-  font-size: clamp(3.15rem, 5.25vw, 5.4rem);
+  font-size: clamp(2.9rem, 4.45vw, 4.65rem);
   font-weight: 620;
   letter-spacing: -0.045em;
   line-height: 0.99;
@@ -751,7 +752,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .zh-page .hero h1 {
-  font-size: clamp(3.05rem, 5vw, 4.8rem);
+  font-size: clamp(2.8rem, 4.55vw, 4.5rem);
   letter-spacing: -0.025em;
   line-height: 1.08;
 }
@@ -985,18 +986,15 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .expertise-card {
+  display: flex;
   grid-column: span 2;
   min-height: 286px;
   padding: 28px;
+  flex-direction: column;
   background: rgba(255, 254, 250, 0.68);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   transition: box-shadow 180ms ease, border-color 180ms ease;
-}
-
-.expertise-card:nth-child(4),
-.expertise-card:nth-child(5) {
-  grid-column: span 3;
 }
 
 .expertise-card:hover {
@@ -1059,6 +1057,11 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   border-color: rgba(255, 255, 255, 0.14);
 }
 
+.expertise-card .tag-list {
+  margin-top: auto;
+  padding-top: 27px;
+}
+
 .work-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1090,7 +1093,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .work-card-featured {
   display: grid;
-  grid-template-columns: 0.3fr 1.1fr 0.6fr;
+  grid-template-columns: minmax(120px, 0.3fr) minmax(0, 1.7fr);
   gap: 38px;
   background:
     radial-gradient(circle at 88% 44%, rgba(95, 153, 158, 0.14), transparent 30%),
@@ -1105,6 +1108,76 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 .work-card-supporting .work-card-art {
   top: 58px;
   width: min(34%, 150px);
+}
+
+.work-card-text:not(.work-card-featured) {
+  min-height: 360px;
+}
+
+.work-card-text:not(.work-card-featured) .work-body {
+  padding-top: 56px;
+}
+
+.work-card-case-study {
+  grid-column: 1 / -1;
+  display: grid;
+  min-height: 0;
+  grid-template-columns: minmax(118px, 0.28fr) minmax(260px, 0.68fr) minmax(0, 1.28fr);
+  gap: clamp(24px, 3vw, 42px);
+  align-items: start;
+}
+
+.work-card-case-study .work-body {
+  align-self: start;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.work-card-case-study .work-media,
+.work-card-case-study .work-media-duo {
+  min-width: 0;
+}
+
+.work-media {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+}
+
+.work-media picture,
+.work-media img {
+  display: block;
+  width: 100%;
+}
+
+.work-media img {
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+}
+
+.work-media figcaption {
+  min-height: 58px;
+  padding: 13px 15px;
+  color: var(--ink-muted);
+  background: var(--paper);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.work-media-duo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 0.46fr);
+  gap: 14px;
+  align-items: end;
+}
+
+.work-media-inset {
+  width: min(100%, 360px);
+  justify-self: end;
 }
 
 .work-card-supporting h3 {
@@ -1186,6 +1259,17 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   align-self: stretch;
   margin-top: auto;
   padding-top: 124px;
+}
+
+.work-card.work-card-text:not(.work-card-featured) .work-body {
+  margin-top: auto;
+  padding-top: 56px;
+}
+
+.work-card.work-card-case-study:not(.work-card-featured) .work-body {
+  align-self: start;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .work-card-supporting .work-body {
@@ -1528,7 +1612,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .journey-gallery {
   display: grid;
-  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+  grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.16fr) minmax(220px, 0.58fr);
   gap: clamp(18px, 2.5vw, 34px);
   align-items: end;
 }
@@ -1568,7 +1652,96 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
 .journey-card figcaption span {
   color: var(--ink-muted);
-  font-size: 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.journey-milestone {
+  display: flex;
+  min-height: 100%;
+  padding: clamp(24px, 3vw, 36px);
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--ink);
+  border: 1px solid rgba(7, 26, 36, 0.2);
+  border-radius: var(--radius-md);
+  box-shadow: 0 18px 46px rgba(7, 26, 36, 0.09);
+}
+
+.journey-milestone > strong {
+  margin-bottom: auto;
+  color: var(--accent-bright);
+  font-size: clamp(4.4rem, 7vw, 6.8rem);
+  font-weight: 620;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.journey-milestone h4 {
+  margin: 42px 0 12px;
+  color: var(--white);
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.journey-milestone p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.beyond-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: clamp(18px, 2.5vw, 30px);
+  align-items: start;
+}
+
+.beyond-card {
+  display: grid;
+  margin: 0;
+  overflow: hidden;
+  grid-template-rows: auto auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: 0 18px 46px rgba(7, 26, 36, 0.09);
+}
+
+.beyond-card picture,
+.beyond-card img {
+  display: block;
+  width: 100%;
+}
+
+.beyond-card-wide img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.beyond-card-portrait img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.beyond-card figcaption {
+  display: flex;
+  min-height: 88px;
+  padding: 18px 20px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.beyond-card figcaption strong {
+  margin-bottom: 4px;
+  font-size: 0.92rem;
+}
+
+.beyond-card figcaption span {
+  color: var(--ink-muted);
+  font-size: 0.82rem;
   line-height: 1.5;
 }
 
@@ -2062,17 +2235,13 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     gap: 42px;
   }
 
-  .hero h1 {
-    font-size: clamp(3.1rem, 5.4vw, 4.9rem);
-  }
-
   .primary-nav a {
     padding-inline: 9px;
     font-size: 0.78rem;
   }
 
   .work-card-featured {
-    grid-template-columns: 0.28fr 1.25fr 0.47fr;
+    grid-template-columns: minmax(110px, 0.28fr) minmax(0, 1.72fr);
   }
 
   .footer-layout {
@@ -2188,6 +2357,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     border-color: rgba(255, 255, 255, 0.32);
   }
 
+  .cv-page .site-header.menu-active .brand-copy small {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
   html:not(.js) .header-inner {
     gap: 20px;
     overflow-x: auto;
@@ -2264,6 +2437,24 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     grid-template-columns: 0.3fr 1.2fr;
   }
 
+  .work-card-case-study {
+    grid-template-columns: minmax(110px, 0.28fr) minmax(0, 1.72fr);
+  }
+
+  .work-card-case-study > .work-media,
+  .work-card-case-study > .work-media-duo {
+    grid-column: 1 / -1;
+  }
+
+  .journey-gallery {
+    grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.22fr);
+  }
+
+  .journey-milestone {
+    grid-column: 1 / -1;
+    min-height: 280px;
+  }
+
   .work-symbol {
     display: none;
   }
@@ -2314,6 +2505,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     min-height: 0;
     padding: 28px;
     flex-direction: column;
+    gap: 0;
   }
 
   .work-card .work-body {
@@ -2334,6 +2526,17 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     top: 70px;
     right: 24px;
     width: min(40%, 180px);
+  }
+
+  .work-card.work-card-text:not(.work-card-featured) .work-body,
+  .work-card.work-card-case-study:not(.work-card-featured) .work-body {
+    margin-top: 28px;
+    padding-top: 0;
+  }
+
+  .work-card-case-study > .work-media,
+  .work-card-case-study > .work-media-duo {
+    margin-top: 28px;
   }
 
   .work-tier-heading {
@@ -2477,8 +2680,23 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     align-items: start;
   }
 
+  .journey-milestone {
+    grid-column: auto;
+    min-height: 330px;
+  }
+
+  .beyond-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .beyond-card-portrait {
+    width: min(100%, 520px);
+    justify-self: center;
+  }
+
   .journey-card-portrait {
     width: min(100%, 520px);
+    justify-self: center;
   }
 
   .expertise-grid,
@@ -2496,7 +2714,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   }
 
   .expertise-card {
-    min-height: 300px;
+    min-height: 0;
   }
 
   .work-card,
@@ -2512,6 +2730,11 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     margin-top: clamp(96px, 26vw, 118px);
   }
 
+  .work-card.work-card-text:not(.work-card-featured) .work-body,
+  .work-card.work-card-case-study:not(.work-card-featured) .work-body {
+    margin-top: 24px;
+  }
+
   .work-card-featured .work-body {
     margin-top: 24px;
   }
@@ -2520,6 +2743,15 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     top: 74px;
     right: 24px;
     width: min(48%, 200px);
+  }
+
+  .work-media-duo {
+    grid-template-columns: 1fr;
+  }
+
+  .work-media-inset {
+    width: min(100%, 414px);
+    justify-self: center;
   }
 
   .work-tier-heading {
@@ -2634,10 +2866,13 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 600px) {
   .brand-copy small {
     display: none;
   }
+}
+
+@media (max-width: 420px) {
 
   .eyebrow {
     font-size: 0.75rem;

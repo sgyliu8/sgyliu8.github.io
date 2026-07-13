@@ -1,8 +1,8 @@
 # Dr Yang Liu — Engineering Portfolio
 
-Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, PhD, CEng.
+Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, CEng.
 
-The site presents a concise, public-safe record of work across gas-turbine thermodynamic performance, advanced measurement, industrial imaging, deployable AI/ML and engineering software architecture. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+The site presents a concise, public-facing record of physics-led work across thermal power and propulsion systems, mathematical modelling, mechanical and aerodynamic design, CFD, vibration and experimental measurement, industrial imaging, deployable AI/ML and engineering systems. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
 
 ## Structure
 
@@ -25,6 +25,8 @@ docs/
   ui-audit-2026-07.md     UX, visual and accessibility decision record
   ui-audit-2026-07-round-2.md
                            Data-to-decision redesign and release QA record
+  ui-audit-2026-07-round-3.md
+                           Professional positioning, evidence imagery and bilingual QA
 .github/workflows/
   quality.yml             Pull-request validation
   static.yml              GitHub Pages deployment

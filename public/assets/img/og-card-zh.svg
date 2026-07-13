@@ -23,10 +23,10 @@
   <path d="M846 242h52M1124 340h52" stroke="#f08a4e" stroke-opacity=".68"/>
   <circle cx="862" cy="242" r="5" fill="#f08a4e"/>
   <circle cx="1140" cy="340" r="5" fill="#f08a4e"/>
-  <text x="72" y="98" fill="#f08a4e" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" letter-spacing="2">刘杨 · PhD · CEng（经 IMechE 评审）</text>
-  <text x="72" y="226" fill="#fffefa" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="60" font-weight="700">复杂高维数据，</text>
+  <text x="72" y="98" fill="#f08a4e" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="700" letter-spacing="2">刘杨博士，CEng · IMechE</text>
+  <text x="72" y="226" fill="#fffefa" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="52" font-weight="700">复杂物理系统与高维数据，</text>
   <text x="72" y="302" fill="#c8dcdc" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="68" font-weight="400">可信工程决策。</text>
-  <text x="72" y="405" fill="#a8b9bb" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="25">燃气轮机性能 · 工业成像 · 可部署 AI/ML</text>
+  <text x="72" y="405" fill="#a8b9bb" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="23">热能动力与推进 · 数学建模 · 振动与试验 · AI/ML</text>
   <path d="M72 510h520" stroke="#a8b9bb" stroke-opacity=".28"/>
   <text x="72" y="553" fill="#81989c" font-family="Noto Sans SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="19" letter-spacing="2">刘杨 · 工程个人主页</text>
 </svg>

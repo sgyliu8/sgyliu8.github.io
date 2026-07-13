@@ -14,6 +14,15 @@ try {
   errors.push(`Unable to verify the GitHub Pages deployment path: ${error.message}`);
 }
 
+try {
+  const manifest = await readFile(path.join(root, 'site.webmanifest'), 'utf8');
+  if (!manifest.includes('thermal power and propulsion systems') || !manifest.includes('mathematics and physics')) {
+    errors.push('site.webmanifest must use the broad mathematics, physics, thermal-power and propulsion positioning');
+  }
+} catch (error) {
+  errors.push(`Unable to verify site.webmanifest positioning: ${error.message}`);
+}
+
 const prohibited = [
   ['private street address', /Crown Mill|LN5\s*7QD/i],
   ['private UK phone number', /0770\s*653\s*6289|0745\s*327\s*1319/i],
@@ -31,6 +40,9 @@ const prohibited = [
   ['outdated present-tense date label', /2024\s*[—–-]\s*Now/i],
   ['incorrect power-distribution wording', /workload\s+distribution/i],
   ['misleading CEng and IMechE credential grouping', /PhD\s*·\s*CEng\s*·\s*IMechE/i],
+  ['retired CEng-through-IMechE label', /CEng\s+through\s+IMechE/i],
+  ['Dr and PhD used together in a name line', /Dr\s+Yang\s+Liu\s*,?\s*PhD|Yang\s+Liu\s*,\s*PhD\s*,\s*CEng|刘杨(?:博士)?\s*[，,·]\s*PhD/i],
+  ['retired gas-turbine-only hero label', /Dr\s+Yang\s+Liu\s*·\s*Gas-turbine\s+R&D|刘杨博士\s*·\s*燃气轮机研发/i],
   ['stale static CV download link', /href=["']\/assets\/Curriculum_Vitae(?:_ZH)?\.pdf["']/i],
   ['inconsistent Chinese AVIC organisation name', /中国航空工业(?:集团)?（AVIC）/],
   ['abrupt superseded Step 02/03 explanation', /Step 02 establishes whether the data are fit for purpose|02 asks whether the data are fit for purpose|第\s*02\s*步确认数据是否适用于当前任务/],
@@ -42,6 +54,7 @@ const prohibited = [
   ['outdated Cranfield–AVIC end month', /Sep(?:tember)?\s+2021|2021\s*年\s*9\s*月/],
   ['imprecise Chinese IMechE registration wording', /经\s*IMechE\s*注册/],
   ['incomplete systems-architecture metadata', /Engineering software architecture|工程软件架构/],
+  ['incorrect paper-aircraft win count', /Three wins at Cranfield|Three university competition wins|三次在克兰菲尔德夺冠|三次大学纸飞机比赛夺冠/],
 ];
 
 const requiredFiles = [
@@ -61,6 +74,23 @@ const requiredFiles = [
   'assets/img/og-card-zh.png',
   'assets/img/logos/avic.png',
   'assets/img/logos/liverpool.svg',
+  'assets/img/engineering/xag-p20-cfd-640.webp',
+  'assets/img/engineering/xag-p20-cfd-928.webp',
+  'assets/img/engineering/xag-p20-cfd-928.jpg',
+  'assets/img/engineering/xag-evtol-study-public-414.png',
+  'assets/img/engineering/polimi-gear-test-bench-640.webp',
+  'assets/img/engineering/polimi-gear-test-bench-960.webp',
+  'assets/img/engineering/polimi-gear-test-bench-1469.webp',
+  'assets/img/engineering/polimi-gear-test-bench-1469.png',
+  'assets/img/profile/yang-polimiride-family-640.webp',
+  'assets/img/profile/yang-polimiride-family-960.webp',
+  'assets/img/profile/yang-polimiride-family-1280.webp',
+  'assets/img/profile/yang-polimiride-family-1600.webp',
+  'assets/img/profile/yang-polimiride-family-1600.jpg',
+  'assets/img/profile/tennis-racket-collection-480.webp',
+  'assets/img/profile/tennis-racket-collection-720.webp',
+  'assets/img/profile/tennis-racket-collection-960.webp',
+  'assets/img/profile/tennis-racket-collection-960.jpg',
   'about.html',
   'robots.txt',
   'sitemap.xml',
@@ -316,6 +346,29 @@ for (const file of htmlFiles) {
 const primaryPages = ['index.html', 'cv/index.html', 'zh/index.html', 'zh/cv/index.html'];
 const homePages = ['index.html', 'zh/index.html'];
 
+const positioningRequirements = {
+  'index.html': [
+    'Dr Yang Liu, CEng',
+    'Thermal Power & Propulsion Systems',
+    'Mathematical & physics-based modelling',
+    'Vibration, measurement & experimentation',
+    'Mechanical design & physical prototyping',
+    'Industrial imaging, AI/ML & engineering systems',
+    'Four university competition wins—three at Cranfield and one at Liverpool',
+  ],
+  'zh/index.html': [
+    '刘杨博士，CEng',
+    '热能动力与推进系统',
+    '数学与物理建模',
+    '振动、测量与试验',
+    '机械设计与实体原型开发',
+    '工业成像、AI/ML 与工程系统',
+    '四次大学纸飞机比赛夺冠——三次在克兰菲尔德、一次在利物浦',
+  ],
+  'cv/index.html': ['Dr Yang Liu, CEng', 'Chartered Engineer (CEng)', 'Professionally reviewed by the Institution of Mechanical Engineers (IMechE)'],
+  'zh/cv/index.html': ['刘杨博士，CEng', '英国特许工程师（CEng）', '经英国机械工程师学会（IMechE）专业评审'],
+};
+
 for (const page of primaryPages) {
   const html = pageHtml.get(page) || '';
   const text = normaliseVisibleText(html);
@@ -325,6 +378,13 @@ for (const page of primaryPages) {
   }
   if (!text.includes('AVIC')) {
     errors.push(`${page} is missing the Cranfield–AVIC collaboration`);
+  }
+}
+
+for (const [page, phrases] of Object.entries(positioningRequirements)) {
+  const text = normaliseVisibleText(pageHtml.get(page) || '');
+  for (const phrase of phrases) {
+    if (!includesNormalisedPhrase(text, phrase)) errors.push(`${page} is missing required positioning copy: ${phrase}`);
   }
 }
 
@@ -338,11 +398,11 @@ for (const page of ['cv/index.html', 'zh/cv/index.html']) {
 const pathwayRequirements = {
   'index.html': {
     steps: ['Define the question', 'Acquire & qualify the evidence', 'Validate the model & interpretation', 'Decide, deploy & monitor'],
-    distinction: 'High-quality data can still be interpreted by the wrong model; a plausible model is not defensible when the underlying evidence is weak. Both gates must pass before deployment.',
+    distinction: 'Why are Steps 02 and 03 separate gates? Step 02 asks whether the evidence is fit for the intended decision; Step 03 asks whether the model and interpretation are supported by that qualified evidence. If either gate fails, return upstream before deployment.',
   },
   'zh/index.html': {
     steps: ['定义工程问题', '获取并确认数据可信度', '验证模型与解释', '决策、交付与监测'],
-    distinction: '高质量数据仍可能被错误模型解释；看似合理的模型若建立在薄弱证据上，也无法支撑工程决策。只有两道门槛都通过，结果才进入交付。',
+    distinction: '为什么第 02、03 步是两道独立门槛？ 第 02 步判断证据是否足以支撑预期决策；第 03 步判断模型与解释能否得到合格证据支持。任一道未通过，都应在交付前返回上游重新检查。',
   },
 };
 
@@ -357,6 +417,12 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
 
 for (const page of homePages) {
   const html = pageHtml.get(page) || '';
+  if (hasClass(html, 'work-card-art') || hasClass(html, 'work-symbol')) {
+    errors.push(`${page} must use real evidence assets instead of handcrafted work-card illustrations`);
+  }
+  if (hasClass(html, 'personal-story')) {
+    errors.push(`${page} must keep personal-life imagery after the professional evidence sections`);
+  }
   if (!/src=["']\/assets\/img\/logos\/avic\.png["']/i.test(html)) {
     errors.push(`${page} must use the official local AVIC PNG logo`);
   }
@@ -368,6 +434,18 @@ for (const page of homePages) {
   }
   if (!/yang-manchester-model-aircraft-\d+\.(?:webp|jpe?g)/i.test(html)) {
     errors.push(`${page} is missing the Manchester model-aircraft journey image`);
+  }
+  for (const requiredImage of [
+    'polimi-gear-test-bench-1469',
+    'xag-p20-cfd-928',
+    'xag-evtol-study-public-414',
+    'yang-polimiride-family-1600',
+    'tennis-racket-collection-960',
+  ]) {
+    if (!html.includes(requiredImage)) errors.push(`${page} is missing required media placement: ${requiredImage}`);
+  }
+  if (!hasClass(html, 'journey-milestone') || !hasClass(html, 'beyond-gallery')) {
+    errors.push(`${page} is missing the paper-aircraft milestone or Beyond the Lab gallery`);
   }
 }
 

@@ -23,10 +23,10 @@
   <path d="M846 242h52M1124 340h52" stroke="#f08a4e" stroke-opacity=".68"/>
   <circle cx="862" cy="242" r="5" fill="#f08a4e"/>
   <circle cx="1140" cy="340" r="5" fill="#f08a4e"/>
-  <text x="72" y="98" fill="#f08a4e" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4">Yang Liu · PhD · CEng through IMechE</text>
-  <text x="72" y="226" fill="#fffefa" font-family="Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-2">High-dimensional data,</text>
+  <text x="72" y="98" fill="#f08a4e" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4">Dr Yang Liu, CEng · IMechE</text>
+  <text x="72" y="226" fill="#fffefa" font-family="Arial, sans-serif" font-size="56" font-weight="700" letter-spacing="-2">Physical systems &amp; data,</text>
   <text x="72" y="302" fill="#c8dcdc" font-family="Georgia, serif" font-size="68" font-style="italic">trusted decisions.</text>
-  <text x="72" y="405" fill="#a8b9bb" font-family="Arial, sans-serif" font-size="25">Gas-turbine performance · Industrial imaging · Deployable AI/ML</text>
+  <text x="72" y="405" fill="#a8b9bb" font-family="Arial, sans-serif" font-size="23">Thermal &amp; propulsion systems · Modelling · Vibration · AI/ML</text>
   <path d="M72 510h520" stroke="#a8b9bb" stroke-opacity=".28"/>
   <text x="72" y="553" fill="#81989c" font-family="Arial, sans-serif" font-size="19" letter-spacing="2">YANG LIU · ENGINEERING PORTFOLIO</text>
 </svg>
