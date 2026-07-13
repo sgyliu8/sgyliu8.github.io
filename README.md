@@ -51,6 +51,8 @@ The check verifies required metadata, unique HTML IDs, local links and fragments
 
 Pushes to `master` validate the site, upload only `public/`, and deploy through GitHub Pages. The workflow uses current Node 24-compatible official Pages actions.
 
+A merge is not treated as a release until the public URL passes the browser acceptance checks for the English homepage, Chinese switch, CV route and keyboard navigation.
+
 ## Content boundary
 
 The portfolio includes only public, independently developed or deliberately high-level professional information. It excludes private contact details, compensation, internal organisation data, unpublished employer intellectual property, internal test evidence and private repositories.
