@@ -59,6 +59,7 @@ This release reframes the portfolio from a narrow “gas-turbine R&D + AI” pro
 - `html-validate` across canonical and root-mirror HTML
 - `node --check` for site and validation scripts
 - `git diff --check`
-- Browser QA: desktop, tablet and mobile; English, Chinese and CV; images, navigation, language switch, keyboard focus and console errors.
+- Live browser QA at 1363 × 936: English homepage, Chinese language switch, Chinese CV navigation, responsive image loading, horizontal overflow, 44 px control targets and site-origin console errors.
+- Tablet and mobile behaviour was reviewed through the breakpoint CSS, intrinsic image sizing and automated mirror/reference checks. The available cloud browser had a fixed desktop viewport, so this record does not claim device-emulated visual testing.
 
-The annotated before/after screenshots and media-placement decisions are also maintained in the Figma audit board created for this release.
+The companion Figma audit board records the pre-release screenshot, media-placement decisions and publication safeguards. The production URL remains the source of truth for the implemented after-state.
