@@ -14,6 +14,14 @@ const prohibited = [
   ['incorrect ASME paper number', /GT2024-123937/i],
   ['incorrect UAV patent number', /CN2058762433?U/i],
   ['incorrect CEng capitalisation', /CENG/],
+  ['superseded English hero wording', /Turning\s+complex\s+measurements/i],
+  ['superseded Chinese hero wording', /将复杂测量/],
+  ['retired portrait-in-process component', /\bvisual-profile\b/i],
+  ['unapproved AVIC SVG asset', /avic\.svg/i],
+  ['unapproved Siemens Energy SVG asset', /siemens-energy\.svg/i],
+  ['outdated present-tense date label', /2024\s*[—–-]\s*Now/i],
+  ['incorrect power-distribution wording', /workload\s+distribution/i],
+  ['misleading CEng and IMechE credential grouping', /PhD\s*·\s*CEng\s*·\s*IMechE/i],
 ];
 
 const requiredFiles = [
@@ -31,6 +39,8 @@ const requiredFiles = [
   'assets/icons/favicon.svg',
   'assets/img/og-card.png',
   'assets/img/og-card-zh.png',
+  'assets/img/logos/avic.png',
+  'assets/img/logos/liverpool.svg',
   'assets/Curriculum_Vitae.pdf',
   'assets/Curriculum_Vitae_ZH.pdf',
   'about.html',
@@ -56,10 +66,49 @@ function collectIds(html) {
 }
 
 function collectReferences(html) {
-  const attributes = [...html.matchAll(/\b(?:href|src)=["']([^"']+)["']/gi)].map((match) => match[1]);
+  const attributes = [...html.matchAll(/\b(?:href|src|poster)=["']([^"']+)["']/gi)].map((match) => match[1]);
+  const sourceSets = [...html.matchAll(/\b(?:srcset|imagesrcset)=["']([^"']+)["']/gi)]
+    .flatMap((match) => match[1]
+      .split(',')
+      .map((candidate) => candidate.trim().split(/\s+/)[0])
+      .filter(Boolean));
   const refreshes = [...html.matchAll(/<meta\s[^>]*http-equiv=["']refresh["'][^>]*content=["'][^"']*url=([^"';\s>]+)[^"']*["']/gi)]
     .map((match) => match[1]);
-  return [...attributes, ...refreshes];
+  return [...attributes, ...sourceSets, ...refreshes];
+}
+
+function normaliseVisibleText(html) {
+  return html
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&#(?:0*38|x0*26);/gi, '&')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .normalize('NFC');
+}
+
+function hasClass(html, className) {
+  return [...html.matchAll(/\bclass=["']([^"']*)["']/gi)]
+    .some((match) => match[1].split(/\s+/).includes(className));
+}
+
+function includesNormalisedPhrase(text, phrase) {
+  return text.replace(/\s+/g, '').includes(phrase.replace(/\s+/g, ''));
+}
+
+function requireOrderedText(page, text, phrases, label) {
+  let offset = 0;
+  for (const phrase of phrases) {
+    const index = text.indexOf(phrase, offset);
+    if (index === -1) {
+      errors.push(`${page} is missing ${label}: ${phrase}`);
+      return;
+    }
+    offset = index + phrase.length;
+  }
 }
 
 function localTarget(reference) {
@@ -103,6 +152,12 @@ for (const file of requiredFiles) {
 const files = await walk(root);
 const textFiles = files.filter((file) => /\.(?:html|css|js|json|xml|txt|svg)$/i.test(file));
 
+for (const retiredAsset of ['assets/img/logos/avic.svg', 'assets/img/logos/siemens-energy.svg']) {
+  if (files.some((file) => relative(file) === retiredAsset)) {
+    errors.push(`Retired logo asset must be removed: ${retiredAsset}`);
+  }
+}
+
 for (const file of textFiles) {
   const content = await readFile(file, 'utf8');
   for (const [label, pattern] of prohibited) {
@@ -134,9 +189,11 @@ for (const file of cssFiles) {
 }
 
 const htmlFiles = files.filter((file) => file.endsWith('.html'));
+const pageHtml = new Map();
 
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
+  pageHtml.set(relative(file), html);
   const ids = collectIds(html);
   const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
   if (duplicateIds.length) {
@@ -196,6 +253,67 @@ for (const file of htmlFiles) {
       }
     }
   }
+}
+
+const primaryPages = ['index.html', 'cv/index.html', 'zh/index.html', 'zh/cv/index.html'];
+const homePages = ['index.html', 'zh/index.html'];
+
+for (const page of primaryPages) {
+  const html = pageHtml.get(page) || '';
+  const text = normaliseVisibleText(html);
+
+  if (!hasClass(html, 'brand-avatar')) {
+    errors.push(`${page} is missing the header brand-avatar`);
+  }
+  if (!text.includes('AVIC')) {
+    errors.push(`${page} is missing the Cranfield–AVIC collaboration`);
+  }
+}
+
+const pathwayRequirements = {
+  'index.html': {
+    steps: ['Define the question', 'Build the evidence', 'Model & validate', 'Decide & deploy'],
+    distinction: '02 asks whether the data are fit for purpose. 03 asks whether the model or interpretation is supported by those data.',
+  },
+  'zh/index.html': {
+    steps: ['定义工程问题', '建立可靠证据', '建模与验证', '决策与交付'],
+    distinction: '第 02 步确认数据是否适用于当前任务；第 03 步检验模型或解释是否得到这些数据支持。',
+  },
+};
+
+for (const [page, requirement] of Object.entries(pathwayRequirements)) {
+  const html = pageHtml.get(page) || '';
+  const text = normaliseVisibleText(html);
+  requireOrderedText(page, text, requirement.steps, 'the ordered four-step data-to-decision pathway');
+  if (!includesNormalisedPhrase(text, requirement.distinction)) {
+    errors.push(`${page} is missing the explicit distinction between Step 02 data fitness and Step 03 model validation`);
+  }
+}
+
+for (const page of homePages) {
+  const html = pageHtml.get(page) || '';
+  if (!/src=["']\/assets\/img\/logos\/avic\.png["']/i.test(html)) {
+    errors.push(`${page} must use the official local AVIC PNG logo`);
+  }
+  if (!/src=["']\/assets\/img\/logos\/liverpool\.svg["']/i.test(html)) {
+    errors.push(`${page} must reference the full University of Liverpool lockup`);
+  }
+  if (!/yang-cranfield-phd-graduation-\d+\.(?:webp|jpe?g)/i.test(html)) {
+    errors.push(`${page} is missing the Cranfield graduation journey image`);
+  }
+  if (!/yang-manchester-model-aircraft-\d+\.(?:webp|jpe?g)/i.test(html)) {
+    errors.push(`${page} is missing the Manchester model-aircraft journey image`);
+  }
+}
+
+try {
+  const liverpoolLogo = await readFile(path.join(root, 'assets/img/logos/liverpool.svg'), 'utf8');
+  const viewBox = liverpoolLogo.match(/\bviewBox=["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/i);
+  if (!viewBox || Number(viewBox[1]) / Number(viewBox[2]) < 3) {
+    errors.push('assets/img/logos/liverpool.svg must contain the full horizontal University of Liverpool lockup, not a crest-only mark');
+  }
+} catch {
+  // The required-file check above reports the missing asset.
 }
 
 const chineseCv = await readFile(path.join(root, 'zh/cv/index.html'), 'utf8');
