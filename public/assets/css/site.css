@@ -884,8 +884,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   font-size: 0.95rem;
 }
 
-.approach-step span,
-.card-number {
+.approach-step span {
   display: inline-block;
   margin-bottom: 20px;
   color: var(--accent);
@@ -1023,7 +1022,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 .expertise-card {
   display: flex;
   grid-column: span 2;
-  min-height: 286px;
+  min-height: 264px;
   padding: 28px;
   flex-direction: column;
   background: rgba(255, 254, 250, 0.68);
@@ -1055,10 +1054,6 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   background: var(--ink);
   color: var(--white);
   border-color: var(--ink);
-}
-
-.expertise-card-accent .card-number {
-  color: var(--accent-bright);
 }
 
 .expertise-card-accent p {
@@ -1597,8 +1592,9 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .education-strip .education-logo-liverpool {
-  width: 160px;
-  padding: 9px 11px;
+  width: min(100%, 232px);
+  height: 76px;
+  padding: 5px 7px;
 }
 
 .education-logo img {
@@ -2905,7 +2901,9 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   }
 
   .education-strip .education-logo-liverpool {
-    width: 142px;
+    width: min(100%, 214px);
+    height: 70px;
+    padding: 5px 7px;
   }
 
   .research-item {

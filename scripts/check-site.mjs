@@ -423,12 +423,15 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
 for (const page of homePages) {
   const html = pageHtml.get(page) || '';
   const sectionLabels = html.match(/class=["']section-label["']/g) || [];
-  const romanExpertiseMarkers = html.match(/class=["']card-number["'][^>]*aria-hidden=["']true["'][^>]*>\s*(?:I|II|III|IV|V|VI)\s*</g) || [];
+  const expertiseCards = html.match(/<article\s[^>]*class=["'][^"']*\bexpertise-card\b[^"']*["']/g) || [];
   if (sectionLabels.length !== 7) {
     errors.push(`${page} must expose exactly seven unnumbered main-section labels`);
   }
-  if (romanExpertiseMarkers.length !== 6) {
-    errors.push(`${page} must use six decorative Roman-numeral expertise markers`);
+  if (/\bcard-number\b/.test(html)) {
+    errors.push(`${page} must not use decorative numbering in Expertise cards`);
+  }
+  if (expertiseCards.length !== 6) {
+    errors.push(`${page} must retain exactly six Expertise cards`);
   }
   if (/class=["']section-index["'][^>]*>\s*0[1-7]\s*\//i.test(html)) {
     errors.push(`${page} still exposes numbered 01–07 main-section labels`);
