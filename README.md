@@ -6,6 +6,8 @@ The site presents a concise, public-safe record of work across gas-turbine therm
 
 ## Structure
 
+`public/` is the only canonical and deployed site tree. Root-level HTML/assets are a legacy branch-deployment mirror retained for repository history; do not edit or publish them.
+
 ```text
 public/
   index.html              English portfolio

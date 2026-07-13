@@ -120,6 +120,10 @@ p {
   outline-color: #ffb087;
 }
 
+main[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -676,7 +680,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   max-width: 38ch;
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.55);
-  font-size: 0.75rem;
+  font-size: 0.84rem;
   line-height: 1.5;
 }
 
@@ -687,7 +691,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   background: rgba(138, 182, 182, 0.08);
   border: 1px solid rgba(138, 182, 182, 0.2);
   border-radius: 12px;
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   line-height: 1.55;
 }
 
@@ -702,7 +706,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   gap: 8px;
   align-items: flex-start;
   color: rgba(255, 255, 255, 0.48);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   line-height: 1.5;
 }
 
@@ -1804,6 +1808,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   font-size: 0.82rem;
 }
 
+.cv-print-contact {
+  display: none;
+}
+
 .cv-actions {
   display: flex;
   flex-direction: column;
@@ -2741,6 +2749,13 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     max-width: 150mm;
     margin: 3mm 0 0;
     font-size: 7.5pt;
+  }
+
+  .cv-print-contact {
+    display: block;
+    margin: 1.5mm 0 0;
+    color: #333;
+    font-size: 7pt;
   }
 
   .cv-profile,

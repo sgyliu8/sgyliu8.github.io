@@ -5,6 +5,15 @@ import process from 'node:process';
 const root = path.resolve('public');
 const errors = [];
 
+try {
+  const deploymentWorkflow = await readFile(path.resolve('.github/workflows/static.yml'), 'utf8');
+  if (!/path:\s*\.\/public\b/.test(deploymentWorkflow)) {
+    errors.push('GitHub Pages must deploy the canonical public/ site tree');
+  }
+} catch (error) {
+  errors.push(`Unable to verify the GitHub Pages deployment path: ${error.message}`);
+}
+
 const prohibited = [
   ['private street address', /Crown Mill|LN5\s*7QD/i],
   ['private UK phone number', /0770\s*653\s*6289|0745\s*327\s*1319/i],
@@ -22,6 +31,17 @@ const prohibited = [
   ['outdated present-tense date label', /2024\s*[—–-]\s*Now/i],
   ['incorrect power-distribution wording', /workload\s+distribution/i],
   ['misleading CEng and IMechE credential grouping', /PhD\s*·\s*CEng\s*·\s*IMechE/i],
+  ['stale static CV download link', /href=["']\/assets\/Curriculum_Vitae(?:_ZH)?\.pdf["']/i],
+  ['inconsistent Chinese AVIC organisation name', /中国航空工业(?:集团)?（AVIC）/],
+  ['abrupt superseded Step 02/03 explanation', /Step 02 establishes whether the data are fit for purpose|02 asks whether the data are fit for purpose|第\s*02\s*步确认数据是否适用于当前任务/],
+  ['singular systems-architecture wording', /engineering software and system architecture/i],
+  ['incorrect First-Class capitalisation', /First Class Honours/],
+  ['incorrect simulation-product capitalisation', /\bXflow\b|\bXFoil\b/],
+  ['abbreviated journal title', /Proceedings of the IMechE, Part A/],
+  ['abbreviated 2020 paper title', /An Integrated PCA, Artificial Neural Network/],
+  ['outdated Cranfield–AVIC end month', /Sep(?:tember)?\s+2021|2021\s*年\s*9\s*月/],
+  ['imprecise Chinese IMechE registration wording', /经\s*IMechE\s*注册/],
+  ['incomplete systems-architecture metadata', /Engineering software architecture|工程软件架构/],
 ];
 
 const requiredFiles = [
@@ -41,8 +61,6 @@ const requiredFiles = [
   'assets/img/og-card-zh.png',
   'assets/img/logos/avic.png',
   'assets/img/logos/liverpool.svg',
-  'assets/Curriculum_Vitae.pdf',
-  'assets/Curriculum_Vitae_ZH.pdf',
   'about.html',
   'robots.txt',
   'sitemap.xml',
@@ -149,6 +167,27 @@ for (const file of requiredFiles) {
   }
 }
 
+for (const stalePdf of ['assets/Curriculum_Vitae.pdf', 'assets/Curriculum_Vitae_ZH.pdf', 'public/assets/Curriculum_Vitae.pdf', 'public/assets/Curriculum_Vitae_ZH.pdf']) {
+  try {
+    await access(path.resolve(stalePdf));
+    errors.push(`Stale static CV asset must be retired: ${stalePdf}`);
+  } catch {
+    // Expected: browser print/save is the canonical PDF path.
+  }
+}
+
+for (const image of ['assets/img/og-card.png', 'assets/img/og-card-zh.png']) {
+  try {
+    const png = await readFile(path.join(root, image));
+    const width = png.readUInt32BE(16);
+    const height = png.readUInt32BE(20);
+    if (width !== 1200 || height !== 630) errors.push(`${image} must be 1200×630`);
+    if (png.byteLength > 250_000) errors.push(`${image} must remain below 250 KB`);
+  } catch {
+    // The required-file check above reports a missing asset.
+  }
+}
+
 const files = await walk(root);
 const textFiles = files.filter((file) => /\.(?:html|css|js|json|xml|txt|svg)$/i.test(file));
 
@@ -215,6 +254,13 @@ for (const file of htmlFiles) {
     if (!/<link\s+rel=["']canonical["']/i.test(html)) {
       errors.push(`${relative(file)} is missing a canonical URL`);
     }
+    if (!/<meta\s+name=["']twitter:image["']/i.test(html)) {
+      errors.push(`${relative(file)} is missing an explicit Twitter/X share image`);
+    }
+    if (!/<main\b[^>]*\bid=["']main-content["'][^>]*\btabindex=["']-1["']/i.test(html)
+      && !/<main\b[^>]*\btabindex=["']-1["'][^>]*\bid=["']main-content["']/i.test(html)) {
+      errors.push(`${relative(file)} must make the skip-link target programmatically focusable`);
+    }
     if (!/hreflang=["']en-GB["']/i.test(html) || !/hreflang=["']zh-CN["']/i.test(html)) {
       errors.push(`${relative(file)} is missing bilingual hreflang links`);
     }
@@ -270,14 +316,21 @@ for (const page of primaryPages) {
   }
 }
 
+for (const page of ['cv/index.html', 'zh/cv/index.html']) {
+  const html = pageHtml.get(page) || '';
+  if (!hasClass(html, 'cv-print-contact') || !/sgyliu@gmail\.com/.test(html) || !/linkedin\.com\/in\/yliu991/.test(html)) {
+    errors.push(`${page} must retain email and LinkedIn details in browser print/save output`);
+  }
+}
+
 const pathwayRequirements = {
   'index.html': {
-    steps: ['Define the question', 'Build the evidence', 'Model & validate', 'Decide & deploy'],
-    distinction: '02 asks whether the data are fit for purpose. 03 asks whether the model or interpretation is supported by those data.',
+    steps: ['Define the question', 'Acquire & qualify the evidence', 'Validate the model & interpretation', 'Decide, deploy & monitor'],
+    distinction: 'High-quality data can still be interpreted by the wrong model; a plausible model is not defensible when the underlying evidence is weak. Both gates must pass before deployment.',
   },
   'zh/index.html': {
-    steps: ['定义工程问题', '建立可靠证据', '建模与验证', '决策与交付'],
-    distinction: '第 02 步确认数据是否适用于当前任务；第 03 步检验模型或解释是否得到这些数据支持。',
+    steps: ['定义工程问题', '获取并确认数据可信度', '验证模型与解释', '决策、交付与监测'],
+    distinction: '高质量数据仍可能被错误模型解释；看似合理的模型若建立在薄弱证据上，也无法支撑工程决策。只有两道门槛都通过，结果才进入交付。',
   },
 };
 
@@ -286,7 +339,7 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
   const text = normaliseVisibleText(html);
   requireOrderedText(page, text, requirement.steps, 'the ordered four-step data-to-decision pathway');
   if (!includesNormalisedPhrase(text, requirement.distinction)) {
-    errors.push(`${page} is missing the explicit distinction between Step 02 data fitness and Step 03 model validation`);
+    errors.push(`${page} is missing the complete two-gate explanation for evidence quality and interpretation validity`);
   }
 }
 
@@ -317,6 +370,9 @@ try {
 }
 
 const chineseCv = await readFile(path.join(root, 'zh/cv/index.html'), 'utf8');
+if (/>\s*Vibration damping component for a drone and drone with the same\s*</i.test(chineseCv)) {
+  errors.push('zh/cv/index.html contains the untranslated UAV patent title');
+}
 if (/<a\s+class=["']brand["']\s+href=["']\/["']/i.test(chineseCv)) {
   errors.push('zh/cv/index.html brand must return to the Chinese homepage');
 }
