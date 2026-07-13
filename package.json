@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node scripts/check-site.mjs"
+    "check": "node scripts/check-site.mjs",
+    "sync:root": "node scripts/sync-root.mjs"
   },
   "engines": {
     "node": ">=20"

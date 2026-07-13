@@ -191,6 +191,18 @@ for (const image of ['assets/img/og-card.png', 'assets/img/og-card-zh.png']) {
 const files = await walk(root);
 const textFiles = files.filter((file) => /\.(?:html|css|js|json|xml|txt|svg)$/i.test(file));
 
+for (const file of files) {
+  const mirroredFile = path.resolve(relative(file));
+  try {
+    const [canonical, mirrored] = await Promise.all([readFile(file), readFile(mirroredFile)]);
+    if (!canonical.equals(mirrored)) {
+      errors.push(`${relative(file)} differs from the root deployment mirror; run npm run sync:root`);
+    }
+  } catch {
+    errors.push(`${relative(file)} is missing from the root deployment mirror; run npm run sync:root`);
+  }
+}
+
 for (const retiredAsset of ['assets/img/logos/avic.svg', 'assets/img/logos/siemens-energy.svg']) {
   if (files.some((file) => relative(file) === retiredAsset)) {
     errors.push(`Retired logo asset must be removed: ${retiredAsset}`);

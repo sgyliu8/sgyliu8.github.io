@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="刘杨博士是英国特许工程师，专业方向涵盖燃气轮机性能、故障诊断、工业成像与先进测量系统。">
+  <meta name="description" content="刘杨博士是英国特许工程师，工作涵盖燃气轮机热力学循环与性能分析、工业成像与图像分析、可部署的 AI/ML 算法，以及工程软件与系统架构设计。">
   <meta name="theme-color" content="#071a24">
   <meta name="color-scheme" content="light dark">
 
-  <title>刘杨博士 | 燃气轮机研发、先进测量与工业 AI</title>
+  <title>刘杨博士 | 燃气轮机研发与工业 AI</title>
   <link rel="canonical" href="https://sgyliu8.github.io/zh/">
   <link rel="alternate" hreflang="en-GB" href="https://sgyliu8.github.io/">
   <link rel="alternate" hreflang="zh-CN" href="https://sgyliu8.github.io/zh/">
@@ -15,22 +15,23 @@
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/fonts/inter/index.css">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260713b">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260713e">
   <link rel="stylesheet" href="/assets/fonts/noto-sans-sc/index.css">
 
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:locale:alternate" content="en_GB">
-  <meta property="og:title" content="刘杨博士 | 从测量到工程决策">
-  <meta property="og:description" content="燃气轮机研发、先进测量、工业成像与可靠工程软件。">
+  <meta property="og:title" content="刘杨博士 | 从复杂高维数据到可信工程决策">
+  <meta property="og:description" content="燃气轮机热力学循环与性能分析、工业成像与图像分析、可部署的 AI/ML 算法，以及工程软件与系统架构设计。">
   <meta property="og:url" content="https://sgyliu8.github.io/zh/">
-  <meta property="og:image" content="https://sgyliu8.github.io/assets/img/og-card-zh.png">
+  <meta property="og:image" content="https://sgyliu8.github.io/assets/img/og-card-zh.png?v=20260713d">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="刘杨博士——从测量到工程决策">
+  <meta property="og:image:alt" content="刘杨博士——将复杂高维数据转化为值得信赖的工程决策">
   <meta property="profile:first_name" content="Yang">
   <meta property="profile:last_name" content="Liu">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://sgyliu8.github.io/assets/img/og-card-zh.png?v=20260713d">
 
   <script type="application/ld+json">
   {
@@ -60,7 +61,8 @@
       "先进仪器与测量",
       "工业成像",
       "计算机视觉",
-      "工程软件"
+      "可部署人工智能与机器学习",
+      "工程软件与系统架构"
     ]
   }
   </script>
@@ -72,10 +74,13 @@
   <header class="site-header" data-header>
     <div class="shell header-inner">
       <a class="brand" href="#top" aria-label="刘杨——首页">
-        <span class="brand-mark" aria-hidden="true">YL</span>
+        <picture class="brand-avatar" aria-hidden="true">
+          <source type="image/webp" srcset="/assets/img/profile/yang-avatar-96.webp 1x, /assets/img/profile/yang-avatar-192.webp 2x">
+          <img src="/assets/img/profile/yang-avatar-192.jpg" width="192" height="192" alt="" decoding="async">
+        </picture>
         <span class="brand-copy">
           <strong>刘杨</strong>
-          <small>PhD · CEng · IMechE</small>
+          <small>CEng（经 IMechE 评审）</small>
         </span>
       </a>
 
@@ -96,7 +101,7 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
@@ -104,9 +109,9 @@
 
       <div class="shell hero-layout">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow"><span></span> 刘杨博士 · PhD · CEng（经 IMechE 注册）</p>
-          <h1 id="hero-title">将复杂测量转化为<em>值得信赖的工程决策。</em></h1>
-          <p class="hero-lead">高级工程师，现于英国林肯从事燃气轮机研发，工作横跨性能分析、先进测量、工业成像和可部署的工程软件。</p>
+          <p class="eyebrow"><span></span> 刘杨博士 · 燃气轮机研发</p>
+          <h1 id="hero-title">将复杂的高维数据转化为<em>值得信赖的工程决策。</em></h1>
+          <p class="hero-lead">高级工程师，现于英国林肯从事燃气轮机研发，工作涵盖热力学循环与性能分析、工业成像与图像分析、可部署的 AI/ML 算法，以及工程软件与系统架构设计。</p>
 
           <div class="hero-actions">
             <a class="button button-primary" href="#work">
@@ -117,109 +122,34 @@
           </div>
 
           <nav class="hero-links" aria-label="专业链接">
-            <a href="https://www.linkedin.com/in/yliu991/" rel="me noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-            <a href="mailto:sgyliu@gmail.com">电子邮件</a>
+            <a href="https://www.linkedin.com/in/yliu991/" rel="me noreferrer"><img src="/assets/icons/linkedin.svg" width="18" height="18" alt="" aria-hidden="true">LinkedIn</a>
+            <a href="mailto:sgyliu@gmail.com"><img src="/assets/icons/mail.svg" width="18" height="18" alt="" aria-hidden="true">电子邮件</a>
           </nav>
         </div>
 
         <div class="hero-visual" data-reveal data-reveal-delay="1">
-          <div class="visual-frame">
-            <div class="visual-profile">
-              <picture>
-                <source type="image/webp" srcset="/assets/img/profile/yang-portrait-320.webp 320w, /assets/img/profile/yang-portrait-640.webp 640w" sizes="80px">
-                <img src="/assets/img/profile/yang-portrait-640.jpg" width="640" height="800" alt="刘杨的职业肖像" fetchpriority="high" decoding="async">
-              </picture>
-              <span><strong>刘杨</strong><small>高级工程师 · 研发</small></span>
-            </div>
-            <div class="visual-label visual-label-top">
-              <span class="status-dot"></span>
-              工程决策闭环
-            </div>
-
-            <svg class="turbine-graphic" viewBox="0 0 620 620" role="img" aria-labelledby="visual-title visual-desc">
-              <title id="visual-title">抽象燃气轮机测量图形</title>
-              <desc id="visual-desc">叶片形态周围环绕测量弧线、扫描线和数据点。</desc>
-              <defs>
-                <linearGradient id="blade-gradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#f4f1e8" stop-opacity="0.96"/>
-                  <stop offset="0.48" stop-color="#9eb3b5" stop-opacity="0.68"/>
-                  <stop offset="1" stop-color="#163b48" stop-opacity="0.9"/>
-                </linearGradient>
-                <linearGradient id="scan-gradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#e87338" stop-opacity="0"/>
-                  <stop offset="0.5" stop-color="#e87338" stop-opacity="0.95"/>
-                  <stop offset="1" stop-color="#e87338" stop-opacity="0"/>
-                </linearGradient>
-                <filter id="soft-glow" x="-80%" y="-80%" width="260%" height="260%">
-                  <feGaussianBlur stdDeviation="7" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-
-              <g class="orbit-lines" fill="none" stroke="#7da1a8" stroke-opacity="0.28">
-                <circle cx="310" cy="310" r="238"/>
-                <circle cx="310" cy="310" r="184" stroke-dasharray="5 10"/>
-                <ellipse cx="310" cy="310" rx="260" ry="112" transform="rotate(-23 310 310)"/>
-                <ellipse cx="310" cy="310" rx="260" ry="112" transform="rotate(44 310 310)" stroke-dasharray="3 12"/>
-              </g>
-
-              <g class="axis-lines" fill="none" stroke="#8ab0b7" stroke-opacity="0.2">
-                <path d="M64 310h492"/>
-                <path d="M310 64v492"/>
-                <path d="M136 136l348 348"/>
-                <path d="M484 136L136 484"/>
-              </g>
-
-              <path class="blade-shadow" d="M252 112C290 91 360 95 391 128c26 28 20 76 5 119-13 38-8 70 13 107 32 56 34 112 7 156-25 41-70 59-130 54-33-3-59-17-76-42 34-14 57-35 69-63 20-47 6-91-16-133-27-50-43-97-31-142 7-27 13-50 20-72Z" fill="#030b10" opacity="0.45" transform="translate(13 12)"/>
-              <path class="blade" d="M252 112C290 91 360 95 391 128c26 28 20 76 5 119-13 38-8 70 13 107 32 56 34 112 7 156-25 41-70 59-130 54-33-3-59-17-76-42 34-14 57-35 69-63 20-47 6-91-16-133-27-50-43-97-31-142 7-27 13-50 20-72Z" fill="url(#blade-gradient)" stroke="#d8e3df" stroke-opacity="0.36"/>
-              <path d="M266 137c37-17 83-16 105 10-31 46-42 89-30 128 13 43 48 83 49 132 2 55-25 99-76 128" fill="none" stroke="#f0f5ef" stroke-opacity="0.31" stroke-width="3"/>
-
-              <g class="scan-lines" fill="none" stroke="url(#scan-gradient)" filter="url(#soft-glow)">
-                <path d="M118 225h385"/>
-                <path d="M104 270h411" opacity="0.7"/>
-                <path d="M95 315h430" opacity="0.46"/>
-                <path d="M110 360h400" opacity="0.26"/>
-              </g>
-
-              <g class="data-points" fill="#f28a4f">
-                <circle cx="136" cy="225" r="4"/>
-                <circle cx="505" cy="270" r="4"/>
-                <circle cx="498" cy="430" r="4"/>
-                <circle cx="178" cy="474" r="4"/>
-              </g>
-              <g class="data-points secondary" fill="#a8c8ca">
-                <circle cx="185" cy="161" r="3"/>
-                <circle cx="453" cy="164" r="3"/>
-                <circle cx="124" cy="390" r="3"/>
-                <circle cx="438" cy="497" r="3"/>
-              </g>
-            </svg>
-
-            <div class="visual-readout visual-readout-left">
-              <small>02</small>
-              <strong>测量</strong>
-              <span>可追溯的证据</span>
-            </div>
-            <div class="visual-readout visual-readout-right">
-              <small>03</small>
-              <strong>验证</strong>
-              <span>模型与证据相互验证</span>
-            </div>
-            <div class="visual-label visual-label-bottom">
-              <span>01 定义</span>
-              <span>02 测量</span>
-              <span>03 验证</span>
-              <span>04 决策</span>
-            </div>
-          </div>
-          <p class="visual-caption"><strong>从物理问题到工程决策：</strong>定义问题，建立可靠测量，完成建模与验证，再基于明确的可信度作出决策。</p>
+          <section class="decision-pathway" aria-labelledby="pathway-title">
+            <header class="pathway-header">
+              <p class="pathway-kicker"><span class="status-dot" aria-hidden="true"></span> 从数据到工程决策</p>
+              <h2 id="pathway-title">先有证据，再下结论。</h2>
+              <p>从工程问题出发，沿可追溯路径形成可落地的决策。</p>
+            </header>
+            <ol class="pathway-list">
+              <li class="pathway-step"><span>01</span><div><strong>定义工程问题</strong><p>明确物理机制、约束条件、决策目标与验收标准。</p></div></li>
+              <li class="pathway-step"><span>02</span><div><strong>获取并确认数据可信度</strong><p>选择并采集信号、图像与试验数据；检查标定、可追溯性、代表性与不确定性。</p></div></li>
+              <li class="pathway-step"><span>03</span><div><strong>验证模型与解释</strong><p>依据合格证据检验模型、解释、适用边界与相关失效模式。</p></div></li>
+              <li class="pathway-step"><span>04</span><div><strong>决策、交付与监测</strong><p>将结果转化为明确标注不确定性并设有反馈闭环的决策、工具或流程。</p></div></li>
+            </ol>
+            <p class="pathway-distinction"><strong>为什么需要两道门槛？</strong>高质量数据仍可能被错误模型解释；看似合理的模型若建立在薄弱证据上，也无法支撑工程决策。只有两道门槛都通过，结果才进入交付。</p>
+            <p class="pathway-feedback">任一道门槛未通过，都应在行动前返回问题、证据或模型重新检查。</p>
+          </section>
         </div>
       </div>
 
       <div class="shell hero-facts" data-reveal>
         <div><strong>10+ 年</strong><span>工程与科研经历</span></div>
         <div><strong>英国 · 意大利 · 中国</strong><span>国际研发经历</span></div>
-        <div><strong>PhD · CEng · IMechE</strong><span>科研深度与工程实践</span></div>
+        <div><strong>PhD · CEng（经 IMechE 评审）</strong><span>科研深度与工程实践</span></div>
       </div>
     </section>
 
@@ -237,39 +167,11 @@
         </div>
       </div>
 
-      <div class="shell approach-heading" data-reveal>
-        <p class="section-index">工程决策闭环</p>
-        <p>一条由工程问题通往工程决策的四步可审查路径。当测量或验证出现新的证据时，流程会回到前端重新修正物理问题的定义。</p>
-      </div>
-
-      <ol class="shell approach" aria-label="工程决策闭环" data-reveal>
-        <li class="approach-step">
-          <span>01</span>
-          <strong>厘清物理机制</strong>
-          <p>明确主导机理、约束条件与所需证据。</p>
-        </li>
-        <li class="approach-step">
-          <span>02</span>
-          <strong>测量与标定</strong>
-          <p>建立可复现、数据质量可追溯的测量链。</p>
-        </li>
-        <li class="approach-step">
-          <span>03</span>
-          <strong>建模与验证</strong>
-          <p>结合物理模型与数据方法，并清楚说明适用边界。</p>
-        </li>
-        <li class="approach-step">
-          <span>04</span>
-          <strong>交付工程工具</strong>
-          <p>将方法转化为工程团队可实际使用的工作流程。</p>
-        </li>
-      </ol>
-
       <aside class="shell personal-story" aria-labelledby="outside-title" data-reveal>
         <figure class="personal-story-media">
           <picture>
-            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-480.webp 480w, /assets/img/profile/yang-cycling-720.webp 720w, /assets/img/profile/yang-cycling-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 28px), 360px">
-            <img src="/assets/img/profile/yang-cycling-960.jpg" width="960" height="1200" alt="刘杨在林地山坡上将山地自行车举过头顶" loading="lazy" decoding="async">
+            <source type="image/webp" srcset="/assets/img/profile/yang-cycling-550.webp 550w, /assets/img/profile/yang-cycling-825.webp 825w, /assets/img/profile/yang-cycling-1099.webp 1099w" sizes="(max-width: 700px) calc(100vw - 68px), (max-width: 1020px) 480px, 430px">
+            <img src="/assets/img/profile/yang-cycling-1099.jpg" width="1099" height="1277" alt="刘杨在林地山坡上将山地自行车举过头顶" loading="lazy" decoding="async">
           </picture>
           <figcaption>在山路上——工程好奇心也延伸到实验室之外。</figcaption>
         </figure>
@@ -401,7 +303,7 @@
             <div class="work-body">
               <p class="work-kicker">性能与故障诊断</p>
               <h3>燃气轮机气路诊断软件与经验证的数据接口</h3>
-              <p>参与 PYTHIA 平台的性能、诊断和预测算法开发，构建试验数据接口，并依据实验数据验证软件输出，服务于工业合作航空发动机项目。</p>
+              <p>参与 PYTHIA 平台的性能、诊断和预测算法开发，构建试验数据接口，并依据实验数据验证软件输出，服务于克兰菲尔德大学与中国航空工业集团有限公司（AVIC）的合作航空发动机项目。</p>
               <div class="work-links">
                 <a href="https://doi.org/10.1115/GT2020-15740" rel="noreferrer">相关 ASME 论文 <span aria-hidden="true">↗</span></a>
               </div>
@@ -433,7 +335,7 @@
 
           <article class="work-card work-card-supporting" data-reveal>
             <div class="work-meta">
-              <span>已授权专利</span>
+              <span>应用研发</span>
               <span>2015—2016</span>
             </div>
             <div class="work-card-art" aria-hidden="true">
@@ -472,7 +374,7 @@
             <div class="timeline-date">2024—至今</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <div class="institution-heading"><span class="institution-logo institution-logo-dark"><img src="/assets/img/logos/siemens-energy.png" alt="" width="291" height="101" loading="lazy" decoding="async"></span><p class="timeline-place">西门子能源 · 英国林肯</p></div>
+              <div class="institution-heading"><span class="institution-logo institution-logo-wide institution-logo-siemens"><img src="/assets/img/logos/siemens-energy.png" alt="" width="291" height="101" decoding="async"></span><p class="timeline-place">西门子能源 · 英国林肯</p></div>
               <h3>高级工程师——数字工具与测量技术（研发）</h3>
               <p>燃气轮机数字化方法、性能分析、工业成像及下一代测量技术。</p>
             </div>
@@ -481,7 +383,7 @@
             <div class="timeline-date">2022—2024</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/polimi.svg" alt="" width="131" height="43" loading="lazy" decoding="async"></span><p class="timeline-place">米兰理工大学 · 意大利米兰</p></div>
+              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/polimi.svg" alt="" width="131" height="43" decoding="async"></span><p class="timeline-place">米兰理工大学 · 意大利米兰</p></div>
               <h3>机械工程博士后研究员</h3>
               <p>无线数据采集、旋转机械测量、齿轮噪声振动与实验系统开发。</p>
             </div>
@@ -490,16 +392,16 @@
             <div class="timeline-date">2016—2021</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <div class="institution-heading"><span class="institution-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="192" height="192" loading="lazy" decoding="async"></span><p class="timeline-place">克兰菲尔德大学 · 英国克兰菲尔德</p></div>
-              <h3>燃气轮机性能与故障诊断研究员</h3>
-              <p>性能仿真、气路诊断、性能预测、软件集成与博士研究。</p>
+              <div class="institution-heading"><span class="institution-logo-group" aria-hidden="true"><span class="institution-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="292" height="292" decoding="async"></span><span class="institution-logo institution-logo-avic"><img src="/assets/img/logos/avic.png" alt="" width="200" height="55" decoding="async"></span></span><p class="timeline-place">克兰菲尔德大学 · 中国航空工业集团有限公司（AVIC）合作项目 · 英国克兰菲尔德</p></div>
+              <h3>燃气轮机性能与故障诊断研究员 / 平台开发人员</h3>
+              <p>为博士研究及与 AVIC 合作的航空发动机诊断项目开发性能、诊断与预测算法、试验数据接口及软件集成方案。</p>
             </div>
           </li>
           <li class="timeline-item" data-reveal>
             <div class="timeline-date">2015—2016</div>
             <div class="timeline-marker" aria-hidden="true"></div>
             <div class="timeline-content">
-              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/xag.svg" alt="" width="70" height="25" loading="lazy" decoding="async"></span><p class="timeline-place">极飞科技（XAG）· 中国广州</p></div>
+              <div class="institution-heading"><span class="institution-logo institution-logo-wide"><img src="/assets/img/logos/xag.svg" alt="" width="70" height="25" decoding="async"></span><p class="timeline-place">极飞科技（XAG）· 中国广州</p></div>
               <h3>控制与算法工程师 / 气动研发工程师</h3>
               <p>螺旋桨—电机匹配、无人机气动设计、CFD、气动声学及验证试验台开发。</p>
             </div>
@@ -508,24 +410,47 @@
 
         <div class="education-strip" data-reveal>
           <div>
-            <span class="education-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="192" height="192" loading="lazy" decoding="async"></span>
+            <span class="education-logo"><img src="/assets/img/logos/cranfield.png" alt="" width="292" height="292" decoding="async"></span>
             <span>航空航天工程博士</span>
             <strong>克兰菲尔德大学</strong>
             <small>燃气轮机性能与热力学</small>
           </div>
           <div>
-            <span class="education-logo education-logo-wide"><img src="/assets/img/logos/imperial.png" alt="" width="700" height="77" loading="lazy" decoding="async"></span>
+            <span class="education-logo education-logo-wide"><img src="/assets/img/logos/imperial.png" alt="" width="700" height="77" decoding="async"></span>
             <span>高级航空工程硕士</span>
             <strong>帝国理工学院</strong>
             <small>流体力学</small>
           </div>
           <div>
-            <span class="education-logo"><img src="/assets/img/logos/liverpool.svg" alt="" width="97" height="145" loading="lazy" decoding="async"></span>
+            <span class="education-logo education-logo-wide education-logo-liverpool"><img src="/assets/img/logos/liverpool.svg" alt="" width="567" height="145" decoding="async"></span>
             <span>航空航天工程学士 · 一等荣誉学位</span>
             <strong>利物浦大学</strong>
             <small>航空航天工程</small>
           </div>
         </div>
+
+        <section class="journey-section" aria-labelledby="journey-title" data-reveal>
+          <div class="journey-heading">
+            <p class="section-index">工程旅程中的片段</p>
+            <h3 id="journey-title">工程成长，也由同行的人与经历共同塑造。</h3>
+          </div>
+          <div class="journey-gallery">
+            <figure class="journey-card journey-card-portrait">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/profile/yang-cranfield-phd-graduation-640.webp 640w, /assets/img/profile/yang-cranfield-phd-graduation-960.webp 960w, /assets/img/profile/yang-cranfield-phd-graduation-1280.webp 1280w, /assets/img/profile/yang-cranfield-phd-graduation-1536.webp 1536w" sizes="(max-width: 760px) calc(100vw - 28px), 36vw">
+                <img src="/assets/img/profile/yang-cranfield-phd-graduation-1536.jpg" width="1536" height="2048" alt="刘杨身着博士毕业礼服，与朋友们在克兰菲尔德大学涡扇发动机前合影" loading="lazy" decoding="async">
+              </picture>
+              <figcaption><strong>克兰菲尔德大学</strong><span>博士毕业留念——与朋友们在涡扇发动机前合影。</span></figcaption>
+            </figure>
+            <figure class="journey-card journey-card-landscape">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/profile/yang-manchester-model-aircraft-640.webp 640w, /assets/img/profile/yang-manchester-model-aircraft-960.webp 960w, /assets/img/profile/yang-manchester-model-aircraft-1280.webp 1280w, /assets/img/profile/yang-manchester-model-aircraft-1600.webp 1600w, /assets/img/profile/yang-manchester-model-aircraft-2048.webp 2048w" sizes="(max-width: 760px) calc(100vw - 28px), 64vw">
+                <img src="/assets/img/profile/yang-manchester-model-aircraft-2048.jpg" width="2048" height="1536" alt="刘杨在曼彻斯特大学访问期间与一架固定翼模型飞机合影" loading="lazy" decoding="async">
+              </picture>
+              <figcaption><strong>曼彻斯特大学</strong><span>访问期间，与固定翼模型飞机合影。</span></figcaption>
+            </figure>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -545,7 +470,7 @@
             <div class="research-copy">
               <span class="research-type">期刊论文</span>
               <h3>Off-design performance control and simulation for gas turbine engines with sequential combustors</h3>
-              <p>Yi-Guang Li &amp; Yang Liu · Proceedings of the IMechE, Part A: Journal of Power and Energy</p>
+              <p>Yi-Guang Li &amp; Yang Liu · Proceedings of the Institution of Mechanical Engineers, Part A: Journal of Power and Energy</p>
             </div>
             <a class="research-link" href="https://doi.org/10.1177/09576509251327695" aria-label="打开期刊论文" rel="noreferrer"><span>期刊</span><span aria-hidden="true">↗</span></a>
           </article>
@@ -564,7 +489,7 @@
             <div class="research-year">2020</div>
             <div class="research-copy">
               <span class="research-type">会议论文</span>
-              <h3>An Integrated PCA, Artificial Neural Network and Gas Path Analysis Approach for Multi-Component Fault Diagnostics</h3>
+              <h3>An Integrated Principal Component Analysis, Artificial Neural Network and Gas Path Analysis Approach for Multi-Component Fault Diagnostics of Gas Turbine Engines</h3>
               <p>O. Alozie, Y.-G. Li, P. Pilidis, Y. Liu et al. · ASME Turbo Expo · GT2020-15740</p>
             </div>
             <a class="research-link" href="https://doi.org/10.1115/GT2020-15740" aria-label="打开 2020 ASME 论文" rel="noreferrer"><span>ASME</span><span aria-hidden="true">↗</span></a>
@@ -587,7 +512,7 @@
               <h3>无人机的减振组件及具有其的无人机</h3>
               <p>发明人：刘杨 · 申请人：广州极飞科技有限公司 · CN205872433U</p>
             </div>
-            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="打开已授权无人机减振实用新型专利" rel="noreferrer"><span>专利</span><span aria-hidden="true">↗</span></a>
+            <a class="research-link" href="https://patents.google.com/patent/CN205872433U/en" aria-label="打开已授权无人机减振实用新型专利" rel="noreferrer"><span>实用新型</span><span aria-hidden="true">↗</span></a>
           </article>
         </div>
 
@@ -607,8 +532,8 @@
         <div class="contact-copy" data-reveal data-reveal-delay="1">
           <p>我愿意与同行交流燃气轮机性能、工业测量、工程图像分析及科研成果转化等方向的问题。</p>
           <div class="contact-actions">
-            <a class="button button-primary" href="mailto:sgyliu@gmail.com">发送电子邮件</a>
-            <a class="button button-ghost-light" href="https://www.linkedin.com/in/yliu991/" rel="me noreferrer">在 LinkedIn 联系</a>
+            <a class="button button-primary" href="mailto:sgyliu@gmail.com"><img src="/assets/icons/mail.svg" width="18" height="18" alt="" aria-hidden="true">发送电子邮件</a>
+            <a class="button button-ghost-light" href="https://www.linkedin.com/in/yliu991/" rel="me noreferrer"><img src="/assets/icons/linkedin.svg" width="18" height="18" alt="" aria-hidden="true">在 LinkedIn 联系</a>
           </div>
         </div>
       </div>
