@@ -1591,12 +1591,6 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   width: 144px;
 }
 
-.education-strip .education-logo-liverpool {
-  width: min(100%, 232px);
-  height: 76px;
-  padding: 5px 7px;
-}
-
 .education-logo img {
   display: block;
   width: 100%;
@@ -2898,12 +2892,6 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
   .education-strip .education-logo-wide {
     width: 116px;
-  }
-
-  .education-strip .education-logo-liverpool {
-    width: min(100%, 214px);
-    height: 70px;
-    padding: 5px 7px;
   }
 
   .research-item {
