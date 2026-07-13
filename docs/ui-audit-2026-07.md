@@ -44,7 +44,7 @@ These references informed the hierarchy and interaction rules; their visual styl
 - `44px` target height for navigation, core links and research actions.
 - Touch pressed states and retained tap feedback.
 - Mobile-menu focus loop includes the visible brand; same-page mobile navigation moves focus to the destination heading.
-- Print control is hidden when JavaScript is unavailable; the PDF download remains available.
+- Print control is hidden when JavaScript is unavailable. This earlier PDF-download decision was superseded in the interruption-recovery audit: stale static PDFs were retired, while browser print/save remains available.
 - Chinese CV brand and contact links return to `/zh/`, not the English home page.
 - Decision-loop semantics contain four real list items; arrows are visual separators only.
 - Existing skip links, visible focus outlines, reduced-motion handling, responsive image dimensions and bilingual `lang` metadata remain intact.
@@ -58,7 +58,7 @@ These references informed the hierarchy and interaction rules; their visual styl
 - Hover, focus, active and current-location states are visually distinct.
 - English and Chinese routes preserve equivalent structure and destination logic.
 - The site has no broken internal references, duplicate IDs, invalid HTML or JavaScript syntax errors.
-- The CV print layout and both downloadable PDFs remain unchanged unless separately approved.
+- The CV print layout remains the canonical export path; the earlier downloadable PDFs were later retired after a content-consistency review.
 
 ## Later opportunity
 

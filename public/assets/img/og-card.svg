@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <radialGradient id="g" cx="0" cy="0" r="1" gradientTransform="translate(930 120) rotate(135) scale(650)">
       <stop stop-color="#234d58"/>
@@ -18,13 +18,13 @@
   <rect width="1200" height="630" fill="url(#grid)"/>
   <circle cx="1015" cy="315" r="198" fill="none" stroke="#9bb9b9" stroke-opacity=".2"/>
   <circle cx="1015" cy="315" r="142" fill="none" stroke="#9bb9b9" stroke-opacity=".16" stroke-dasharray="7 11"/>
-  <image href="profile/yang-portrait-640.jpg" x="884" y="86" width="250" height="350" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-clip)"/>
+  <image href="profile/yang-portrait-640.jpg" xlink:href="profile/yang-portrait-640.jpg" x="884" y="86" width="250" height="350" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-clip)"/>
   <rect x="884" y="86" width="250" height="350" rx="34" fill="none" stroke="#c8dcdc" stroke-opacity=".42" stroke-width="2"/>
   <path d="M846 242h52M1124 340h52" stroke="#f08a4e" stroke-opacity=".68"/>
   <circle cx="862" cy="242" r="5" fill="#f08a4e"/>
   <circle cx="1140" cy="340" r="5" fill="#f08a4e"/>
   <text x="72" y="98" fill="#f08a4e" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4">Yang Liu · PhD · CEng through IMechE</text>
-  <text x="72" y="226" fill="#fffefa" font-family="Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="-2">Complex data to</text>
+  <text x="72" y="226" fill="#fffefa" font-family="Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-2">High-dimensional data,</text>
   <text x="72" y="302" fill="#c8dcdc" font-family="Georgia, serif" font-size="68" font-style="italic">trusted decisions.</text>
   <text x="72" y="405" fill="#a8b9bb" font-family="Arial, sans-serif" font-size="25">Gas-turbine performance · Industrial imaging · Deployable AI/ML</text>
   <path d="M72 510h520" stroke="#a8b9bb" stroke-opacity=".28"/>
