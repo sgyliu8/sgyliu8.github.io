@@ -73,7 +73,7 @@ The English and Chinese pages preserve equivalent role order, dates, institution
 
 Implementation requirements include a working skip link, focusable main target, logical heading hierarchy, visible focus, keyboard-operable navigation, a trapped mobile-menu focus loop with Escape recovery, controls at least 44 px high, semantic lists, meaningful image alternative text, empty alternative text for decorative logos, bilingual `lang` and `hreflang`, sufficient contrast, intrinsic image dimensions, 200% zoom reflow and narrow-screen reflow.
 
-The implementation now preserves all content in reduced-motion mode and also removes the residual hover/active displacement from interactive controls. Static responsive review covers the 1020 px, 700 px and 420 px breakpoints, including the dual-strength Hero, Featured Expertise card, research rows, Beyond Engineering media and CV grids. Exact captured checks at 1440 px, 1024 px, 390 px and 320 px, 200% zoom and mobile keyboard navigation remain pending the final deployed-browser pass.
+The implementation now preserves all content in reduced-motion mode and also removes the residual hover/active displacement from interactive controls. Static responsive review covers the 1020 px, 700 px and 420 px breakpoints, including the dual-strength Hero, Featured Expertise card, research rows, Beyond Engineering media and CV grids. Live keyboard testing confirmed the English skip link receives the first focus, has a visible 3 px focus treatment, moves focus to `main#main-content`, and places that target at the top of the viewport. Exact captured checks at 1024 px, 390 px and 320 px, 200% zoom, reduced-motion emulation and mobile-menu keyboard navigation remain unresolved because the selected browser does not expose those controls.
 
 ## Print and PDF checks
 
@@ -110,23 +110,27 @@ Release-candidate results:
 
 ## Browser and screenshot record
 
-Required deployed-site evidence:
+The upgrade was published to `https://sgyliu8.github.io/` at remote commit `8fe3998bb304d19e1b2537177af82a3aff582246` and inspected on the live GitHub Pages deployment. Baseline English and Chinese desktop screenshots from the pre-upgrade deployment and matched post-deployment screenshots were captured in the same browser session.
 
-- English and Chinese desktop at 1440 × 1000;
-- English and Chinese laptop at 1024 px wide;
-- English and Chinese mobile at 390 × 844;
-- narrow mobile at 320 px;
-- 200% zoom;
-- reduced motion;
-- keyboard-only navigation;
-- English and Chinese print previews.
+Live desktop results at the browser's available 1363 × 936 viewport (1348 px document client width) were:
 
-Baseline English and Chinese desktop screenshots were captured from the pre-upgrade deployed site in the browser audit session. Matched post-deployment screenshots and the final browser results are pending release publication. No mobile or print acceptance is claimed until those states are directly captured.
+- English and Chinese Hero hierarchy passed: whole-engine performance leads, AI/ML remains a visible differentiator, the dual-strength card is legible and neither page has horizontal overflow;
+- all six Expertise cards, five Selected Work cards, four Experience entries, two Research groups and four Decision Framework steps are present in the expected order;
+- Selected Work and Beyond Engineering images loaded without broken sources, with responsive source sizes appropriate to their rendered slots;
+- Siemens Energy, Politecnico di Milano, Cranfield–AVIC, Imperial and Liverpool identities were visually inspected for alignment; the Liverpool lock-up renders at approximately 82 × 21 px inside the shared 144 × 54 px logo slot;
+- English and Chinese Beyond Engineering layouts retain the graduation, Manchester aircraft, four-win milestone, PolimiRide and tennis material without oversized portrait treatment;
+- English → Chinese section switching preserves `#work`; Chinese Experience navigation activates the correct target; Chinese Public CV navigation and Chinese → English CV switching resolve to the correct routes;
+- the English Public CV title-to-summary gap is 24 px; the Chinese equivalent is 24 px; neither CV has horizontal overflow;
+- the first Public CV Capability card spans the full 940 px content grid before the remaining cards return to two columns;
+- Public CV email, LinkedIn screen contact, location, canonical route and print button are present in both languages;
+- site-origin console warnings and errors are empty on the English homepage, Chinese homepage and Public CV. Browser-extension metadata errors were excluded because they do not originate from the site.
+
+The browser viewport is fixed, so the exact required 1440 × 1000, 1024 px, 390 × 844, 320 px and 200% zoom captures could not be produced. The browser also does not expose reduced-motion emulation or native print preview. Those states are not claimed as accepted.
 
 ## Unresolved limitations
 
-- Exact 1024 px, 390 px, 320 px, 200% zoom and mobile keyboard capture is pending because the selected cloud browser does not expose viewport emulation.
-- English and Chinese print-preview pagination is pending.
+- Exact 1440 × 1000, 1024 px, 390 × 844, 320 px, 200% zoom, reduced-motion and mobile keyboard capture is pending because the selected cloud browser does not expose viewport or media emulation.
+- English and Chinese print-preview pagination remains unverified because the selected browser does not expose native print preview. The print stylesheet and contact markup passed static inspection, but this is not a substitute for visual print acceptance.
 - Existing social-card binaries have no documented reproducible regeneration workflow; metadata text may be updated without manually altering those binaries.
 - Employer- or collaborator-originated engineering images retain the existing rights caution.
 - Source records describe Cranfield–AVIC research through 2021 and the PhD award in 2022; the site preserves both dates rather than silently reconciling them.
