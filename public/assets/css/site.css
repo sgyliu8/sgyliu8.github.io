@@ -30,7 +30,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: calc(var(--header-height) + 24px);
   background: var(--ink);
 }
@@ -899,6 +899,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   font-size: clamp(2.8rem, 4.55vw, 4.5rem);
   letter-spacing: -0.025em;
   line-height: 1.08;
+}
+
+.hero-phrase {
+  white-space: nowrap;
 }
 
 .zh-page :is(.eyebrow, .section-index, .section-label, .pathway-kicker, .strengths-kicker, .work-kicker, .work-meta, .timeline-place, .research-type) {
@@ -2938,6 +2942,10 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
   .zh-page .hero h1 {
     font-size: clamp(2.55rem, 11vw, 3.7rem);
+  }
+
+  .hero-phrase {
+    white-space: normal;
   }
 
   .hero-lead {
