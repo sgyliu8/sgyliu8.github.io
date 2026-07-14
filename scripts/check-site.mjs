@@ -435,6 +435,7 @@ const positioningRequirements = {
     'R&D Engineer',
     'Engine performance',
     'Industrial AI/ML',
+    'Hypergears project profile',
   ],
   'zh/index.html': [
     '刘杨博士，CEng',
@@ -447,6 +448,7 @@ const positioningRequirements = {
     '博士后研究员',
     '研究员',
     '研发工程师',
+    'Hypergears 项目团队介绍',
   ],
   'cv/index.html': [
     'Dr Yang Liu, CEng',
