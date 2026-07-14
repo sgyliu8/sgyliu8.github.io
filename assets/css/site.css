@@ -2024,6 +2024,15 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   line-height: 1.65;
 }
 
+.cv-location {
+  max-width: 880px;
+  margin: 8px 0 0;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .cv-print-contact {
   display: none;
 }
@@ -3059,9 +3068,18 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     font-size: 7.5pt;
   }
 
+  .cv-location {
+    max-width: 150mm;
+    margin: 1.2mm 0 0;
+    color: #444;
+    font-size: 7pt;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
   .cv-print-contact {
     display: block;
-    margin: 1.5mm 0 0;
+    margin: 1mm 0 0;
     color: #333;
     font-size: 7pt;
   }
@@ -3090,6 +3108,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 
   .cv-section-title {
     break-after: avoid;
+    page-break-after: avoid;
   }
 
   .cv-print-page {
@@ -3101,6 +3120,7 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   .cv-capability-card,
   .cv-record-list li {
     break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .cv-entry {

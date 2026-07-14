@@ -136,6 +136,8 @@ function normaliseVisibleText(html) {
     .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&amp;/gi, '&')
+    .replace(/&ndash;|&#(?:8211|x2013);/gi, '–')
+    .replace(/&mdash;|&#(?:8212|x2014);/gi, '—')
     .replace(/&nbsp;/gi, ' ')
     .replace(/&#(?:0*38|x0*26);/gi, '&')
     .replace(/\s+/g, ' ')
@@ -146,6 +148,16 @@ function normaliseVisibleText(html) {
 function hasClass(html, className) {
   return [...html.matchAll(/\bclass=["']([^"']*)["']/gi)]
     .some((match) => match[1].split(/\s+/).includes(className));
+}
+
+function classElementHtml(html, className, tag = '[a-z][\\w:-]*') {
+  const pattern = new RegExp(
+    "<(" + tag + ")\\b(?=[^>]*\\bclass=[\"'][^\"']*\\b"
+      + className
+      + "\\b[^\"']*[\"'])[^>]*>[\\s\\S]*?<\\/\\1>",
+    'i',
+  );
+  return html.match(pattern)?.[0] || '';
 }
 
 function includesNormalisedPhrase(text, phrase) {
@@ -370,8 +382,28 @@ const positioningRequirements = {
     '工业成像、AI/ML 与工程系统',
     '四次大学纸飞机比赛夺冠——三次在克兰菲尔德、一次在利物浦',
   ],
-  'cv/index.html': ['Dr Yang Liu, CEng', 'Chartered Engineer (CEng)', 'Institution of Mechanical Engineers (IMechE)'],
-  'zh/cv/index.html': ['刘杨博士，CEng', '英国特许工程师（CEng）', '英国机械工程师学会（IMechE）'],
+  'cv/index.html': [
+    'Dr Yang Liu, CEng',
+    'Chartered Engineer (CEng)',
+    'Institution of Mechanical Engineers (IMechE)',
+    'gas-turbine whole-engine performance',
+    'Senior Engineer – R&D',
+    'Postdoctoral Researcher',
+    'Researcher – Aero-Engine Performance & Diagnostics',
+    'Gas-turbine whole-engine performance, integration & technical authority',
+    'Lincoln, United Kingdom',
+  ],
+  'zh/cv/index.html': [
+    '刘杨博士，CEng',
+    '英国特许工程师（CEng）',
+    '英国机械工程师学会（IMechE）',
+    '燃气轮机整机性能',
+    '高级工程师（研发）',
+    '博士后研究员',
+    '航空发动机性能与诊断研究员',
+    '燃气轮机整机性能、系统集成与技术决策',
+    '英国林肯',
+  ],
 };
 
 for (const page of primaryPages) {
@@ -395,8 +427,73 @@ for (const [page, phrases] of Object.entries(positioningRequirements)) {
 
 for (const page of ['cv/index.html', 'zh/cv/index.html']) {
   const html = pageHtml.get(page) || '';
-  if (!hasClass(html, 'cv-print-contact') || !/sgyliu@gmail\.com/.test(html) || !/linkedin\.com\/in\/yliu991/.test(html)) {
-    errors.push(`${page} must retain email and LinkedIn details in browser print/save output`);
+  const printContact = classElementHtml(html, 'cv-print-contact', 'p');
+  const printText = normaliseVisibleText(printContact);
+  if (!printContact) {
+    errors.push(page + ' is missing .cv-print-contact');
+  }
+  if (!/mailto:sgyliu@gmail\.com/i.test(printContact) || !printText.includes('sgyliu@gmail.com')) {
+    errors.push(page + ' print contact must retain sgyliu@gmail.com');
+  }
+  if (!/href=["']https:\/\/sgyliu8\.github\.io\/cv\/["']/i.test(printContact)
+    || !printText.includes('sgyliu8.github.io/cv/')) {
+    errors.push(page + ' print contact must link to the canonical Public CV URL');
+  }
+  if (/linkedin\.com/i.test(printContact)) {
+    errors.push(page + ' must not include LinkedIn inside .cv-print-contact');
+  }
+
+  const locations = html.match(/\bclass=["'][^"']*\bcv-location\b[^"']*["']/gi) || [];
+  if (locations.length !== 1) {
+    errors.push(page + ' must contain exactly one .cv-location row');
+  }
+
+  const hero = classElementHtml(html, 'cv-hero', 'section');
+  const heroOrder = ['cv-summary', 'cv-location', 'cv-print-contact'].map((className) => hero.indexOf(className));
+  if (!hero || heroOrder.some((index) => index === -1)
+    || !(heroOrder[0] < heroOrder[1] && heroOrder[1] < heroOrder[2])) {
+    errors.push(page + ' must order summary, location and print contact consistently');
+  }
+
+  const entries = [...html.matchAll(/<article\s+class=["']cv-entry["'][^>]*>([\s\S]*?)<\/article>/gi)]
+    .map((match) => match[1]);
+  const bulletCounts = entries.map((entry) => (entry.match(/<li\b/gi) || []).length);
+  if (entries.length !== 4 || bulletCounts.join(',') !== '4,3,3,2') {
+    errors.push(page + ' must retain four Experience entries with bilingual bullet parity 4,3,3,2');
+  }
+}
+
+const staleCvCopy = {
+  'cv/index.html': [
+    ['whole-engine design for gas turbines', /whole-engine design for gas turbines/i],
+    ['Based in Lincoln, United Kingdom', /Based in Lincoln, United Kingdom/i],
+    ['Senior Engineer — Digital Tools & Instrumentation (R&D)', /Senior Engineer\s*—\s*Digital Tools & Instrumentation \(R&D\)/i],
+    ['Postdoctoral Researcher — Mechanical Engineering', /Postdoctoral Researcher\s*—\s*Mechanical Engineering/i],
+    ['Gas-Turbine Performance & Diagnostics Researcher / Platform Developer', /Gas-Turbine Performance & Diagnostics Researcher\s*\/\s*Platform Developer/i],
+    ['Built the PYTHIA test-data interface', /Built the PYTHIA test-data interface/i],
+  ],
+  'zh/cv/index.html': [
+    ['专注燃气轮机总体设计', /专注燃气轮机总体设计/],
+    ['现于英国林肯工作', /现于英国林肯工作/],
+    ['高级工程师——数字工具与测量技术（研发）', /高级工程师——数字工具与测量技术（研发）/],
+    ['机械工程博士后研究员', /机械工程博士后研究员/],
+    ['燃气轮机性能与故障诊断研究员 / 平台开发工程师', /燃气轮机性能与故障诊断研究员\s*\/\s*平台开发工程师/],
+    ['开发 PYTHIA 试验数据接口', /开发 PYTHIA 试验数据接口/],
+  ],
+};
+
+for (const [page, patterns] of Object.entries(staleCvCopy)) {
+  const html = (pageHtml.get(page) || '').replace(/&amp;/gi, '&');
+  for (const [label, pattern] of patterns) {
+    if (pattern.test(html)) errors.push(page + ' contains retired Public CV copy: ' + label);
+  }
+
+  const firstCapability = normaliseVisibleText(classElementHtml(html, 'cv-capability-card', 'article'));
+  const retiredCapability = page === 'cv/index.html'
+    ? 'Thermal power & propulsion systems'
+    : '热能动力与推进系统';
+  if (includesNormalisedPhrase(firstCapability, retiredCapability)) {
+    errors.push(page + ' first Capability card still uses retired title: ' + retiredCapability);
   }
 }
 
