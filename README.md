@@ -1,8 +1,8 @@
-# Dr Yang Liu — Engineering Portfolio
+# Dr Yang Liu — Gas-Turbine Whole-Engine Performance & Industrial AI/ML
 
 Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, CEng.
 
-The site presents a concise, public-facing record of physics-led work across thermal power and propulsion systems, mathematical modelling, mechanical and aerodynamic design, CFD, vibration and experimental measurement, industrial imaging, deployable AI/ML and engineering systems. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+The site presents a concise, public-facing record centred on gas-turbine whole-engine performance and systems-level engineering, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
 
 ## Structure
 
@@ -27,6 +27,8 @@ docs/
                            Data-to-decision redesign and release QA record
   ui-audit-2026-07-round-3.md
                            Professional positioning, evidence imagery and bilingual QA
+  ui-audit-2026-07-round-4.md
+                           Whole-engine and industrial AI/ML positioning upgrade
 .github/workflows/
   quality.yml             Pull-request validation
   static.yml              GitHub Pages deployment

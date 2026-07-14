@@ -15,9 +15,14 @@ try {
 }
 
 try {
-  const manifest = await readFile(path.join(root, 'site.webmanifest'), 'utf8');
-  if (!manifest.includes('thermal power and propulsion systems') || !manifest.includes('mathematics and physics')) {
-    errors.push('site.webmanifest must use the broad mathematics, physics, thermal-power and propulsion positioning');
+  const manifest = JSON.parse(await readFile(path.join(root, 'site.webmanifest'), 'utf8'));
+  const expectedName = 'Yang Liu — Gas-Turbine Whole-Engine Performance & Industrial AI/ML';
+  const expectedDescription = 'Gas-turbine whole-engine performance, systems engineering, experimental validation and deployable industrial AI/ML.';
+  if (manifest.name !== expectedName) {
+    errors.push(`site.webmanifest name must be: ${expectedName}`);
+  }
+  if (manifest.description !== expectedDescription) {
+    errors.push(`site.webmanifest description must be: ${expectedDescription}`);
   }
 } catch (error) {
   errors.push(`Unable to verify site.webmanifest positioning: ${error.message}`);
@@ -150,6 +155,12 @@ function hasClass(html, className) {
     .some((match) => match[1].split(/\s+/).includes(className));
 }
 
+function countClass(html, className) {
+  return [...html.matchAll(/\bclass=["']([^"']*)["']/gi)]
+    .filter((match) => match[1].split(/\s+/).includes(className))
+    .length;
+}
+
 function classElementHtml(html, className, tag = '[a-z][\\w:-]*') {
   const pattern = new RegExp(
     "<(" + tag + ")\\b(?=[^>]*\\bclass=[\"'][^\"']*\\b"
@@ -162,6 +173,53 @@ function classElementHtml(html, className, tag = '[a-z][\\w:-]*') {
 
 function includesNormalisedPhrase(text, phrase) {
   return text.replace(/\s+/g, '').includes(phrase.replace(/\s+/g, ''));
+}
+
+function attributeValue(tag, attribute) {
+  const pattern = new RegExp(`\\b${attribute}=["']([^"']*)["']`, 'i');
+  return tag.match(pattern)?.[1] || '';
+}
+
+function metaContent(html, attribute, value) {
+  const tag = [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .find((candidate) => attributeValue(candidate, attribute) === value);
+  return tag ? attributeValue(tag, 'content').replace(/&amp;/gi, '&') : '';
+}
+
+function pageTitle(html) {
+  return (html.match(/<title>([^<]+)<\/title>/i)?.[1] || '').replace(/&amp;/gi, '&');
+}
+
+function sectionSlice(html, id, followingIds = []) {
+  const startPattern = new RegExp(`<section\\b[^>]*\\bid=["']${id}["'][^>]*>`, 'i');
+  const start = html.search(startPattern);
+  if (start === -1) return '';
+
+  const candidates = followingIds
+    .map((followingId) => html.slice(start + 1).search(new RegExp(`<section\\b[^>]*\\bid=["']${followingId}["'][^>]*>`, 'i')))
+    .filter((index) => index !== -1)
+    .map((index) => start + 1 + index);
+  const end = candidates.length ? Math.min(...candidates) : html.length;
+  return html.slice(start, end);
+}
+
+function structuredPerson(html, page) {
+  const blocks = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  for (const block of blocks) {
+    try {
+      const parsed = JSON.parse(block[1]);
+      const records = Array.isArray(parsed?.['@graph']) ? parsed['@graph'] : [parsed];
+      const person = records.find((record) => {
+        const types = Array.isArray(record?.['@type']) ? record['@type'] : [record?.['@type']];
+        return types.includes('Person');
+      });
+      if (person) return person;
+    } catch (error) {
+      errors.push(`${page} contains invalid JSON-LD: ${error.message}`);
+    }
+  }
+  return null;
 }
 
 function requireOrderedText(page, text, phrases, label) {
@@ -366,21 +424,27 @@ const homePages = ['index.html', 'zh/index.html'];
 const positioningRequirements = {
   'index.html': [
     'Dr Yang Liu, CEng',
-    'Thermal Power & Propulsion Systems',
-    'Mathematical & physics-based modelling',
-    'Vibration, measurement & experimentation',
-    'Mechanical design & physical prototyping',
-    'Industrial imaging, AI/ML & engineering systems',
-    'Four university competition wins—three at Cranfield and one at Liverpool',
+    'gas-turbine whole-engine performance',
+    'industrial AI/ML',
+    'component matching',
+    'off-design operability',
+    'model–test correlation',
+    'Senior Engineer – R&D',
+    'Postdoctoral Researcher',
+    'Researcher – Aero-Engine Performance & Diagnostics',
+    'Whole-engine performance',
+    'Industrial AI/ML',
   ],
   'zh/index.html': [
     '刘杨博士，CEng',
-    '热能动力与推进系统',
-    '数学建模与基于物理的建模',
-    '振动、测量与试验',
-    '机械设计与实体原型开发',
-    '工业成像、AI/ML 与工程系统',
-    '四次大学纸飞机比赛夺冠——三次在克兰菲尔德、一次在利物浦',
+    '燃气轮机整机性能',
+    '工业 AI/ML',
+    '部件匹配',
+    '非设计工况与可运行性',
+    '模型—试验关联',
+    '高级工程师（研发）',
+    '博士后研究员',
+    '航空发动机性能与诊断研究员',
   ],
   'cv/index.html': [
     'Dr Yang Liu, CEng',
@@ -391,6 +455,8 @@ const positioningRequirements = {
     'Postdoctoral Researcher',
     'Researcher – Aero-Engine Performance & Diagnostics',
     'Gas-turbine whole-engine performance, integration & technical authority',
+    'CEng · Gas Turbines · Industrial AI/ML',
+    'Gas-turbine whole-engine performance, systems engineering, experimental validation, diagnostics, industrial imaging, AI/ML and research translation',
     'Lincoln, United Kingdom',
   ],
   'zh/cv/index.html': [
@@ -402,6 +468,8 @@ const positioningRequirements = {
     '博士后研究员',
     '航空发动机性能与诊断研究员',
     '燃气轮机整机性能、系统集成与技术决策',
+    'CEng · 燃气轮机 · 工业 AI/ML',
+    '燃气轮机整机性能、系统工程、试验验证、故障诊断、工业成像、AI/ML 与科研成果转化',
     '英国林肯',
   ],
 };
@@ -425,6 +493,103 @@ for (const [page, phrases] of Object.entries(positioningRequirements)) {
   }
 }
 
+const homepageMetadata = {
+  'index.html': {
+    title: 'Dr Yang Liu, CEng | Gas-Turbine Whole-Engine Performance & Industrial AI/ML',
+    description: 'Chartered Engineer and Senior Engineer specialising in gas-turbine whole-engine performance, systems integration, diagnostics, experimental validation and deployable industrial AI/ML.',
+    ogTitle: 'Dr Yang Liu, CEng | Whole-Engine Performance & Industrial AI/ML',
+    ogDescription: 'Gas-turbine whole-engine expertise strengthened by industrial imaging, deployable AI/ML, experimental validation and evidence-based engineering decisions.',
+  },
+  'zh/index.html': {
+    title: '刘杨博士，CEng | 燃气轮机整机性能与工业 AI/ML',
+    description: '刘杨博士，英国特许工程师（CEng）和高级工程师，专注燃气轮机整机性能、系统集成、故障诊断、试验验证与可部署工业 AI/ML。',
+    ogTitle: '刘杨博士，CEng | 整机性能与工业 AI/ML',
+    ogDescription: '以燃气轮机整机性能为核心，融合工业成像、可部署 AI/ML、试验验证与工程证据驱动的技术决策。',
+  },
+};
+
+for (const [page, expected] of Object.entries(homepageMetadata)) {
+  const html = pageHtml.get(page) || '';
+  const actual = {
+    title: pageTitle(html),
+    description: metaContent(html, 'name', 'description'),
+    ogTitle: metaContent(html, 'property', 'og:title'),
+    ogDescription: metaContent(html, 'property', 'og:description'),
+  };
+  for (const [field, value] of Object.entries(expected)) {
+    if (actual[field] !== value) errors.push(`${page} ${field} must be: ${value}`);
+  }
+}
+
+const structuredDataRequirements = {
+  'index.html': {
+    jobTitle: 'Senior Engineer – R&D',
+    knowsAbout: [
+      'Gas-turbine whole-engine performance',
+      'Thermodynamic cycle design',
+      'Component matching',
+      'Systems integration',
+      'Off-design performance and operability',
+      'Control–performance interaction',
+      'Gas-path diagnostics and prognostics',
+      'Model–test correlation',
+      'Experimental testing and validation',
+      'Industrial imaging',
+      'Computer vision',
+      'Deployable AI and machine learning',
+      'Engineering research translation',
+    ],
+  },
+  'zh/index.html': {
+    jobTitle: '高级工程师（研发）',
+    knowsAbout: [
+      '燃气轮机整机性能',
+      '热力循环设计',
+      '部件匹配',
+      '系统集成',
+      '非设计工况与可运行性',
+      '控制—性能耦合',
+      '气路诊断与状态预测',
+      '模型—试验关联',
+      '试验与工程验证',
+      '工业成像',
+      '计算机视觉',
+      '可部署人工智能与机器学习',
+      '科研成果工程化',
+    ],
+  },
+};
+
+for (const [page, expected] of Object.entries(structuredDataRequirements)) {
+  const person = structuredPerson(pageHtml.get(page) || '', page);
+  if (!person) {
+    errors.push(`${page} is missing Person JSON-LD`);
+    continue;
+  }
+  if (person.jobTitle !== expected.jobTitle) {
+    errors.push(`${page} JSON-LD jobTitle must be: ${expected.jobTitle}`);
+  }
+  if (JSON.stringify(person.knowsAbout) !== JSON.stringify(expected.knowsAbout)) {
+    errors.push(`${page} JSON-LD knowsAbout must use the approved ordered whole-engine and industrial AI/ML topics`);
+  }
+  if (person.worksFor?.name !== 'Siemens Energy') {
+    errors.push(`${page} JSON-LD must retain Siemens Energy as the current employer`);
+  }
+  const alumni = Array.isArray(person.alumniOf) ? person.alumniOf.map((entry) => entry?.name) : [];
+  for (const institution of ['Cranfield University', 'Imperial College London', 'University of Liverpool']) {
+    if (!alumni.includes(institution)) errors.push(`${page} JSON-LD must retain ${institution}`);
+  }
+  if (!Array.isArray(person.sameAs) || !person.sameAs.includes('https://www.linkedin.com/in/yliu991/')) {
+    errors.push(`${page} JSON-LD must retain the LinkedIn sameAs URL`);
+  }
+  if (!/^https:\/\/sgyliu8\.github\.io\/(?:zh\/)?$/.test(person.url || '')) {
+    errors.push(`${page} JSON-LD must retain its canonical homepage URL`);
+  }
+  if (/Chief Engineer|总工程师/.test(person.jobTitle || '')) {
+    errors.push(`${page} JSON-LD must not claim an unverified current Chief Engineer title`);
+  }
+}
+
 for (const page of ['cv/index.html', 'zh/cv/index.html']) {
   const html = pageHtml.get(page) || '';
   const printContact = classElementHtml(html, 'cv-print-contact', 'p');
@@ -435,9 +600,15 @@ for (const page of ['cv/index.html', 'zh/cv/index.html']) {
   if (!/mailto:sgyliu@gmail\.com/i.test(printContact) || !printText.includes('sgyliu@gmail.com')) {
     errors.push(page + ' print contact must retain sgyliu@gmail.com');
   }
-  if (!/href=["']https:\/\/sgyliu8\.github\.io\/cv\/["']/i.test(printContact)
-    || !printText.includes('sgyliu8.github.io/cv/')) {
-    errors.push(page + ' print contact must link to the canonical Public CV URL');
+  const expectedPublicCvUrl = page === 'cv/index.html'
+    ? 'https://sgyliu8.github.io/cv/'
+    : 'https://sgyliu8.github.io/zh/cv/';
+  const expectedPublicCvText = page === 'cv/index.html'
+    ? 'sgyliu8.github.io/cv/'
+    : 'sgyliu8.github.io/zh/cv/';
+  if (!printContact.includes(`href="${expectedPublicCvUrl}"`)
+    || !printText.includes(expectedPublicCvText)) {
+    errors.push(page + ' print contact must link to its canonical Public CV URL');
   }
   if (/linkedin\.com/i.test(printContact)) {
     errors.push(page + ' must not include LinkedIn inside .cv-print-contact');
@@ -461,6 +632,12 @@ for (const page of ['cv/index.html', 'zh/cv/index.html']) {
   if (entries.length !== 4 || bulletCounts.join(',') !== '4,3,3,2') {
     errors.push(page + ' must retain four Experience entries with bilingual bullet parity 4,3,3,2');
   }
+
+  const expectedLanguageRoute = page === 'cv/index.html' ? '/zh/cv/' : '/cv/';
+  const languageSwitch = [...html.matchAll(/<a\b(?=[^>]*\bclass=["'][^"']*\blanguage-switch\b[^"']*["'])[^>]*>/gi)][0]?.[0] || '';
+  if (attributeValue(languageSwitch, 'href') !== expectedLanguageRoute) {
+    errors.push(`${page} language switch must route to ${expectedLanguageRoute}`);
+  }
 }
 
 const staleCvCopy = {
@@ -482,6 +659,37 @@ const staleCvCopy = {
   ],
 };
 
+const staleHomepageCopy = {
+  'index.html': [
+    ['Senior Engineer — Digital Tools & Instrumentation (R&D)', /Senior Engineer\s*[—-]\s*Digital Tools & Instrumentation\s*\(R&D\)/i],
+    ['Postdoctoral Researcher — Mechanical Engineering', /Postdoctoral Researcher\s*[—-]\s*Mechanical Engineering/i],
+    ['Gas-Turbine Performance & Diagnostics Researcher / Platform Developer', /Gas-Turbine Performance\s*&\s*Diagnostics Researcher\s*\/\s*Platform Developer/i],
+    ['whole-engine design for gas turbines', /whole-engine design for gas turbines/i],
+    ['Contributed performance, diagnostic and prognostic algorithms', /Contributed performance, diagnostic and prognostic algorithms/i],
+  ],
+  'zh/index.html': [
+    ['高级工程师——数字工具与测量技术（研发）', /高级工程师\s*——\s*数字工具与测量技术（研发）/],
+    ['机械工程博士后研究员', /机械工程博士后研究员/],
+    ['燃气轮机性能与故障诊断研究员 / 平台开发工程师', /燃气轮机性能与故障诊断研究员\s*\/\s*平台开发工程师/],
+    ['专注燃气轮机总体设计', /专注燃气轮机总体设计/],
+  ],
+};
+
+for (const [page, patterns] of Object.entries(staleHomepageCopy)) {
+  const html = (pageHtml.get(page) || '').replace(/&amp;/gi, '&');
+  for (const [label, pattern] of patterns) {
+    if (pattern.test(html)) errors.push(`${page} contains retired homepage copy: ${label}`);
+  }
+
+  const hero = sectionSlice(html, 'top', ['about']);
+  const retiredPrimaryIdentity = page === 'index.html'
+    ? 'Thermal Power & Propulsion Systems'
+    : '热能动力与推进系统';
+  if (includesNormalisedPhrase(normaliseVisibleText(hero), retiredPrimaryIdentity)) {
+    errors.push(`${page} still uses ${retiredPrimaryIdentity} as a primary Hero identity`);
+  }
+}
+
 for (const [page, patterns] of Object.entries(staleCvCopy)) {
   const html = (pageHtml.get(page) || '').replace(/&amp;/gi, '&');
   for (const [label, pattern] of patterns) {
@@ -499,12 +707,12 @@ for (const [page, patterns] of Object.entries(staleCvCopy)) {
 
 const pathwayRequirements = {
   'index.html': {
-    steps: ['Define the question', 'Acquire & qualify the evidence', 'Validate the model & interpretation', 'Decide, deploy & monitor'],
-    distinction: 'Why are Steps 02 and 03 separate gates? Step 02 asks whether the evidence is fit for the intended decision; Step 03 asks whether the model and interpretation are supported by that qualified evidence. If either gate fails, return upstream before deployment.',
+    steps: ['Define the question', 'Acquire and qualify the evidence', 'Validate the model and interpretation', 'Decide, deploy and monitor'],
+    distinction: ['evidence is fit for the intended decision', 'model and interpretation are supported by that qualified evidence', 'return upstream'],
   },
   'zh/index.html': {
-    steps: ['定义工程问题', '获取并评价工程证据', '验证模型与解释', '决策、交付与监测'],
-    distinction: '为什么第 02 步和第 03 步是两道独立门槛？第 02 步判断证据是否适用于预期决策；第 03 步判断模型与解释是否得到这些合格证据的支持。任一道未通过，都应在交付前返回上游重新检查。',
+    steps: ['定义工程问题', '获取并评价工程证据', '验证模型与解释', '决策、部署与监测'],
+    distinction: ['证据是否适用于预期决策', '模型与解释是否得到这些合格证据的支持', '返回上游'],
   },
 };
 
@@ -512,17 +720,42 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
   const html = pageHtml.get(page) || '';
   const text = normaliseVisibleText(html);
   requireOrderedText(page, text, requirement.steps, 'the ordered four-step data-to-decision pathway');
-  if (!includesNormalisedPhrase(text, requirement.distinction)) {
-    errors.push(`${page} is missing the complete two-gate explanation for evidence quality and interpretation validity`);
+  if (requirement.distinction.some((phrase) => !includesNormalisedPhrase(text, phrase))) {
+    errors.push(`${page} is missing the complete two-gate explanation and upstream return for evidence quality and interpretation validity`);
   }
 }
 
+const homepageStructure = {
+  'index.html': {
+    expertiseTitle: 'Whole-engine performance',
+    experienceOrder: ['Senior Engineer – R&D', 'Postdoctoral Researcher', 'Researcher – Aero-Engine Performance & Diagnostics', 'XAG'],
+    researchHeadings: ['Selected publications', 'Patents and published applications'],
+    contactCopy: ['Discuss a whole-engine, R&D or intelligent-engineering opportunity.', 'Chief Engineer, Principal Expert and senior R&D leadership opportunities'],
+    languageRoute: '/zh/',
+  },
+  'zh/index.html': {
+    expertiseTitle: '燃气轮机整机性能',
+    experienceOrder: ['高级工程师（研发）', '博士后研究员', '航空发动机性能与诊断研究员', '极飞科技（XAG）'],
+    researchHeadings: ['精选论文', '专利与公开专利申请'],
+    contactCopy: ['沟通整机、研发或智能工程方向的机会。', '整机总工程师、首席专家及高级研发技术领导岗位'],
+    languageRoute: '/',
+  },
+};
+
 for (const page of homePages) {
   const html = pageHtml.get(page) || '';
-  const sectionLabels = html.match(/class=["']section-label["']/g) || [];
-  const expertiseCards = html.match(/<article\s[^>]*class=["'][^"']*\bexpertise-card\b[^"']*["']/g) || [];
-  if (sectionLabels.length !== 7) {
-    errors.push(`${page} must expose exactly seven unnumbered main-section labels`);
+  const structure = homepageStructure[page];
+  const sectionLabelCount = countClass(html, 'section-label');
+  const hero = sectionSlice(html, 'top', ['about']);
+  const expertise = sectionSlice(html, 'expertise', ['work']);
+  const experience = sectionSlice(html, 'experience', ['research']);
+  const research = sectionSlice(html, 'research', ['framework', 'beyond']);
+  const contact = sectionSlice(html, 'contact');
+  const expertiseCards = [...expertise.matchAll(/<article\b(?=[^>]*\bclass=["'][^"']*\bexpertise-card\b[^"']*["'])[^>]*>[\s\S]*?<\/article>/gi)]
+    .map((match) => match[0]);
+
+  if (sectionLabelCount !== 8) {
+    errors.push(`${page} must expose exactly eight unnumbered main-section labels, including the engineering framework`);
   }
   if (/\bcard-number\b/.test(html)) {
     errors.push(`${page} must not use decorative numbering in Expertise cards`);
@@ -530,8 +763,45 @@ for (const page of homePages) {
   if (expertiseCards.length !== 6) {
     errors.push(`${page} must retain exactly six Expertise cards`);
   }
+  if (!expertiseCards[0] || !hasClass(expertiseCards[0], 'expertise-featured')
+    || !includesNormalisedPhrase(normaliseVisibleText(expertiseCards[0]), structure.expertiseTitle)) {
+    errors.push(`${page} first Expertise card must be the featured whole-engine capability`);
+  }
   if (/class=["']section-index["'][^>]*>\s*0[1-7]\s*\//i.test(html)) {
     errors.push(`${page} still exposes numbered 01–07 main-section labels`);
+  }
+  if (countClass(hero, 'hero-strengths') !== 1) {
+    errors.push(`${page} must contain exactly one .hero-strengths dual-strength card in the Hero`);
+  }
+  if (countClass(hero, 'strength-panel') !== 2) {
+    errors.push(`${page} Hero dual-strength card must contain exactly two .strength-panel elements`);
+  }
+  requireOrderedText(page, normaliseVisibleText(experience), structure.experienceOrder, 'equivalent Experience role order');
+  if (countClass(research, 'research-group') !== 2) {
+    errors.push(`${page} Research section must contain exactly two .research-group elements`);
+  }
+  requireOrderedText(page, normaliseVisibleText(research), structure.researchHeadings, 'Publications and Patents research groups');
+
+  const researchIndex = html.search(/<section\b[^>]*\bid=["']research["']/i);
+  const pathwayIndex = html.search(/\bclass=["'][^"']*\bdecision-framework\b/i);
+  const beyondIndex = html.search(/<section\b[^>]*\bid=["']beyond["']/i);
+  const journeyIndex = html.search(/\bclass=["'][^"']*\bjourney-section\b/i);
+  if ([researchIndex, pathwayIndex, beyondIndex].some((index) => index === -1)
+    || !(researchIndex < pathwayIndex && pathwayIndex < beyondIndex)) {
+    errors.push(`${page} must place the engineering decision framework after Research and before Beyond Engineering`);
+  }
+  if (journeyIndex !== -1 && journeyIndex < researchIndex) {
+    errors.push(`${page} must keep personal journey content after the professional Research evidence`);
+  }
+  for (const phrase of structure.contactCopy) {
+    if (!includesNormalisedPhrase(normaliseVisibleText(contact), phrase)) {
+      errors.push(`${page} Contact section is missing senior-role opportunity positioning: ${phrase}`);
+    }
+  }
+
+  const languageSwitch = [...html.matchAll(/<a\b(?=[^>]*\bclass=["'][^"']*\blanguage-switch\b[^"']*["'])[^>]*>/gi)][0]?.[0] || '';
+  if (attributeValue(languageSwitch, 'href') !== structure.languageRoute) {
+    errors.push(`${page} language switch must route to ${structure.languageRoute}`);
   }
   if (hasClass(html, 'work-card-art') || hasClass(html, 'work-symbol')) {
     errors.push(`${page} must use real evidence assets instead of handcrafted work-card illustrations`);

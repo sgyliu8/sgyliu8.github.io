@@ -120,9 +120,8 @@
 
     const visibility = new Map();
     const setActiveSection = (sectionId) => {
-      const activeSectionId = sectionId === 'expertise' ? 'about' : sectionId;
       sectionLinks.forEach((link) => link.removeAttribute('aria-current'));
-      linkBySection.get(activeSectionId)?.setAttribute('aria-current', 'location');
+      linkBySection.get(sectionId)?.setAttribute('aria-current', 'location');
       if (languageSwitch && languageBase) {
         languageSwitch.setAttribute('href', `${languageBase}#${sectionId}`);
       }
