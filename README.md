@@ -28,7 +28,7 @@ docs/
   ui-audit-2026-07-round-3.md
                            Professional positioning, evidence imagery and bilingual QA
   ui-audit-2026-07-round-4.md
-                           Whole-engine and industrial AI/ML positioning upgrade
+                           Engine-performance and industrial AI/ML positioning upgrade
 .github/workflows/
   quality.yml             Pull-request validation
   static.yml              GitHub Pages deployment
