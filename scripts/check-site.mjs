@@ -16,8 +16,8 @@ try {
 
 try {
   const manifest = JSON.parse(await readFile(path.join(root, 'site.webmanifest'), 'utf8'));
-  const expectedName = 'Yang Liu — Gas-Turbine Whole-Engine Performance & Industrial AI/ML';
-  const expectedDescription = 'Gas-turbine whole-engine performance, systems engineering, experimental validation and deployable industrial AI/ML.';
+  const expectedName = 'Yang Liu — Gas-Turbine Engine Performance & Industrial AI/ML';
+  const expectedDescription = 'Gas-turbine engine performance, systems integration, experimental validation and deployable industrial AI/ML.';
   if (manifest.name !== expectedName) {
     errors.push(`site.webmanifest name must be: ${expectedName}`);
   }
@@ -424,15 +424,16 @@ const homePages = ['index.html', 'zh/index.html'];
 const positioningRequirements = {
   'index.html': [
     'Dr Yang Liu, CEng',
-    'gas-turbine whole-engine performance',
+    'gas-turbine engine performance',
     'industrial AI/ML',
     'component matching',
     'off-design operability',
     'model–test correlation',
     'Senior Engineer – R&D',
     'Postdoctoral Researcher',
-    'Researcher – Aero-Engine Performance & Diagnostics',
-    'Whole-engine performance',
+    'Researcher',
+    'R&D Engineer',
+    'Engine performance',
     'Industrial AI/ML',
   ],
   'zh/index.html': [
@@ -444,7 +445,8 @@ const positioningRequirements = {
     '模型—试验关联',
     '高级工程师（研发）',
     '博士后研究员',
-    '航空发动机性能与诊断研究员',
+    '研究员',
+    '研发工程师',
   ],
   'cv/index.html': [
     'Dr Yang Liu, CEng',
@@ -495,10 +497,10 @@ for (const [page, phrases] of Object.entries(positioningRequirements)) {
 
 const homepageMetadata = {
   'index.html': {
-    title: 'Dr Yang Liu, CEng | Gas-Turbine Whole-Engine Performance & Industrial AI/ML',
-    description: 'Chartered Engineer and Senior Engineer specialising in gas-turbine whole-engine performance, systems integration, diagnostics, experimental validation and deployable industrial AI/ML.',
-    ogTitle: 'Dr Yang Liu, CEng | Whole-Engine Performance & Industrial AI/ML',
-    ogDescription: 'Gas-turbine whole-engine expertise strengthened by industrial imaging, deployable AI/ML, experimental validation and evidence-based engineering decisions.',
+    title: 'Dr Yang Liu, CEng | Gas-Turbine Engine Performance & Industrial AI/ML',
+    description: 'Chartered Engineer and Senior Engineer specialising in gas-turbine engine performance, systems integration, diagnostics, experimental validation and deployable industrial AI/ML.',
+    ogTitle: 'Dr Yang Liu, CEng | Engine Performance & Industrial AI/ML',
+    ogDescription: 'Gas-turbine engine performance and systems integration, strengthened by industrial imaging, deployable AI/ML and experimental validation.',
   },
   'zh/index.html': {
     title: '刘杨博士，CEng | 燃气轮机整机性能与工业 AI/ML',
@@ -525,7 +527,7 @@ const structuredDataRequirements = {
   'index.html': {
     jobTitle: 'Senior Engineer – R&D',
     knowsAbout: [
-      'Gas-turbine whole-engine performance',
+      'Gas-turbine engine performance',
       'Thermodynamic cycle design',
       'Component matching',
       'Systems integration',
@@ -570,7 +572,7 @@ for (const [page, expected] of Object.entries(structuredDataRequirements)) {
     errors.push(`${page} JSON-LD jobTitle must be: ${expected.jobTitle}`);
   }
   if (JSON.stringify(person.knowsAbout) !== JSON.stringify(expected.knowsAbout)) {
-    errors.push(`${page} JSON-LD knowsAbout must use the approved ordered whole-engine and industrial AI/ML topics`);
+    errors.push(`${page} JSON-LD knowsAbout must use the approved ordered engine-performance and industrial AI/ML topics`);
   }
   if (person.worksFor?.name !== 'Siemens Energy') {
     errors.push(`${page} JSON-LD must retain Siemens Energy as the current employer`);
@@ -707,12 +709,12 @@ for (const [page, patterns] of Object.entries(staleCvCopy)) {
 
 const pathwayRequirements = {
   'index.html': {
-    steps: ['Define the question', 'Acquire and qualify the evidence', 'Validate the model and interpretation', 'Decide, deploy and monitor'],
-    distinction: ['evidence is fit for the intended decision', 'model and interpretation are supported by that qualified evidence', 'return upstream'],
+    steps: ['Define the question', 'Qualify the evidence', 'Validate the model', 'Decide, deploy and monitor'],
+    distinction: ['Is the evidence fit for this decision?', 'Is the model supported by qualified evidence?', 'return to the relevant upstream stage'],
   },
   'zh/index.html': {
-    steps: ['定义工程问题', '获取并评价工程证据', '验证模型与解释', '决策、部署与监测'],
-    distinction: ['证据是否适用于预期决策', '模型与解释是否得到这些合格证据的支持', '返回上游'],
+    steps: ['定义问题', '评价证据', '验证模型', '决策、部署与监测'],
+    distinction: ['证据是否适用于这项决策', '模型是否得到合格证据的支持', '返回相应的上游阶段'],
   },
 };
 
@@ -727,15 +729,15 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
 
 const homepageStructure = {
   'index.html': {
-    expertiseTitle: 'Whole-engine performance',
-    experienceOrder: ['Senior Engineer – R&D', 'Postdoctoral Researcher', 'Researcher – Aero-Engine Performance & Diagnostics', 'XAG'],
+    expertiseTitle: 'Gas-turbine engine performance',
+    experienceOrder: ['Senior Engineer – R&D', 'Postdoctoral Researcher', 'Researcher', 'R&D Engineer'],
     researchHeadings: ['Selected publications', 'Patents and published applications'],
-    contactCopy: ['Discuss a whole-engine, R&D or intelligent-engineering opportunity.', 'Chief Engineer, Principal Expert and senior R&D leadership opportunities'],
+    contactCopy: ['Discuss a gas-turbine systems, R&D or intelligent-engineering opportunity.', 'Chief Engineer, Principal Expert and senior R&D leadership opportunities'],
     languageRoute: '/zh/',
   },
   'zh/index.html': {
     expertiseTitle: '燃气轮机整机性能',
-    experienceOrder: ['高级工程师（研发）', '博士后研究员', '航空发动机性能与诊断研究员', '极飞科技（XAG）'],
+    experienceOrder: ['高级工程师（研发）', '博士后研究员', '研究员', '研发工程师'],
     researchHeadings: ['精选论文', '专利与公开专利申请'],
     contactCopy: ['沟通整机、研发或智能工程方向的机会。', '整机总工程师、首席专家及高级研发技术领导岗位'],
     languageRoute: '/',
@@ -748,8 +750,10 @@ for (const page of homePages) {
   const sectionLabelCount = countClass(html, 'section-label');
   const hero = sectionSlice(html, 'top', ['about']);
   const expertise = sectionSlice(html, 'expertise', ['work']);
+  const work = sectionSlice(html, 'work', ['experience']);
   const experience = sectionSlice(html, 'experience', ['research']);
   const research = sectionSlice(html, 'research', ['framework', 'beyond']);
+  const framework = sectionSlice(html, 'framework', ['beyond']);
   const contact = sectionSlice(html, 'contact');
   const expertiseCards = [...expertise.matchAll(/<article\b(?=[^>]*\bclass=["'][^"']*\bexpertise-card\b[^"']*["'])[^>]*>[\s\S]*?<\/article>/gi)]
     .map((match) => match[0]);
@@ -765,7 +769,14 @@ for (const page of homePages) {
   }
   if (!expertiseCards[0] || !hasClass(expertiseCards[0], 'expertise-featured')
     || !includesNormalisedPhrase(normaliseVisibleText(expertiseCards[0]), structure.expertiseTitle)) {
-    errors.push(`${page} first Expertise card must be the featured whole-engine capability`);
+    errors.push(`${page} first Expertise card must be the featured engine-performance capability`);
+  }
+  if (countClass(expertise, 'leadership-band') !== 1 || countClass(expertise, 'leadership-strip') !== 0) {
+    errors.push(`${page} Expertise must use one structured leadership band and no legacy leadership strip`);
+  }
+  const leadershipBand = classElementHtml(expertise, 'leadership-band', 'div');
+  if ((leadershipBand.match(/<li\b/gi) || []).length !== 4) {
+    errors.push(`${page} leadership band must contain exactly four scannable leadership capabilities`);
   }
   if (/class=["']section-index["'][^>]*>\s*0[1-7]\s*\//i.test(html)) {
     errors.push(`${page} still exposes numbered 01–07 main-section labels`);
@@ -775,6 +786,18 @@ for (const page of homePages) {
   }
   if (countClass(hero, 'strength-panel') !== 2) {
     errors.push(`${page} Hero dual-strength card must contain exactly two .strength-panel elements`);
+  }
+  if (countClass(work, 'work-org') !== 5) {
+    errors.push(`${page} Selected Work must identify an organisation on all five project cards`);
+  }
+  if (countClass(experience, 'timeline-logo-slot') !== 4) {
+    errors.push(`${page} Experience must use a fixed logo track for all four roles`);
+  }
+  if (countClass(framework, 'gate-comparison') !== 1 || countClass(framework, 'approach-distinction') !== 0) {
+    errors.push(`${page} Decision Framework must use the two-check comparison and no legacy distinction paragraph`);
+  }
+  if (/<span[^>]*>\s*0[1-4]\s*<\/span>/i.test(framework)) {
+    errors.push(`${page} Decision Framework must not expose decorative step numbers`);
   }
   requireOrderedText(page, normaliseVisibleText(experience), structure.experienceOrder, 'equivalent Experience role order');
   if (countClass(research, 'research-group') !== 2) {

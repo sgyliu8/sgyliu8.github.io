@@ -1,8 +1,8 @@
-# Dr Yang Liu — Gas-Turbine Whole-Engine Performance & Industrial AI/ML
+# Dr Yang Liu — Gas-Turbine Engine Performance & Industrial AI/ML
 
 Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, CEng.
 
-The site presents a concise, public-facing record centred on gas-turbine whole-engine performance and systems-level engineering, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+The site presents a concise, public-facing record centred on gas-turbine engine performance and systems integration, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
 
 ## Structure
 
