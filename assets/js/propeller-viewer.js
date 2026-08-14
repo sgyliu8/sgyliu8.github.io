@@ -100,7 +100,7 @@
       void main() {
         mat3 rotation = rotateZ(uRotation.z) * rotateY(uRotation.y) * rotateX(uRotation.x);
         vec3 position = rotation * aPosition;
-        vec3 viewPosition = position - vec3(0.0, 0.0, 2.25 / uZoom);
+        vec3 viewPosition = position - vec3(0.0, 0.0, 2.05 / uZoom);
         float focalLength = 2.75;
         float nearPlane = 0.1;
         float farPlane = 10.0;
@@ -199,7 +199,7 @@
       gl.disable(gl.CULL_FACE);
       gl.clearColor(0, 0, 0, 0);
 
-      const initial = { x: -0.72, y: 0.12, z: -0.34, zoom: 1 };
+      const initial = { x: -0.72, y: 0.12, z: -0.30, zoom: 1 };
       const state = { ...initial };
       let activePointer = null;
       let previousX = 0;
