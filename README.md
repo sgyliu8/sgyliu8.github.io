@@ -16,7 +16,10 @@ public/
   zh/cv/index.html        Printable Chinese public CV
   assets/css/site.css     Responsive design and print styles
   assets/js/site.js       Navigation and progressive enhancement
-  assets/img/             Social preview artwork
+  assets/js/propeller-viewer.js
+                           Local WebGL propeller viewer
+  assets/models/          Web-optimised engineering geometry
+  assets/img/             Evidence imagery and social preview artwork
   404.html                Custom not-found page
 scripts/
   check-site.mjs          HTML, link and privacy guardrails
@@ -50,7 +53,9 @@ Then open `http://localhost:8000`.
 npm run check
 ```
 
-The check verifies required metadata, unique HTML IDs, local links and fragments, and a small denylist of sensitive or known-incorrect CV strings.
+The check verifies required metadata, unique HTML IDs, local links and fragments, the P20 mesh header/geometry/resource budget, its static fallback, and a small denylist of sensitive or known-incorrect CV strings.
+
+The interactive P20 propeller is derived from the supplied STL scan. It loads a 690 KiB local quantised mesh only when the viewer approaches the viewport, uses no third-party runtime, and retains a lightweight WebP fallback for browsers without WebGL or JavaScript.
 
 ## Deployment
 

@@ -17,7 +17,11 @@
     const indexOffset = positionOffset + vertexCount * 3 * Int16Array.BYTES_PER_ELEMENT;
     const expectedLength = indexOffset + indexCount * Uint16Array.BYTES_PER_ELEMENT;
 
-    if (signature !== 'P3DMESH1' || !vertexCount || !indexCount || expectedLength > buffer.byteLength) {
+    if (signature !== 'P3DMESH1'
+      || !vertexCount
+      || !indexCount
+      || indexCount % 3 !== 0
+      || expectedLength !== buffer.byteLength) {
       throw new Error('Invalid propeller mesh geometry');
     }
 
@@ -167,8 +171,9 @@
     const controls = viewer.querySelectorAll('[data-propeller-action]');
 
     try {
+      status.textContent = viewer.dataset.loading || status.textContent;
       const response = await fetch(viewer.dataset.model);
-      if (!response.ok) throw new Error(`Unable to load STL (${response.status})`);
+      if (!response.ok) throw new Error(`Unable to load 3D mesh (${response.status})`);
       const geometry = parsePropellerMesh(await response.arrayBuffer());
       const gl = canvas.getContext('webgl', {
         alpha: true,

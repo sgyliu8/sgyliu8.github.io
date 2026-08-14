@@ -71,6 +71,7 @@ const requiredFiles = [
   '404.html',
   'assets/css/site.css',
   'assets/js/site.js',
+  'assets/js/propeller-viewer.js',
   'assets/fonts/inter/index.css',
   'assets/fonts/inter/LICENSE',
   'assets/fonts/inter/files/inter-latin-wght-normal.woff2',
@@ -84,6 +85,8 @@ const requiredFiles = [
   'assets/img/engineering/xag-p20-cfd-928.webp',
   'assets/img/engineering/xag-p20-cfd-928.jpg',
   'assets/img/engineering/xag-evtol-study-public-414.png',
+  'assets/img/engineering/xag-p20-propeller-3d.webp',
+  'assets/models/xag-p20-propeller.p3d',
   'assets/img/engineering/polimi-gear-test-bench-640.webp',
   'assets/img/engineering/polimi-gear-test-bench-960.webp',
   'assets/img/engineering/polimi-gear-test-bench-1469.webp',
@@ -293,8 +296,48 @@ for (const image of ['assets/img/og-card.png', 'assets/img/og-card-zh.png']) {
   }
 }
 
+try {
+  const mesh = await readFile(path.join(root, 'assets/models/xag-p20-propeller.p3d'));
+  const signature = mesh.subarray(0, 8).toString('ascii');
+  const vertexCount = mesh.length >= 16 ? mesh.readUInt32LE(8) : 0;
+  const indexCount = mesh.length >= 16 ? mesh.readUInt32LE(12) : 0;
+  const expectedLength = 16 + vertexCount * 3 * 2 + indexCount * 2;
+
+  if (signature !== 'P3DMESH1') errors.push('P20 propeller mesh has an invalid signature');
+  if (vertexCount !== 39_249 || indexCount !== 235_542 || indexCount % 3 !== 0) {
+    errors.push('P20 propeller mesh must retain the validated 39,249-vertex / 78,514-triangle geometry');
+  }
+  if (mesh.byteLength !== expectedLength) errors.push('P20 propeller mesh byte length does not match its header');
+  if (mesh.byteLength > 725_000) errors.push('P20 propeller mesh must remain below 725 KB');
+
+  const indexOffset = 16 + vertexCount * 3 * 2;
+  for (let offset = indexOffset; offset < mesh.length; offset += 2) {
+    if (mesh.readUInt16LE(offset) >= vertexCount) {
+      errors.push('P20 propeller mesh contains an out-of-range vertex index');
+      break;
+    }
+  }
+} catch {
+  // The required-file check above reports a missing asset.
+}
+
+try {
+  const poster = await readFile(path.join(root, 'assets/img/engineering/xag-p20-propeller-3d.webp'));
+  if (poster.subarray(0, 4).toString('ascii') !== 'RIFF'
+    || poster.subarray(8, 12).toString('ascii') !== 'WEBP') {
+    errors.push('P20 propeller poster must be a valid WebP asset');
+  }
+  if (poster.byteLength > 50_000) errors.push('P20 propeller poster must remain below 50 KB');
+} catch {
+  // The required-file check above reports a missing asset.
+}
+
 const files = await walk(root);
 const textFiles = files.filter((file) => /\.(?:html|css|js|json|xml|txt|svg)$/i.test(file));
+
+if (files.some((file) => /\.stl$/i.test(file))) {
+  errors.push('Raw STL files must not be shipped in the public site tree');
+}
 
 for (const file of files) {
   const mirroredFile = path.resolve(relative(file));
@@ -850,6 +893,7 @@ for (const page of homePages) {
     'polimi-gear-test-bench-1469',
     'xag-p20-cfd-928',
     'xag-evtol-study-public-414',
+    'xag-p20-propeller-3d',
     'yang-polimiride-family-2048',
     'tennis-racket-collection-1536',
   ]) {
@@ -857,6 +901,33 @@ for (const page of homePages) {
   }
   if (!hasClass(html, 'journey-milestone') || !hasClass(html, 'beyond-gallery')) {
     errors.push(`${page} is missing the paper-aircraft milestone or Beyond the Lab gallery`);
+  }
+
+  const approvedEngineeringCopy = page === 'index.html'
+    ? [
+      'Propeller design, UAV aerodynamics and vibration control',
+      'P20 propeller · original design',
+      'RB211-524 variants powered Boeing 747 aircraft',
+    ]
+    : [
+      '螺旋桨设计、无人机气动与振动控制',
+      'P20 螺旋桨 · 原创设计',
+      '其中 RB211-524 型曾为波音 747 提供动力',
+    ];
+  for (const phrase of approvedEngineeringCopy) {
+    if (!includesNormalisedPhrase(normaliseVisibleText(html), phrase)) {
+      errors.push(`${page} is missing approved bilingual propeller or RB211 copy: ${phrase}`);
+    }
+  }
+  if (countClass(html, 'propeller-viewer') !== 1 || countClass(html, 'propeller-poster') !== 1) {
+    errors.push(`${page} must contain one interactive P20 propeller viewer with one static fallback poster`);
+  }
+  if (!/data-model=["']\/assets\/models\/xag-p20-propeller\.p3d["']/i.test(html)) {
+    errors.push(`${page} must load the validated local P20 propeller mesh`);
+  }
+  const propellerControls = [...html.matchAll(/<div\b(?=[^>]*\bclass=["'][^"']*\bpropeller-controls\b[^"']*["'])[^>]*>/gi)][0]?.[0] || '';
+  if (attributeValue(propellerControls, 'role') !== 'group' || !attributeValue(propellerControls, 'aria-label')) {
+    errors.push(`${page} propeller controls must expose an accessible labelled group`);
   }
 }
 
