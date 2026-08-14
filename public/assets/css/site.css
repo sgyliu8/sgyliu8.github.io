@@ -1504,11 +1504,28 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 .propeller-stage canvas {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.34));
+}
+
+.propeller-stage .propeller-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.propeller-viewer.is-ready .propeller-poster {
+  opacity: 0;
 }
 
 .propeller-viewer-topline {
@@ -1565,7 +1582,25 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 .propeller-viewer.has-error .propeller-status {
+  top: auto;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  width: auto;
+  max-width: 390px;
+  padding: 9px 12px;
   color: var(--white);
+  background: rgba(3, 13, 18, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  font-size: 0.68rem;
+  text-align: left;
+  transform: none;
+}
+
+.propeller-viewer.has-error .propeller-controls,
+.propeller-viewer.has-error .propeller-hint {
+  display: none;
 }
 
 .propeller-controls {
