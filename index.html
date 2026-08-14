@@ -349,18 +349,38 @@
                 <a href="https://patents.google.com/patent/CN205872433U/en" rel="noreferrer">Granted utility model <span aria-hidden="true">↗</span></a>
               </div>
             </div>
-            <div class="work-media-duo" role="group" aria-label="Engineering visuals from XAG R&amp;D">
-              <figure class="work-media work-media-technical work-media-main">
-                <picture>
-                  <source type="image/webp" srcset="/assets/img/engineering/xag-p20-cfd-640.webp 640w, /assets/img/engineering/xag-p20-cfd-928.webp 928w" sizes="(max-width: 700px) calc(100vw - 78px), (max-width: 820px) calc(100vw - 92px), (max-width: 1020px) 61vw, 42vw">
-                  <img src="/assets/img/engineering/xag-p20-cfd-928.jpg" width="928" height="559" alt="Particle-flow CFD visualisation around a red XAG multirotor UAV" loading="lazy" decoding="async">
-                </picture>
-                <figcaption>P20 UAV CFD study supporting propeller–airframe interaction and aerodynamic design at XAG.</figcaption>
+            <div class="work-media-stack" role="group" aria-label="Engineering visuals and interactive propeller model from XAG R&amp;D">
+              <figure class="work-media work-media-technical propeller-viewer" data-stl-viewer data-model="/assets/models/xag-p20-propeller.p3d" data-error="The interactive 3D preview could not be loaded in this browser.">
+                <div class="propeller-stage" data-propeller-stage tabindex="0" role="group" aria-label="Interactive 3D model of a propeller designed by Yang Liu. Drag to rotate, use the controls to zoom, or use the arrow, plus, minus and R keys.">
+                  <canvas data-propeller-canvas aria-hidden="true"></canvas>
+                  <div class="propeller-viewer-topline" aria-hidden="true">
+                    <span><i></i>P20 · 3D</span>
+                    <span>Original design</span>
+                  </div>
+                  <p class="propeller-status" data-propeller-status role="status" aria-live="polite">Loading interactive 3D model…</p>
+                  <div class="propeller-controls" aria-label="3D model controls">
+                    <button type="button" data-propeller-action="zoom-out" aria-label="Zoom out" disabled><span aria-hidden="true">−</span></button>
+                    <button type="button" class="propeller-reset" data-propeller-action="reset" disabled>Reset view</button>
+                    <button type="button" data-propeller-action="zoom-in" aria-label="Zoom in" disabled><span aria-hidden="true">+</span></button>
+                  </div>
+                  <p class="propeller-hint" aria-hidden="true">Drag to rotate · Use controls to zoom</p>
+                </div>
+                <figcaption><strong>Propeller design · interactive 3D</strong><span>A web-optimised rendering of the original STL for a propeller I designed during my earlier UAV aerodynamics work.</span></figcaption>
+                <noscript><p class="propeller-noscript">Enable JavaScript to explore the 3D model.</p></noscript>
               </figure>
-              <figure class="work-media work-media-technical work-media-inset">
-                <img src="/assets/img/engineering/xag-evtol-study-public-414.png" width="414" height="208" alt="Aerodynamic analysis model of an early eVTOL configuration with geometry and reference markers" loading="lazy" decoding="async">
-                <figcaption>Selected archival view of early eVTOL configuration work during XAG R&amp;D; shown at its native resolution. Image rights remain with the original rights holder.</figcaption>
-              </figure>
+              <div class="work-media-duo" role="group" aria-label="Selected XAG aerodynamic studies">
+                <figure class="work-media work-media-technical work-media-main">
+                  <picture>
+                    <source type="image/webp" srcset="/assets/img/engineering/xag-p20-cfd-640.webp 640w, /assets/img/engineering/xag-p20-cfd-928.webp 928w" sizes="(max-width: 700px) calc(100vw - 78px), (max-width: 820px) calc(100vw - 92px), (max-width: 1020px) 61vw, 42vw">
+                    <img src="/assets/img/engineering/xag-p20-cfd-928.jpg" width="928" height="559" alt="Particle-flow CFD visualisation around a red XAG multirotor UAV" loading="lazy" decoding="async">
+                  </picture>
+                  <figcaption>P20 UAV CFD study supporting propeller–airframe interaction and aerodynamic design at XAG.</figcaption>
+                </figure>
+                <figure class="work-media work-media-technical work-media-inset">
+                  <img src="/assets/img/engineering/xag-evtol-study-public-414.png" width="414" height="208" alt="Aerodynamic analysis model of an early eVTOL configuration with geometry and reference markers" loading="lazy" decoding="async">
+                  <figcaption>Selected archival view of early eVTOL configuration work during XAG R&amp;D; shown at its native resolution. Image rights remain with the original rights holder.</figcaption>
+                </figure>
+              </div>
             </div>
           </article>
         </div>
@@ -585,9 +605,9 @@
           <figure class="journey-card journey-card-portrait">
             <picture>
               <source type="image/webp" srcset="/assets/img/profile/yang-cranfield-phd-graduation-640.webp 640w, /assets/img/profile/yang-cranfield-phd-graduation-960.webp 960w, /assets/img/profile/yang-cranfield-phd-graduation-1280.webp 1280w, /assets/img/profile/yang-cranfield-phd-graduation-1536.webp 1536w" sizes="(max-width: 700px) min(88vw, 380px), (max-width: 1020px) 38vw, 30vw">
-              <img src="/assets/img/profile/yang-cranfield-phd-graduation-1536.jpg" width="1536" height="2048" alt="Yang Liu in doctoral graduation robes with friends in front of a turbofan engine at Cranfield University" loading="lazy" decoding="async">
+              <img src="/assets/img/profile/yang-cranfield-phd-graduation-1536.jpg" width="1536" height="2048" alt="Yang Liu in doctoral graduation robes with friends in front of a Rolls-Royce RB211 turbofan at Cranfield University" loading="lazy" decoding="async">
             </picture>
-            <figcaption><strong>Cranfield University</strong><span>PhD graduation with friends in front of a turbofan engine.</span></figcaption>
+            <figcaption><strong>Cranfield University</strong><span>PhD graduation with friends beside a Rolls-Royce RB211 turbofan—part of the engine family that powered Boeing 747 aircraft.</span></figcaption>
           </figure>
           <figure class="journey-card journey-card-landscape">
             <picture>
@@ -660,5 +680,6 @@
   </footer>
 
   <script src="/assets/js/site.js?v=20260714c" defer></script>
+  <script src="/assets/js/propeller-viewer.js?v=20260814" defer></script>
 </body>
 </html>

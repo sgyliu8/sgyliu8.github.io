@@ -350,18 +350,38 @@
                 <a href="https://patents.google.com/patent/CN205872433U/en" rel="noreferrer">已授权实用新型专利 <span aria-hidden="true">↗</span></a>
               </div>
             </div>
-            <div class="work-media-duo" role="group" aria-label="极飞科技研发期间的工程图像">
-              <figure class="work-media work-media-technical work-media-main">
-                <picture>
-                  <source type="image/webp" srcset="/assets/img/engineering/xag-p20-cfd-640.webp 640w, /assets/img/engineering/xag-p20-cfd-928.webp 928w" sizes="(max-width: 700px) calc(100vw - 78px), (max-width: 820px) calc(100vw - 92px), (max-width: 1020px) 61vw, 42vw">
-                  <img src="/assets/img/engineering/xag-p20-cfd-928.jpg" width="928" height="559" alt="红色极飞多旋翼无人机周围的粒子流 CFD 可视化结果" loading="lazy" decoding="async">
-                </picture>
-                <figcaption>极飞 P20 无人机 CFD 研究，用于支持螺旋桨—机体相互作用与气动设计。</figcaption>
+            <div class="work-media-stack" role="group" aria-label="极飞科技研发期间的工程图像与螺旋桨交互模型">
+              <figure class="work-media work-media-technical propeller-viewer" data-stl-viewer data-model="/assets/models/xag-p20-propeller.p3d" data-error="当前浏览器无法载入交互式三维预览。">
+                <div class="propeller-stage" data-propeller-stage tabindex="0" role="group" aria-label="刘杨设计的螺旋桨交互式三维模型。拖动可旋转，使用控件可缩放，也可使用方向键、加号、减号和 R 键操作。">
+                  <canvas data-propeller-canvas aria-hidden="true"></canvas>
+                  <div class="propeller-viewer-topline" aria-hidden="true">
+                    <span><i></i>P20 · 3D</span>
+                    <span>原创设计</span>
+                  </div>
+                  <p class="propeller-status" data-propeller-status role="status" aria-live="polite">正在载入交互式三维模型…</p>
+                  <div class="propeller-controls" aria-label="三维模型控制">
+                    <button type="button" data-propeller-action="zoom-out" aria-label="缩小" disabled><span aria-hidden="true">−</span></button>
+                    <button type="button" class="propeller-reset" data-propeller-action="reset" disabled>重置视图</button>
+                    <button type="button" data-propeller-action="zoom-in" aria-label="放大" disabled><span aria-hidden="true">+</span></button>
+                  </div>
+                  <p class="propeller-hint" aria-hidden="true">拖动旋转 · 使用控件缩放</p>
+                </div>
+                <figcaption><strong>螺旋桨设计 · 交互式三维模型</strong><span>基于原始 STL 进行网页优化呈现；该螺旋桨由我在早期无人机气动研发期间设计。</span></figcaption>
+                <noscript><p class="propeller-noscript">请启用 JavaScript 以查看交互式三维模型。</p></noscript>
               </figure>
-              <figure class="work-media work-media-technical work-media-inset">
-                <img src="/assets/img/engineering/xag-evtol-study-public-414.png" width="414" height="208" alt="带有几何与参考标记的早期 eVTOL 构型气动分析模型" loading="lazy" decoding="async">
-                <figcaption>极飞研发期间早期 eVTOL 构型工作的精选历史画面；按原始分辨率展示，相关权利归原权利方所有。</figcaption>
-              </figure>
+              <div class="work-media-duo" role="group" aria-label="极飞科技气动研究精选图像">
+                <figure class="work-media work-media-technical work-media-main">
+                  <picture>
+                    <source type="image/webp" srcset="/assets/img/engineering/xag-p20-cfd-640.webp 640w, /assets/img/engineering/xag-p20-cfd-928.webp 928w" sizes="(max-width: 700px) calc(100vw - 78px), (max-width: 820px) calc(100vw - 92px), (max-width: 1020px) 61vw, 42vw">
+                    <img src="/assets/img/engineering/xag-p20-cfd-928.jpg" width="928" height="559" alt="红色极飞多旋翼无人机周围的粒子流 CFD 可视化结果" loading="lazy" decoding="async">
+                  </picture>
+                  <figcaption>极飞 P20 无人机 CFD 研究，用于支持螺旋桨—机体相互作用与气动设计。</figcaption>
+                </figure>
+                <figure class="work-media work-media-technical work-media-inset">
+                  <img src="/assets/img/engineering/xag-evtol-study-public-414.png" width="414" height="208" alt="带有几何与参考标记的早期 eVTOL 构型气动分析模型" loading="lazy" decoding="async">
+                  <figcaption>极飞研发期间早期 eVTOL 构型工作的精选历史画面；按原始分辨率展示，相关权利归原权利方所有。</figcaption>
+                </figure>
+              </div>
             </div>
           </article>
         </div>
@@ -585,9 +605,9 @@
             <figure class="journey-card journey-card-portrait">
               <picture>
                 <source type="image/webp" srcset="/assets/img/profile/yang-cranfield-phd-graduation-640.webp 640w, /assets/img/profile/yang-cranfield-phd-graduation-960.webp 960w, /assets/img/profile/yang-cranfield-phd-graduation-1280.webp 1280w, /assets/img/profile/yang-cranfield-phd-graduation-1536.webp 1536w" sizes="(max-width: 700px) min(88vw, 380px), (max-width: 1020px) 38vw, 30vw">
-                <img src="/assets/img/profile/yang-cranfield-phd-graduation-1536.jpg" width="1536" height="2048" alt="刘杨身着博士毕业礼服，与朋友们在克兰菲尔德大学涡扇发动机前合影" loading="lazy" decoding="async">
+                <img src="/assets/img/profile/yang-cranfield-phd-graduation-1536.jpg" width="1536" height="2048" alt="刘杨身着博士毕业礼服，与朋友们在克兰菲尔德大学的罗尔斯·罗伊斯 RB211 涡扇发动机前合影" loading="lazy" decoding="async">
               </picture>
-              <figcaption><strong>克兰菲尔德大学</strong><span>博士毕业留念——与朋友们在涡扇发动机前合影。</span></figcaption>
+              <figcaption><strong>克兰菲尔德大学</strong><span>博士毕业留念——与朋友们在罗尔斯·罗伊斯 RB211 涡扇发动机前合影；该系列曾为波音 747 提供动力。</span></figcaption>
             </figure>
             <figure class="journey-card journey-card-landscape">
               <picture>
@@ -656,5 +676,6 @@
   </footer>
 
   <script src="/assets/js/site.js?v=20260714c" defer></script>
+  <script src="/assets/js/propeller-viewer.js?v=20260814" defer></script>
 </body>
 </html>
