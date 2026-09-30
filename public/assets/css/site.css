@@ -293,6 +293,25 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+.workspace-link {
+  gap: 7px;
+}
+
+.workspace-link svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.primary-nav .workspace-link {
+  color: var(--teal-soft);
+}
+
 .primary-nav .nav-cta:hover {
   color: var(--ink);
   background: var(--white);
