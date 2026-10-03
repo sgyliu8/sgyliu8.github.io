@@ -466,6 +466,10 @@ const homePages = ['index.html', 'zh/index.html'];
 
 const positioningRequirements = {
   'index.html': [
+    'AI Consultant for Engineering',
+    'AI4Engineering',
+    'AI & Enterprise',
+    'Core Engineering & Development',
     'Dr Yang Liu, CEng',
     'gas-turbine engine performance',
     'industrial AI/ML',
@@ -481,6 +485,10 @@ const positioningRequirements = {
     'Hypergears project profile',
   ],
   'zh/index.html': [
+    'AI Consultant for Engineering',
+    'AI4Engineering',
+    'AI & Enterprise',
+    'Core Engineering & Development',
     '刘杨博士，CEng',
     '燃气轮机整机性能',
     '工业 AI/ML',
@@ -494,6 +502,10 @@ const positioningRequirements = {
     'Hypergears 项目团队介绍',
   ],
   'cv/index.html': [
+    'AI Consultant for Engineering',
+    'AI4Engineering',
+    'AI & Enterprise',
+    'Core Engineering & Development',
     'Dr Yang Liu, CEng',
     'Chartered Engineer (CEng)',
     'Institution of Mechanical Engineers (IMechE)',
@@ -507,6 +519,10 @@ const positioningRequirements = {
     'Lincoln, United Kingdom',
   ],
   'zh/cv/index.html': [
+    'AI Consultant for Engineering',
+    'AI4Engineering',
+    'AI & Enterprise',
+    'Core Engineering & Development',
     '刘杨博士，CEng',
     '英国特许工程师（CEng）',
     '英国机械工程师学会（IMechE）',
@@ -543,15 +559,15 @@ for (const [page, phrases] of Object.entries(positioningRequirements)) {
 const homepageMetadata = {
   'index.html': {
     title: 'Dr Yang Liu, CEng | Gas-Turbine Engine Performance & Industrial AI/ML',
-    description: 'Chartered Engineer and Senior Engineer specialising in gas-turbine engine performance, systems integration, diagnostics, experimental validation and deployable industrial AI/ML.',
+    description: 'Dr Yang Liu, CEng — AI Consultant for Engineering at Siemens Energy, leading AI4Engineering in AI & Enterprise, with expertise in gas-turbine performance and industrial AI/ML.',
     ogTitle: 'Dr Yang Liu, CEng | Engine Performance & Industrial AI/ML',
-    ogDescription: 'Gas-turbine engine performance and systems integration, strengthened by industrial imaging, deployable AI/ML and experimental validation.',
+    ogDescription: 'AI Consultant for Engineering at Siemens Energy, leading AI4Engineering and connecting complex AI projects with gas-turbine performance, industrial imaging and engineering validation.',
   },
   'zh/index.html': {
     title: '刘杨博士，CEng | 燃气轮机整机性能与工业 AI/ML',
-    description: '刘杨博士，英国特许工程师（CEng）和高级工程师，专注燃气轮机整机性能、系统集成、故障诊断、试验验证与可部署工业 AI/ML。',
+    description: '刘杨博士，英国特许工程师（CEng），现任西门子能源 AI Consultant for Engineering，在 AI & Enterprise 负责 AI4Engineering，融合燃气轮机工程背景与工业 AI/ML。',
     ogTitle: '刘杨博士，CEng | 整机性能与工业 AI/ML',
-    ogDescription: '以燃气轮机整机性能为核心，融合工业成像、可部署 AI/ML、试验验证与工程证据驱动的技术决策。',
+    ogDescription: '西门子能源 AI Consultant for Engineering、AI4Engineering 主要负责人，专注复杂工程 AI 项目，贯通燃气轮机性能、工业成像与工程验证。',
   },
 };
 
@@ -570,7 +586,7 @@ for (const [page, expected] of Object.entries(homepageMetadata)) {
 
 const structuredDataRequirements = {
   'index.html': {
-    jobTitle: 'Senior Engineer – R&D',
+    jobTitle: 'AI Consultant for Engineering',
     knowsAbout: [
       'Gas-turbine engine performance',
       'Thermodynamic cycle design',
@@ -588,7 +604,7 @@ const structuredDataRequirements = {
     ],
   },
   'zh/index.html': {
-    jobTitle: '高级工程师（研发）',
+    jobTitle: 'AI Consultant for Engineering',
     knowsAbout: [
       '燃气轮机整机性能',
       '热力循环设计',
@@ -676,8 +692,8 @@ for (const page of ['cv/index.html', 'zh/cv/index.html']) {
   const entries = [...html.matchAll(/<article\s+class=["']cv-entry["'][^>]*>([\s\S]*?)<\/article>/gi)]
     .map((match) => match[1]);
   const bulletCounts = entries.map((entry) => (entry.match(/<li\b/gi) || []).length);
-  if (entries.length !== 4 || bulletCounts.join(',') !== '4,3,3,2') {
-    errors.push(page + ' must retain four Experience entries with bilingual bullet parity 4,3,3,2');
+  if (entries.length !== 5 || bulletCounts.join(',') !== '3,4,3,3,2') {
+    errors.push(page + ' must retain five Experience entries with bilingual bullet parity 3,4,3,3,2');
   }
 
   const expectedLanguageRoute = page === 'cv/index.html' ? '/zh/cv/' : '/cv/';
@@ -775,14 +791,14 @@ for (const [page, requirement] of Object.entries(pathwayRequirements)) {
 const homepageStructure = {
   'index.html': {
     expertiseTitle: 'Gas-turbine engine performance',
-    experienceOrder: ['Senior Engineer – R&D', 'Postdoctoral Researcher', 'Researcher', 'R&D Engineer'],
+    experienceOrder: ['AI Consultant for Engineering', 'Senior Engineer – R&D', 'Postdoctoral Researcher', 'Researcher', 'R&D Engineer'],
     researchHeadings: ['Selected publications', 'Patents and published applications'],
     contactCopy: ['Discuss a gas-turbine systems, R&D or intelligent-engineering opportunity.', 'Chief Engineer, Principal Expert and senior R&D leadership opportunities'],
     languageRoute: '/zh/',
   },
   'zh/index.html': {
     expertiseTitle: '燃气轮机整机性能',
-    experienceOrder: ['高级工程师（研发）', '博士后研究员', '研究员', '研发工程师'],
+    experienceOrder: ['AI Consultant for Engineering', '高级工程师（研发）', '博士后研究员', '研究员', '研发工程师'],
     researchHeadings: ['精选论文', '专利与公开专利申请'],
     contactCopy: ['沟通整机、研发或智能工程方向的机会。', '整机总工程师、首席专家及高级研发技术领导岗位'],
     languageRoute: '/',
@@ -835,8 +851,8 @@ for (const page of homePages) {
   if (countClass(work, 'work-org') !== 5) {
     errors.push(`${page} Selected Work must identify an organisation on all five project cards`);
   }
-  if (countClass(experience, 'timeline-logo-slot') !== 4) {
-    errors.push(`${page} Experience must use a fixed logo track for all four roles`);
+  if (countClass(experience, 'timeline-logo-slot') !== 5) {
+    errors.push(`${page} Experience must use a fixed logo track for all five roles`);
   }
   if (countClass(framework, 'gate-comparison') !== 1 || countClass(framework, 'approach-distinction') !== 0) {
     errors.push(`${page} Decision Framework must use the two-check comparison and no legacy distinction paragraph`);

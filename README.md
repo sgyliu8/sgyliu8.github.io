@@ -2,7 +2,7 @@
 
 Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, CEng.
 
-The site presents a concise, public-facing record centred on gas-turbine engine performance and systems integration, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+The site presents a concise, public-facing record centred on gas-turbine engine performance and systems integration, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. Since September 2026, the current role is AI Consultant for Engineering in Siemens Energy’s AI & Enterprise organisation, with primary responsibility for AI4Engineering; the preceding Senior Engineer role in Core Engineering & Development is retained as a separate experience entry. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
 
 ## Structure
 
@@ -67,4 +67,6 @@ The validator byte-compares every file under `public/` with its root counterpart
 
 ## Content boundary
 
-The portfolio includes only public, independently developed or deliberately high-level professional information. It excludes private contact details, compensation, internal organisation data, unpublished employer intellectual property, internal test evidence and private repositories.
+The portfolio includes only public, independently developed or deliberately high-level professional information. It excludes private contact details, compensation, non-public internal organisation details, unpublished employer intellectual property, internal test evidence and private repositories.
+
+Organisation names and the September 2026 role transition are included at the owner’s explicit request. The Siemens Energy start month is June 2024, consistent with the supplied CV and LinkedIn profile.
