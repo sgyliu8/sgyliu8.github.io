@@ -2,7 +2,9 @@
 
 Source for [sgyliu8.github.io](https://sgyliu8.github.io/), a lightweight static portfolio for Dr Yang Liu, CEng.
 
-The site presents a concise, public-facing record centred on gas-turbine engine performance and systems integration, with industrial imaging and deployable AI/ML as a connected technical differentiator. It brings together thermodynamic cycle design, component matching, off-design operability, diagnostics, model–test correlation, experimental validation and engineering research translation. Since September 2026, the current role is AI Consultant for Engineering in Siemens Energy’s AI & Enterprise organisation, with primary responsibility for AI4Engineering; the preceding Senior Engineer role in Core Engineering & Development is retained. Both roles share one company group and logo in the homepage timeline, with separate dates and responsibilities; the public CV retains individual role entries. It replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+The site presents a public-facing record grounded in gas-turbine performance and thermodynamics, connecting measurement, industrial AI, computer vision and scientific software with engineering delivery. Since September 2026, the current role is AI Consultant for Engineering in Siemens Energy’s AI & Enterprise organisation, with primary responsibility for AI4Engineering; the preceding Senior Engineer role in Core Engineering & Development is retained. Both roles share one company group and logo in the homepage timeline, with separate dates and responsibilities; the public CV retains individual role entries. Public development examples show HyperLab and the SO101 learning lab with their current validation boundaries. The site replaces the former Academic Pages demo content and is intentionally dependency-free at runtime.
+
+[Public profile context](docs/profile-context.md) maintains the career facts, capability map, editorial positioning, bilingual policy and evidence boundaries used in the October 2026 refresh.
 
 ## Structure
 
@@ -25,6 +27,7 @@ scripts/
   check-site.mjs          HTML, link and privacy guardrails
   sync-root.mjs           Refresh the branch-deployment mirror from public/
 docs/
+  profile-context.md      Public career, capability and project-status baseline
   ui-audit-2026-07.md     UX, visual and accessibility decision record
   ui-audit-2026-07-round-2.md
                            Data-to-decision redesign and release QA record
