@@ -55,6 +55,13 @@ Aerospace Propulsion, Imperial MSc in Advanced Aeronautical Engineering,
 Liverpool BEng with First-Class Honours, and Chartered Engineer (CEng).
 Chief Engineer and Principal Expert are stated interests, not current titles.
 
+The reheat and sequential-combustion engine-performance project is Yang's PhD
+research at Cranfield University. Its Selected Work card uses **2016–2021**,
+as confirmed by the owner. The related conference and journal papers were
+published in **2024** and **2025** respectively; these are publication years,
+not the project period. Keep the research period and publication dates distinct
+in both languages.
+
 ## Capability map
 
 | Website capability | Evidence informing the wording | Appropriate emphasis |
