@@ -851,8 +851,8 @@ for (const page of homePages) {
   if (countClass(work, 'work-org') !== 5) {
     errors.push(`${page} Selected Work must identify an organisation on all five project cards`);
   }
-  if (countClass(experience, 'timeline-logo-slot') !== 5) {
-    errors.push(`${page} Experience must use a fixed logo track for all five roles`);
+  if (countClass(experience, 'timeline-logo-slot') !== 4) {
+    errors.push(`${page} Experience must use one fixed logo track for each of the four company groups`);
   }
   if (countClass(framework, 'gate-comparison') !== 1 || countClass(framework, 'approach-distinction') !== 0) {
     errors.push(`${page} Decision Framework must use the two-check comparison and no legacy distinction paragraph`);

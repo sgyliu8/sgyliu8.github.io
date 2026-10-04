@@ -2142,6 +2142,68 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   font-size: 0.86rem;
 }
 
+.timeline-roles {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-role {
+  position: relative;
+  padding: 0 0 26px 22px;
+  border-left: 1px solid var(--line);
+}
+
+.timeline-role:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.timeline-role::before {
+  position: absolute;
+  top: 7px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  content: "";
+  background: var(--ink-muted);
+  border-radius: 50%;
+}
+
+.timeline-role:first-child::before {
+  background: var(--accent);
+}
+
+.timeline-role h3 {
+  margin-bottom: 6px;
+}
+
+.timeline-role-meta {
+  display: flex;
+  margin: 0 0 10px;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  color: var(--ink-muted);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.timeline-role-team {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.timeline-role-dates {
+  white-space: nowrap;
+}
+
+.timeline-role-description {
+  max-width: 780px;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.86rem;
+}
+
 .education-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
