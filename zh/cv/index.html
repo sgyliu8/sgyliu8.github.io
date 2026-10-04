@@ -12,7 +12,7 @@
   <link rel="alternate" hreflang="x-default" href="https://sgyliu8.github.io/cv/">
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/fonts/inter/index.css">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20261004profile">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20261004toolkit">
   <link rel="stylesheet" href="/assets/fonts/noto-sans-sc/index.css">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="zh_CN">
@@ -249,11 +249,55 @@
 
       <section class="cv-section" aria-labelledby="toolkit-title">
         <h2 class="cv-section-title" id="toolkit-title">常用工具与方法</h2>
-        <dl class="cv-toolkit">
-            <div><dt>科学计算</dt><dd>Python · MATLAB · C/C++ · C# · SQL · 数值建模</dd></div>
-            <div><dt>成像与 AI</dt><dd>OpenCV · PyTorch · 色彩与光谱分析 · 几何重建</dd></div>
-            <div><dt>应用与交付</dt><dd>Qt / PySide6 · React / TypeScript · Git · 自动化测试 · 结合技术复核的 AI 辅助开发</dd></div>
-        </dl>
+        <div>
+          <p class="cv-toolkit-intro">结合当前开发项目与过往工程经历，按实际解决的问题整理工具和方法。</p>
+          <dl class="cv-toolkit">
+            <div>
+              <dt>科学计算</dt>
+              <dd><strong>Python · MATLAB · NumPy / SciPy · C/C++ · C# · Fortran · SQL</strong><span>数值建模、优化、信号处理与可复现的工程分析。</span></dd>
+            </div>
+            <div>
+              <dt>AI 与异常检测</dt>
+              <dd><strong>PyTorch · Lightning · Anomalib（PatchCore、EfficientAD）· Ultralytics YOLO · U-Net / U-Net++</strong><span>基于正常样本的异常建模、热力图、目标检测与图像分割；训练流程、权重加载与模型评估。</span></dd>
+            </div>
+            <div>
+              <dt>模型导出与推理</dt>
+              <dd><strong>OpenVINO · ONNX · ONNX Runtime</strong><span>模型适配、导出与加载、预处理，以及工程应用中的 CPU 推理集成。</span></dd>
+            </div>
+            <div>
+              <dt>色彩与光谱分析</dt>
+              <dd><strong>OpenCV · Colour Science · Matplotlib · PyQtGraph</strong><span>CIE Lab 与 CIEDE2000 色差比较、图像区域统计、光谱 PCA 与科研可视化。</span></dd>
+            </div>
+            <div>
+              <dt>三维重建与配准</dt>
+              <dd><strong>Open3D · CloudCompare · COLMAP / OpenMVS · PyVista / VTK</strong><span>多视角重建、SIFT 与 ALIKED/LightGlue 特征匹配、ICP 点云配准，以及尺度和位姿对齐。</span></dd>
+            </div>
+            <div>
+              <dt>合成成像与光度立体</dt>
+              <dd><strong>Blender · NumPy</strong><span>受控渲染及图像与几何证据；基于最小二乘和 Huber-IRLS 鲁棒估计的光度立体研究。</span></dd>
+            </div>
+            <div>
+              <dt>数据整理与评估</dt>
+              <dd><strong>CLIP / Qwen embeddings · YOLO / COCO 格式 · SQLite</strong><span>相似图像检索、人工复核标注、数据集检查，以及基于 precision、recall、MRR 和 nDCG 的检索评估。</span></dd>
+            </div>
+            <div>
+              <dt>燃机建模与 CFD</dt>
+              <dd><strong>NPSS · pyCycle / OpenMDAO · ANSYS Fluent · STAR-CCM+ · XFlow</strong><span>热力循环、设计点与非设计点分析、敏感性与测量方案设计，以及早期气动和流场仿真。</span></dd>
+            </div>
+            <div>
+              <dt>CAD 与飞行器设计</dt>
+              <dd><strong>SolidWorks · CATIA V5 · Pro/E · XFOIL · QPROP · JavaProp · SUAVE</strong><span>早期飞行器与螺旋桨设计、几何建模和气动分析。</span></dd>
+            </div>
+            <div>
+              <dt>测量与嵌入式系统</dt>
+              <dd><strong>LabVIEW · FlexLogger · Arduino · PlatformIO</strong><span>无线数据采集、试验台集成，以及 I2C、SPI、UART、Modbus 和 BLE 通信。</span></dd>
+            </div>
+            <div>
+              <dt>应用开发与交付</dt>
+              <dd><strong>Qt / PySide6 · FastAPI · React / TypeScript · Git · pytest · GitHub Actions</strong><span>桌面与网页工具、版本化数据、自动化检查及技术交接；结合工程复核的 AI 辅助开发。</span></dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
       <section class="cv-section" aria-labelledby="development-title">

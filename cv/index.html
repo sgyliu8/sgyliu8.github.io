@@ -13,7 +13,7 @@
   <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/inter/files/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/fonts/inter/index.css">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20261004profile">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20261004toolkit">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="en_GB">
   <meta property="og:locale:alternate" content="zh_CN">
@@ -249,11 +249,55 @@
 
       <section class="cv-section" aria-labelledby="toolkit-title">
         <h2 class="cv-section-title" id="toolkit-title">Working tools &amp; methods</h2>
-        <dl class="cv-toolkit">
-            <div><dt>Scientific computing</dt><dd>Python · MATLAB · C/C++ · C# · SQL · numerical modelling</dd></div>
-            <div><dt>Imaging &amp; AI</dt><dd>OpenCV · PyTorch · colour and spectral analysis · geometric reconstruction</dd></div>
-            <div><dt>Applications &amp; delivery</dt><dd>Qt / PySide6 · React / TypeScript · Git · automated tests · AI-assisted development with technical review</dd></div>
-        </dl>
+        <div>
+          <p class="cv-toolkit-intro">Tools and methods from my current development projects and earlier engineering work, organised by the problems they help me solve.</p>
+          <dl class="cv-toolkit">
+            <div>
+              <dt>Scientific computing</dt>
+              <dd><strong>Python · MATLAB · NumPy / SciPy · C/C++ · C# · Fortran · SQL</strong><span>Numerical modelling, optimisation, signal processing and reproducible engineering analysis.</span></dd>
+            </div>
+            <div>
+              <dt>AI &amp; anomaly detection</dt>
+              <dd><strong>PyTorch · Lightning · Anomalib (PatchCore, EfficientAD) · Ultralytics YOLO · U-Net / U-Net++</strong><span>Normal-image anomaly modelling, heatmaps, object detection and segmentation; training workflows, checkpoint loading and model evaluation.</span></dd>
+            </div>
+            <div>
+              <dt>Model export &amp; inference</dt>
+              <dd><strong>OpenVINO · ONNX · ONNX Runtime</strong><span>Model adapters, export and loading, preprocessing and CPU inference integration in engineering applications.</span></dd>
+            </div>
+            <div>
+              <dt>Colour &amp; spectral analysis</dt>
+              <dd><strong>OpenCV · Colour Science · Matplotlib · PyQtGraph</strong><span>CIE Lab and CIEDE2000 colour comparison, image-region statistics, spectral PCA and scientific visualisation.</span></dd>
+            </div>
+            <div>
+              <dt>3D reconstruction &amp; registration</dt>
+              <dd><strong>Open3D · CloudCompare · COLMAP / OpenMVS · PyVista / VTK</strong><span>Multi-view reconstruction, SIFT and ALIKED/LightGlue feature matching, ICP point-cloud registration, scale and pose alignment.</span></dd>
+            </div>
+            <div>
+              <dt>Synthetic imaging &amp; photometric stereo</dt>
+              <dd><strong>Blender · NumPy</strong><span>Controlled rendering and image/geometry evidence; photometric-stereo research with least squares and robust Huber-IRLS estimation.</span></dd>
+            </div>
+            <div>
+              <dt>Data curation &amp; evaluation</dt>
+              <dd><strong>CLIP / Qwen embeddings · YOLO / COCO formats · SQLite</strong><span>Similarity search, human-reviewed annotation, dataset checks and retrieval evaluation using precision, recall, MRR and nDCG.</span></dd>
+            </div>
+            <div>
+              <dt>Gas-turbine modelling &amp; CFD</dt>
+              <dd><strong>NPSS · pyCycle / OpenMDAO · ANSYS Fluent · STAR-CCM+ · XFlow</strong><span>Thermodynamic cycles, design/off-design analysis, sensitivity and measurement design, alongside earlier aerodynamic and flow simulation.</span></dd>
+            </div>
+            <div>
+              <dt>CAD &amp; aircraft design</dt>
+              <dd><strong>SolidWorks · CATIA V5 · Pro/E · XFOIL · QPROP · JavaProp · SUAVE</strong><span>Earlier aircraft and propeller design, geometry development and aerodynamic analysis.</span></dd>
+            </div>
+            <div>
+              <dt>Measurement &amp; embedded systems</dt>
+              <dd><strong>LabVIEW · FlexLogger · Arduino · PlatformIO</strong><span>Wireless DAQ, test-rig integration and embedded communication through I2C, SPI, UART, Modbus and BLE.</span></dd>
+            </div>
+            <div>
+              <dt>Applications &amp; delivery</dt>
+              <dd><strong>Qt / PySide6 · FastAPI · React / TypeScript · Git · pytest · GitHub Actions</strong><span>Desktop and web tools, versioned data, automated checks and technical handover; AI-assisted development with engineering review.</span></dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
       <section class="cv-section" aria-labelledby="development-title">

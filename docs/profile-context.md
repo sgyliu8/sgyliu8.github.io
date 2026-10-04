@@ -60,16 +60,42 @@ Chief Engineer and Principal Expert are stated interests, not current titles.
 | Website capability | Evidence informing the wording | Appropriate emphasis |
 | --- | --- | --- |
 | Gas-turbine performance and thermodynamics | Doctoral work, published cycle/off-design research, Cranfield–AVIC delivery, professional record | Core discipline; physical models and whole-engine understanding |
-| Industrial AI and computer vision | Professional record and reviewed development workflows for images, data curation, review and model evaluation | Method selection, data quality and human review; avoid lists of model names |
+| Industrial AI and computer vision | Professional record and reviewed anomaly-detection, segmentation, data-curation and inference implementations | Method selection, data quality and human review; explain tools in the CV rather than crowding the homepage |
 | Measurement and experimental validation | Polimi sensing/DAQ work, public patent application, experimental engineering record | Hardware–software integration, signal processing, calibration and repeatability |
 | Diagnostics and measurement design | Gas-path research and inspected modelling/measurement-selection implementation | Sensitivity, identifiability and useful observations; simulations do not certify field performance |
 | Scientific imaging and 3D workflows | HyperLab plus reviewed reconstruction development and public-control records | Colour/spectral analysis and reconstruction prototypes; industrial accuracy requires separate evidence |
 | Engineering software and delivery | Reviewed Python backends, Qt and web interfaces, data contracts, tests and handover documentation | Hands-on development and integration; distinguish reused libraries from original methods |
 
-The working-tool list is intentionally selective: Python, MATLAB, C/C++, C#,
-SQL, OpenCV, PyTorch, Qt/PySide6, React/TypeScript and Git. It conveys applied
-experience, not an equal expert rating for every tool. AI-assisted development
-is part of the workflow and remains subject to technical review and testing.
+## Applied tools and methods
+
+The CV groups tools by engineering purpose and includes both current development
+and earlier professional use. It conveys applied experience, not an equal expert
+rating for every tool. Retain the links between methods, data and practical use;
+do not reduce this section to either a short generic stack or a list of names
+without context.
+
+| Area | Tools and methods suitable for the public CV | Basis and scope |
+| --- | --- | --- |
+| Scientific computing | Python, MATLAB, NumPy/SciPy, C/C++, C#, Fortran, SQL; numerical modelling, optimisation and signal processing | Supplied CV and inspected numerical implementations; languages span different career stages |
+| AI and anomaly detection | PyTorch, Lightning, Anomalib with PatchCore and EfficientAD, Ultralytics YOLO, U-Net/U-Net++; normal-image modelling, heatmaps, detection and segmentation | Owner account and reviewed model adapters, training/data workflows and model registry; integration and experiment experience, not a claim of validated production detection |
+| Model export and inference | OpenVINO, ONNX, ONNX Runtime; export/loading, preprocessing and CPU inference integration | Inspected OpenVINO inference adapter, model export implementation and local ONNX Runtime execution records; no implied speedup or validated GPU deployment |
+| Colour and spectral analysis | OpenCV, Colour Science, Matplotlib, PyQtGraph; CIE Lab/CIEDE2000, region statistics and spectral PCA | Reviewed image-analysis implementations and scientific workbench; colour-derived measures do not establish calibrated temperature |
+| 3D reconstruction and registration | Open3D, CloudCompare, COLMAP/OpenMVS, PyVista/VTK; SIFT, ALIKED/LightGlue, SfM/MVS, ICP and scale/pose alignment | Owner explicitly described earlier Open3D/CloudCompare registration; newer reconstruction, matching and viewer implementations were inspected; physical accuracy remains separately assessed |
+| Synthetic imaging and photometric stereo | Blender, NumPy; controlled rendering, least squares and Huber-IRLS | Local rendering and numerical research implementations; synthetic experiments do not establish real-world inspection performance |
+| Data curation and evaluation | CLIP/Qwen embeddings, YOLO/COCO formats, SQLite; reviewed annotation, similarity search and precision/recall/MRR/nDCG | Inspected dataset-curation workflows and evaluation records; weak model labels remain separate from accepted human annotations |
+| Gas-turbine modelling and CFD | NPSS, pyCycle/OpenMDAO, ANSYS Fluent, STAR-CCM+, XFlow; cycle/off-design analysis, sensitivity and measurement design | Professional CV plus inspected current physical-model and measurement-selection implementation; this does not imply completed AI integration |
+| CAD and aircraft design | SolidWorks, CATIA V5, Pro/E, XFOIL, QPROP, JavaProp, SUAVE | Owner-supplied historical CV and aircraft/propeller engineering experience; explicitly presented as earlier work |
+| Measurement and embedded systems | LabVIEW, FlexLogger, Arduino, PlatformIO; DAQ, I2C, SPI, UART, Modbus and BLE | Professional CV, sensing research and reviewed embedded work; a new prototype's software checks do not establish bench performance |
+| Applications and delivery | Qt/PySide6, FastAPI, React/TypeScript, Git, pytest, GitHub Actions; versioned data, checks and technical handover | Reviewed applications, interfaces and development workflows; AI-assisted development remains subject to technical review and testing |
+
+Use **Anomalib**, **PatchCore**, **Open3D** and **OpenVINO** consistently.
+Keep LeRobot/LeLab and ACT training in the separately labelled physical-AI
+learning example below, with its existing limits.
+
+Evidence depth differs within a category. In particular, an EfficientAD adapter
+or preflight is not proof that the full GPU training path has been validated;
+a checkpoint reload or full-image segmentation run does not establish independent
+generalisation. Do not turn these distinctions into public achievement metrics.
 
 ## Public development examples
 
@@ -103,8 +129,16 @@ licence; call them public repositories, not licensed open-source releases.
 The October 2026 refresh used the owner's stated role change, supplied CV and
 professional-profile material, prior explicit writing preferences, GitHub MCP
 repository records, and read-only MCP access to current local project documents
-and selected implementation files. Local records were checked because several
-working versions had progressed beyond their default GitHub branches.
+and selected implementation files. Local records and relevant non-default
+development branches were checked because several active implementations had
+progressed beyond their default GitHub branches. Default-branch code search
+alone can miss this work.
+
+For tool claims, use the owner's explicit account, historical CV, inspected
+implementation and available execution records together. A dependency declaration,
+an assistant's past recommendation or a future specification alone does not
+establish hands-on use. Do not infer that every implemented backend has been
+validated on the intended real data or hardware.
 
 The portfolio review inspected evidence; it did not rerun scientific experiments,
 drive hardware or independently reproduce project test suites. Describe statuses
