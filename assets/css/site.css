@@ -1366,67 +1366,76 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
   gap: 16px;
 }
 
-.current-development {
-  grid-column: 1 / -1;
-  min-width: 0;
-  padding: 28px 0 18px;
-  scroll-margin-top: 110px;
+.development-section {
+  background: #eaf0ec;
+  border-block: 1px solid var(--line);
 }
 
-.development-heading {
-  max-width: 760px;
-  margin-bottom: 24px;
-}
-
-.development-heading h3 {
-  margin-bottom: 12px;
-  font-size: clamp(1.55rem, 2.2vw, 2.15rem);
-  font-weight: 570;
-  letter-spacing: -0.035em;
-}
-
-.development-heading > p:last-child,
-.development-card > p:not(.work-kicker) {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-
-.development-grid {
+.development-project {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.development-card {
-  display: flex;
+  grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.55fr) auto;
+  gap: clamp(24px, 3vw, 44px);
+  align-items: start;
   min-width: 0;
-  padding: 28px;
-  flex-direction: column;
-  border: 1px solid var(--line-dark);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.035);
+  padding: 34px 0;
+  border-top: 1px solid var(--line);
 }
 
-.development-card h4 {
-  margin-bottom: 16px;
-  font-size: 1.5rem;
-  line-height: 1.25;
+.development-project:last-child {
+  padding-bottom: 0;
+}
+
+.development-category {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.development-identity h3 {
+  margin-bottom: 12px;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 620;
+  line-height: 1.18;
   letter-spacing: -0.025em;
 }
 
-.development-card .development-status {
-  margin: auto 0 22px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line-dark);
+.development-stack {
+  margin: 0;
+  color: var(--ink-muted);
   font-size: 0.8rem;
-  color: var(--teal-soft);
 }
 
-.development-card .text-link {
-  align-self: flex-start;
-  color: var(--white);
-  text-decoration-thickness: 1px;
+.development-copy > p {
+  margin-bottom: 18px;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.development-copy .development-status {
+  margin-bottom: 0;
+  padding-left: 16px;
+  border-left: 2px solid #86a5a0;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.development-status strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink-soft);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.development-project .development-repository {
+  gap: 10px;
+  justify-self: end;
+  margin: 0;
+  background: rgba(255, 254, 250, 0.7);
 }
 
 .work-card {
@@ -3103,6 +3112,20 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
     font-size: 0.78rem;
   }
 
+  body:not(.cv-page) .brand-copy small {
+    display: none;
+  }
+
+  .development-project {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.5fr);
+    gap: 20px 32px;
+  }
+
+  .development-project .development-repository {
+    grid-column: 2;
+    justify-self: start;
+  }
+
   .about-layout {
     grid-template-columns: 1fr;
     gap: 36px;
@@ -3432,12 +3455,14 @@ main :where(.hero-copy, .hero-visual, .section-intro, .about-copy, .section-head
 }
 
 @media (max-width: 700px) {
-  .development-grid {
+  .development-project {
     grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding-block: 28px;
   }
 
-  .development-card {
-    padding: 24px;
+  .development-project .development-repository {
+    grid-column: auto;
   }
 
   .cv-toolkit > div {

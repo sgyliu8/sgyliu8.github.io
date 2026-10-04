@@ -64,8 +64,7 @@ in both languages.
 
 Keep employer projects in Selected Work in reverse chronological order:
 Siemens Energy, Politecnico di Milano (2022–2024), both Cranfield projects
-(2016–2021), then XAG (2015–2016). The current-development examples remain
-grouped separately alongside the current work.
+(2016–2021), then XAG (2015–2016). Keep this professional sequence uninterrupted.
 
 ## Capability map
 
@@ -110,6 +109,16 @@ a checkpoint reload or full-image segmentation run does not establish independen
 generalisation. Do not turn these distinctions into public achievement metrics.
 
 ## Public development examples
+
+The two public repositories belong in a standalone **Engineering Lab / 开发实践**
+section after Research and before the Decision Framework. Retain `#development`
+as its stable anchor and provide a main-navigation entry. They are separate from
+the employer project sequence in Selected Work.
+
+Use compact project rows with a clear hierarchy: subject and project name,
+working tools, purpose, current scope, and a direct GitHub link. Keep validation
+scope visible but secondary to the purpose. Use an H2 for the section and H3s for
+the projects, with equivalent English and Chinese content.
 
 ### HyperLab
 

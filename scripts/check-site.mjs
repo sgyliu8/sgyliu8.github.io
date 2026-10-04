@@ -809,14 +809,14 @@ for (const page of homePages) {
   const expertise = sectionSlice(html, 'expertise', ['work']);
   const work = sectionSlice(html, 'work', ['experience']);
   const experience = sectionSlice(html, 'experience', ['research']);
-  const research = sectionSlice(html, 'research', ['framework', 'beyond']);
+  const research = sectionSlice(html, 'research', ['development', 'framework', 'beyond']);
   const framework = sectionSlice(html, 'framework', ['beyond']);
   const contact = sectionSlice(html, 'contact');
   const expertiseCards = [...expertise.matchAll(/<article\b(?=[^>]*\bclass=["'][^"']*\bexpertise-card\b[^"']*["'])[^>]*>[\s\S]*?<\/article>/gi)]
     .map((match) => match[0]);
 
-  if (sectionLabelCount !== 8) {
-    errors.push(`${page} must expose exactly eight unnumbered main-section labels, including the engineering framework`);
+  if (sectionLabelCount !== 9) {
+    errors.push(`${page} must expose exactly nine unnumbered main-section labels, including the engineering lab and framework`);
   }
   if (/\bcard-number\b/.test(html)) {
     errors.push(`${page} must not use decorative numbering in Expertise cards`);
