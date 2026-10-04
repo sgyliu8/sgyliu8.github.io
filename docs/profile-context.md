@@ -62,6 +62,11 @@ published in **2024** and **2025** respectively; these are publication years,
 not the project period. Keep the research period and publication dates distinct
 in both languages.
 
+Keep employer projects in Selected Work in reverse chronological order:
+Siemens Energy, Politecnico di Milano (2022–2024), both Cranfield projects
+(2016–2021), then XAG (2015–2016). The current-development examples remain
+grouped separately alongside the current work.
+
 ## Capability map
 
 | Website capability | Evidence informing the wording | Appropriate emphasis |
