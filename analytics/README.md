@@ -1,8 +1,10 @@
 # Private visitor analytics
 
-Status: implemented and locally verified; production activation requires a Cloudflare login,
-database provisioning, an exact-owner Access policy, and authenticated production acceptance.
-The public collector configuration remains disabled until those checks pass.
+Status: Cloudflare backend deployed and verified on 26 October 2026. Owner sign-in, anonymous denial, live edge metadata and replay deduplication passed. Public collection is enabled by the accompanying Pages release.
+
+Owner dashboard: https://yang-portfolio-analytics.sgyliu.workers.dev/admin/
+
+Sign in with the Cloudflare account for sgyliu@gmail.com, or request an email login code for that exact address. This dashboard is not linked from the public homepage.
 
 ## Scope and architecture
 
@@ -94,7 +96,7 @@ receipts in the public repository or `public/`. `.private/`, `.wrangler/`, `.env
 `.dev.vars*` are ignored. Use the existing account; no paid-plan upgrade is required
 by these steps and no automatic billing change is made.
 
-1. Authenticate Wrangler using the account that owns `sgyliu.workers.dev`:
+1. For a fresh deployment, authenticate Wrangler using the account that owns `sgyliu.workers.dev`:
 
    ```powershell
    node node_modules/wrangler/bin/wrangler.js login --use-keyring --scopes account:read user:read workers_scripts:write d1:write

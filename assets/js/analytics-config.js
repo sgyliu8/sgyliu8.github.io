@@ -1,2 +1,2 @@
-// Enabled only after the private backend passes deployment acceptance checks.
-window.YL_ANALYTICS = Object.freeze({ enabled: false, endpoint: '' });
+// Public collection endpoint; all statistics are served by the separate authenticated admin.
+window.YL_ANALYTICS = Object.freeze({ enabled: true, endpoint: 'https://yang-portfolio-events.sgyliu.workers.dev/collect' });

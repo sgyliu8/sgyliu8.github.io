@@ -76,4 +76,4 @@ Organisation names and the September 2026 role transition are included at the ow
 
 ## Private visitor analytics
 
-The optional visitor analytics implementation and deployment plan are in [analytics/README.md](analytics/README.md), with the current [verification record](analytics/VERIFICATION.md). Collection remains disabled until Cloudflare deployment and owner-only access pass production acceptance. The public website adds no visible analytics UI.
+The optional visitor analytics implementation and deployment plan are in [analytics/README.md](analytics/README.md), with the current [verification record](analytics/VERIFICATION.md). The dedicated Cloudflare backend is deployed with owner-only Access; collection is configured for the four primary public pages. The public website adds no visible analytics UI.

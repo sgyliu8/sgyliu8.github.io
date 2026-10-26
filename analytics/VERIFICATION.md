@@ -35,12 +35,23 @@ The initial `2026-10-26` compatibility date was newer than the pinned workerd bi
 supported maximum. It was corrected to `2026-10-03` in both example configurations.
 The actual runtime then started successfully and passed the database checks.
 
-## Production status — not yet enabled
+## Production backend verified
 
-Cloudflare Wrangler reported **not authenticated** on YangHome. No production database
-or Worker is claimed to have been provisioned. No production owner login, Access-policy
-check, public-page count or actual IP geolocation has been verified.
-
-The public configuration intentionally remains `enabled: false`. The implementation
-is ready for the deployment procedure in README.md, but it is not yet a live analytics
-service. Preview screenshots contain synthetic test data, not actual website visitors.
+- Authenticated to the existing Cloudflare account using OS keyring storage.
+- Provisioned a dedicated D1 database in WEUR and deployed both Workers.
+- Enabled Worker-level Access for **All traffic**, including production and previews,
+  using the existing exact-owner email policy without changing its rules.
+- The Worker independently checks the application AUD and exact owner email.
+- Owner sign-in through Cloudflare succeeded; the live dashboard initially showed zero.
+- Anonymous/forged-header requests to HTML, JS, JSON and CSV redirect to Access.
+- The public collector has no read endpoint. CORS and malformed-event checks passed.
+- A real browser sent one event from the production website origin to the production
+  collector, then replayed that event. Both returned HTTP 204.
+- Remote D1 reported **1 event, 1 unique IP and 1 lifetime view**. IP, country and city
+  were all present. Raw IP/geography values are not included in this public report.
+- That one deployment test event is retained and is not represented as an external visitor.
+- The hourly production cleanup trigger is deployed.
+- Public configuration is enabled for the Pages release. Post-merge live-page acceptance
+  and deployment status are recorded in PR #8.
+- The initial Cloudflare authentication blocker was resolved. No other project Worker,
+  reader, R2 bucket or Access-policy rule was changed.
