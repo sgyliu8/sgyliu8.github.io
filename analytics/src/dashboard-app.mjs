@@ -172,7 +172,7 @@ export function dashboardApp(geography) {
     el('clear-filter').hidden=selected===null;el('clear-filter').textContent=selected===null?'':country(selected)+' ×';
     el('scope-label').textContent=selected===null?'全部地区':'地区筛选';
     try{
-      const [data,events]=await Promise.all([api('/api/summary?'+active),api('/api/events?'+active)]);summary=data;valid=true;
+      const data=await api('/api/dashboard?'+active),events=data.events;summary=data;valid=true;
       for(const [id,n]of [['lifetime',data.lifetime.views],['views',data.totals.views],['ips',data.totals.unique_ips],['countries',data.totals.countries]])el(id).textContent=fmt(n);
       el('record-count').textContent=fmt(data.totals.views);renderMap();renderChart(data);renderPages(data.pages);renderEvents(events);
       status('已更新 '+new Date().toISOString().slice(11,16)+' UTC');

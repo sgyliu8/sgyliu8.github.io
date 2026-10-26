@@ -53,7 +53,7 @@ test('collector accepts IPv6 and missing geography without inventing a location'
 test('per-IP rate limit and missing configuration fail safely',async()=>{
  const db=new TestDB(),env=environment(db);
  assert.equal((await collector.fetch(eventRequest(),{...env,RATE_LIMITER:{limit:async()=>({success:false})}})).status,429);
- for(const overrides of [{RATE_LIMITER:null},{DB:null},{COLLECTION_ENABLED:'false'}])
+ for(const overrides of [{EDGE_RATE_LIMITER:null},{RATE_LIMITER:null},{DB:null},{COLLECTION_ENABLED:'false'}])
   assert.equal((await collector.fetch(eventRequest(),{...env,...overrides})).status,503);
  assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM events').get().n,0);db.close();
 });
@@ -75,7 +75,7 @@ test('all private routes deny anonymous requests, forged headers and wrong ident
  const contexts=[{}, {access:{aud:'wrong',getIdentity:async()=>({email:env.OWNER_EMAIL})}},
  {access:{aud:env.ACCESS_AUD,getIdentity:async()=>({email:'someone@example.test'})}},
  {access:{aud:env.ACCESS_AUD,getIdentity:async()=>{throw Error('unavailable');}}}];
- for(const route of ['/','/admin/','/admin/app.js','/admin/app.css','/api/summary','/api/events','/api/export.csv'])
+ for(const route of ['/api/dashboard','/','/admin/','/admin/app.js','/admin/app.css','/api/summary','/api/events','/api/export.csv'])
   for(const ctx of contexts){
    const response=await admin.fetch(new Request('https://admin.test'+route,{headers:{'Cf-Access-Authenticated-User-Email':env.OWNER_EMAIL,'Cf-Access-Jwt-Assertion':'forged'}}),env,ctx);
    assert.equal(response.status,403);assert.match(response.headers.get('cache-control'),/no-store/);
@@ -171,4 +171,36 @@ test('checked-in browser payload matches its authored source before Worker trans
  const {dashboardApp}=await import('../src/dashboard-app.mjs');
  const {dashboardScript}=await import('../src/dashboard-script.mjs');
  assert.equal(dashboardScript,dashboardApp.toString().replaceAll('\r\n', '\n'),'Run npm run build:ui in analytics after editing dashboard-app.mjs');
+});
+
+test('dashboard metrics and first records share a single database snapshot',async()=>{
+ const db=new TestDB(),env=environment(db);fixture(db,{country:'CN'});
+ const batch=db.batch.bind(db);let batches=0;
+ db.batch=async statements=>{batches++;assert.equal(statements.length,6);const result=await batch(statements);fixture(db,{country:'CN'});return result;};
+ const data=await(await admin.fetch(request('/api/dashboard?country=CN'),env,owner)).json();
+ assert.equal(batches,1);assert.equal(data.totals.views,1);assert.equal(data.events.rows.length,1);
+ assert.equal(data.events.rows[0].country,'CN');assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM events').get().n,2);
+ db.close();
+});
+test('aggregate edge admission rejects distributed traffic before querying D1',async()=>{
+ let touched=false;
+ const db={prepare(){touched=true;throw Error('must not query');}},env=environment(db);
+ const response=await collector.fetch(eventRequest(),{...env,EDGE_RATE_LIMITER:{limit:async({key})=>{assert.equal(key,'all-visits');return{success:false};}}});
+ assert.equal(response.status,429);assert.equal(touched,false);
+});
+test('cleanup retries transient failures and reports only a generic final failure',async()=>{
+ const{cleanupWithRetry}=await import('../src/common.mjs');let attempts=0;const waits=[];
+ const db={prepare(){return{bind(){return this;}};},async batch(){if(++attempts<3)throw Error('private');return[];}};
+ await cleanupWithRetry(db,Date.now(),async ms=>waits.push(ms));assert.equal(attempts,3);assert.deepEqual(waits,[250,500]);
+ attempts=0;db.batch=async()=>{attempts++;throw Error('private IP');};
+ await assert.rejects(()=>cleanupWithRetry(db,Date.now(),async()=>{}),{message:'analytics_retention_cleanup_failed'});
+ assert.equal(attempts,3);
+});
+test('out-of-order events preserve lifetime endpoints and daily retention uses 365 UTC buckets',async()=>{
+ const db=new TestDB(),now=Date.now();
+ fixture(db,{occurred_at:now});fixture(db,{occurred_at:now-1000});fixture(db,{occurred_at:now+1000});
+ const total=db.sqlite.prepare('SELECT * FROM lifetime_counts').get();assert.equal(total.first_at,now-1000);assert.equal(total.last_at,now+1000);assert.equal(total.views,3);
+ const cutoff=new Date(now-365*DAY).toISOString().slice(0,10);
+ db.sqlite.prepare('INSERT INTO daily_counts VALUES (?, ?, ?)').run(cutoff,'/',1);
+ await purge(db,now);assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM daily_counts WHERE day <= ?').get(cutoff).n,0);db.close();
 });

@@ -29,6 +29,10 @@ owner email. A forged JWT/email header, missing Access configuration or wrong ac
 closed. No Static Assets binding is used because it prevents this direct Access context
 from reaching the Worker in the current platform routing model.
 
+## Release follow-up
+
+See [review decisions and operational behavior](REVIEW.md). The dashboard reads first-page metrics and records in one transaction. Transient collection failures retry at most twice with the same navigation UUID; deduplication lasts while the raw event exists (30 days). Cleanup retries three times and records failures in Cloudflare Cron Past Events. Daily aggregates keep 365 UTC date buckets. PR and deployment workflows both run browser acceptance tests. GitHub Pages uses the Actions workflow and publishes only `public/`.
+
 ## Dashboard and map
 
 The dashboard opens with compact metrics and an interactive world map. Hover or focus a country for its count and share; click it to filter the totals, trend, page breakdown, visit table and CSV export. The map and source ranking deliberately retain all countries for the chosen date range so it is easy to switch between them. Clear the filter with the country chip.
@@ -67,7 +71,7 @@ and verified bots are filtered, but this is not a complete bot detector. Ad bloc
 disabled, transient network failures and privacy signals cause undercounting. Origin
 validation prevents ordinary cross-site browser submission, but a non-browser client can
 forge Origin: this public endpoint cannot prove that every accepted event is human.
-A Cloudflare limiter targets 60 requests/IP/minute per edge location (approximate), with a
+Cloudflare limiters target 300 total requests/minute and 60 requests/IP/minute per edge location (approximate), before D1 access, with a
 separate atomic 20,000 accepted-event daily database cap. Shared networks can be limited.
 Counter history starts at activation; historical GitHub Pages visits cannot be recovered.
 

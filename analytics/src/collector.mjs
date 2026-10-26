@@ -1,5 +1,5 @@
 import { isIP } from 'node:net';
-import { DAY, PATHS, clean, purge, reply } from './common.mjs';
+import { PATHS, clean, cleanupWithRetry, reply } from './common.mjs';
 
 const ORIGIN = 'https://sgyliu8.github.io';
 const MAX_BYTES = 1024;
@@ -36,7 +36,7 @@ export default {
         'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '600'});
     }
     if (request.method !== 'POST') return reply('Method not allowed', 405, {...cors, Allow: 'POST, OPTIONS'});
-    if (env.COLLECTION_ENABLED !== 'true' || !env.DB || !env.RATE_LIMITER) return reply('Unavailable', 503, cors);
+    if (env.COLLECTION_ENABLED !== 'true' || !env.DB || !env.RATE_LIMITER || !env.EDGE_RATE_LIMITER) return reply('Unavailable', 503, cors);
     if (request.headers.get('sec-gpc') === '1' || request.headers.get('dnt') === '1') return reply(null, 204, cors);
     // Cloudflare supplies this address at the edge. Never trust X-Forwarded-For or the body.
     const ip = request.headers.get('cf-connecting-ip') || '';
@@ -47,6 +47,9 @@ export default {
     const excluded = (env.EXCLUDED_IPS || '').split(',').map(value => value.trim());
     if (excluded.includes(ip)) return reply(null, 204, cors);
     try {
+      // Constant-key admission budget at each edge location, before any D1 work.
+      const edge = await env.EDGE_RATE_LIMITER.limit({key: 'all-visits'});
+      if (!edge.success) return reply('Rate limited', 429, {...cors, 'Retry-After': '60'});
       const limit = await env.RATE_LIMITER.limit({key: ip});
       if (!limit.success) return reply('Rate limited', 429, {...cors, 'Retry-After': '60'});
       const type = (request.headers.get('content-type') || '').split(';')[0].trim().toLowerCase();
@@ -58,7 +61,7 @@ export default {
       const now = Date.now();
       const day = new Date(now).toISOString().slice(0, 10);
       const country = /^[A-Z]{2}$/.test(request.cf.country || '') ? request.cf.country : '';
-      // INSERT OR IGNORE + trigger is atomic: network replays never increment counters twice.
+      // INSERT OR IGNORE + trigger is atomic: retries are deduplicated while their raw event remains (30 days).
       // The global daily cap bounds database growth. It is a safeguard, not proof of human traffic.
       await env.DB.prepare(`INSERT OR IGNORE INTO events
         (event_id, occurred_at, day, path, ip, country, region, city)
@@ -72,5 +75,9 @@ export default {
       return reply('Unavailable', 503, cors);
     }
   },
-  async scheduled(_event, env) { await purge(env.DB); },
+  async scheduled(_event, env, ctx) {
+    const task = cleanupWithRetry(env.DB);
+    ctx?.waitUntil(task); // Failure is recorded in Cloudflare Cron Past Events, without PII.
+    await task;
+  },
 };

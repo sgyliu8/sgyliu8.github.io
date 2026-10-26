@@ -102,7 +102,7 @@ try{
  results.push('Empty dataset renders a truthful empty map without fabricated visits');
  await context.close();
  const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.woff2':'font/woff2','.p3d':'application/octet-stream'};
- async function publicContext({enabled=true,gpc=false,dnt=false,fail=false}={}){
+ async function publicContext({enabled,gpc=false,dnt=false,fail=false,transient=false,rejected=false}={}){
    const ctx=await browser.newContext({viewport:{width:1440,height:1000}});
    if(gpc||dnt)await ctx.addInitScript(({gpc,dnt})=>{
      Object.defineProperty(navigator,'globalPrivacyControl',{get:()=>gpc});
@@ -111,12 +111,14 @@ try{
    const events=[];
    await ctx.route('https://yang-portfolio-events.sgyliu.workers.dev/collect',async route=>{
      events.push({body:JSON.parse(route.request().postData()),headers:route.request().headers()});
-     if(fail)return route.abort();
+     if(fail||transient&&events.length===1)return route.abort();
+     if(transient&&events.length===2)return route.fulfill({status:503,headers:{'Access-Control-Allow-Origin':'https://sgyliu8.github.io'}});
+     if(rejected)return route.fulfill({status:403,headers:{'Access-Control-Allow-Origin':'https://sgyliu8.github.io'}});
      await route.fulfill({status:204,headers:{'Access-Control-Allow-Origin':'https://sgyliu8.github.io'}});
    });
    await ctx.route('https://sgyliu8.github.io/**',async route=>{
      const url=new URL(route.request().url());
-     if(url.pathname==='/assets/js/analytics-config.js')return route.fulfill({contentType:'text/javascript',body:'window.YL_ANALYTICS='+JSON.stringify({enabled,endpoint:'https://yang-portfolio-events.sgyliu.workers.dev/collect'})});
+     if(enabled!==undefined&&url.pathname==='/assets/js/analytics-config.js')return route.fulfill({contentType:'text/javascript',body:'window.YL_ANALYTICS='+JSON.stringify({enabled,endpoint:'https://yang-portfolio-events.sgyliu.workers.dev/collect'})});
      const relative=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname;
      const target=path.join(root,'public',relative);
      try{await route.fulfill({contentType:mime[path.extname(target)]||'application/octet-stream',body:await readFile(target)});}
@@ -131,8 +133,10 @@ try{
    await publicRun.p.waitForFunction(()=>document.readyState==='complete');
    await publicRun.p.waitForTimeout(100);
    assert.equal(publicRun.events.length,n+1,'One event per page load');
+   assert.equal(publicRun.events.at(-1).body.path,new URL(url,'https://sgyliu8.github.io').pathname,'Exact query-free route');
  }
- for(const event of publicRun.events){assert.deepEqual(Object.keys(event.body).sort(),['event_id','path']);assert(!event.headers.referer);assert(!event.headers.cookie);}
+ assert.equal(new Set(publicRun.events.map(e=>e.body.event_id)).size,4,'Every navigation has a distinct UUID');
+ for(const event of publicRun.events){assert.match(event.body.event_id,/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);assert.deepEqual(Object.keys(event.body).sort(),['event_id','path']);assert(!event.headers.referer);assert(!event.headers.cookie);}
  await publicRun.p.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
  await publicRun.p.waitForTimeout(50);assert.equal(publicRun.events.length,4);
  assert.equal((await publicRun.ctx.cookies()).length,0);
@@ -152,7 +156,10 @@ try{
  results.push('Disabled config, GPC and DNT send no events');
  const failed=await publicContext({fail:true});await failed.p.goto('https://sgyliu8.github.io/');
  await failed.p.waitForTimeout(200);assert.equal(await failed.p.locator('h1').count(),1);await failed.ctx.close();
- assert.deepEqual(errors,[]);results.push('Analytics network failure leaves page usable; no uncaught browser errors');
+ const retry=await publicContext({transient:true});await retry.p.goto('https://sgyliu8.github.io/');
+ await retry.p.waitForTimeout(3300);assert.equal(retry.events.length,3);assert.equal(new Set(retry.events.map(e=>e.body.event_id)).size,1);await retry.ctx.close();
+ const reject=await publicContext({rejected:true});await reject.p.goto('https://sgyliu8.github.io/');await reject.p.waitForTimeout(1200);assert.equal(reject.events.length,1);await reject.ctx.close();
+ assert.deepEqual(errors,[]);results.push('Transient network/503 errors retry with one UUID, 403 does not retry, failures leave page usable');
  await writeFile(path.join(out,'browser-results.json'),JSON.stringify({passed:true,results},null,2));
  console.log(JSON.stringify({passed:true,results},null,2));
 }finally{db.close();await browser.close();}
