@@ -7,8 +7,8 @@ Feature branch: `feat/private-visitor-analytics`.
 
 - Existing site validator: **passed** — 14 HTML files, 192 public files, zero broken
   internal references; root compatibility mirror matches public/.
-- SQLite-backed automated tests: **15 passed, 0 failed**.
-- Chromium: desktop 1440×1000 and mobile 390×844; **passed**.
+- SQLite-backed automated tests: **18 passed, 0 failed**.
+- Chromium: desktop 1440×1000 and mobile/tablet widths 320, 390 and 768; **passed**.
 - Four primary public routes each emitted exactly one event when explicitly enabled in
   the test fixture. No query strings, fragments, referrers, cookies, persistent storage,
   consent dialog or public counters were added.
@@ -22,7 +22,7 @@ Feature branch: `feat/private-visitor-analytics`.
 - SQL replay test: three copies of one event produced one event and one count.
 - IPv4/IPv6, absent geography, invalid input, request-size limits, rate limits, date limits,
   cursor pagination, CSV formula escaping, 30-day retention and generic errors passed.
-- Both Workers bundled successfully with pinned Wrangler 4.144.0.
+- Both Workers bundled successfully with pinned Wrangler 4.153.0.
 - Actual local workerd + D1: migration applied (seven SQL commands); an event and its
   replay produced **one event, one lifetime count and one unique IP**. Admin accessed it
   using Wrangler's documented local Access identity. Scheduled purge executed successfully.
@@ -55,3 +55,17 @@ The actual runtime then started successfully and passed the database checks.
   and deployment status are recorded in PR #8.
 - The initial Cloudflare authentication blocker was resolved. No other project Worker,
   reader, R2 bucket or Access-policy rule was changed.
+
+## Map-focused UI acceptance
+
+- Replaced verbose overview with compact metrics, a map-first layout, a small toolbar, and on-demand help.
+- Verified real Natural Earth geometry (176 shapes), hover counts, keyboard and pointer country selection, ranking search, clear filter, zoom and drag.
+- Country filters consistently affect totals, trend, pages, paginated events and CSV; the map/ranking retain date-range global totals.
+- Unknown locations and zero-result filters work; maps include all source countries rather than truncating at 30.
+- Browser tests observed no external map requests, CSP violations or uncaught errors.
+- Session expiry clears private table contents, map counts, metric values and chart data.
+- Synthetic test data is kept in isolated SQLite fixtures, never inserted into production.
+- Mobile preview identified unreadably scaled trend labels; the chart now uses its measured width.
+- Upgraded the pinned development CLI to Wrangler 4.153.0; npm audit now reports zero vulnerabilities.
+
+- Actual Wrangler/workerd/D1 acceptance found a browser script serialization issue: server bundling injected a helper unavailable in the browser. Browser source is now frozen before Worker bundling, with a generated-file consistency check in CI. The actual bundled runtime then rendered the map and passed country selection and help interaction.

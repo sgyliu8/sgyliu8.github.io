@@ -1,139 +1,75 @@
+import {worldMap} from './world-map.mjs';
+import {dashboardScript} from './dashboard-script.mjs';
+
 export const dashboardHTML = `<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Yang Liu · 私有访问统计</title>
+<meta name="robots" content="noindex,nofollow"><title>Yang Liu · 网站访问统计</title>
 <link rel="stylesheet" href="/admin/app.css"><script src="/admin/app.js" defer></script></head>
-<body><main class="wrap">
-<header><div><p class="eyebrow">YANG LIU / PRIVATE ANALYTICS</p><h1>网站访问统计</h1><p>sgyliu8.github.io · 仅限本人查看</p></div>
-<a class="signout" href="/cdn-cgi/access/logout">退出登录</a></header>
-<form id="filters"><label>开始日期<input id="from" type="date" required></label><label>结束日期<input id="to" type="date" required></label>
-<button type="submit">查询</button><button type="button" id="week">最近 7 天</button><button type="button" id="month">最近 30 天</button>
-<button type="button" id="export" disabled>导出 CSV</button></form>
-<p id="status" role="status" aria-live="polite">正在载入…</p>
+<body><a class="skip" href="#visits">跳到访问记录</a><main class="wrap">
+<header class="topbar"><div class="brand"><span class="monogram">YL<span></span></span><span>YANG LIU <span class="brand-divider">/</span> <span class="brand-sub">PRIVATE ANALYTICS</span></span></div>
+<div class="header-actions"><span class="private-badge"><span></span>仅你可见</span><button id="help" class="icon-button" aria-label="统计说明" title="统计说明"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .3c0 1.7-2.5 2-2.5 3.7m0 3v.1"/></svg></button><a class="icon-button" href="/cdn-cgi/access/logout" aria-label="退出登录" title="退出登录"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v16h5m6-13 5 5-5 5M8 12h12"/></svg></a></div></header>
+<div class="page-heading"><div><p class="eyebrow">sgyliu8.github.io</p><h1>网站访问统计</h1></div>
+<div class="toolbar" aria-label="统计工具"><div class="segments" aria-label="日期范围"><button id="today" data-preset="1" aria-pressed="false">今天</button><button id="week" data-preset="7" aria-pressed="true">7 天</button><button id="month" data-preset="30" aria-pressed="false">30 天</button></div>
+<button id="date-toggle" class="button date-toggle" aria-controls="date-dialog" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 10h16"/></svg><span id="range-label">日期</span></button>
+<button id="refresh" class="icon-button" aria-label="刷新统计" title="刷新"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/></svg></button>
+<button id="export" class="button export-button" disabled><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5"/></svg><span>导出</span></button></div></div>
+<div class="context-line"><span id="scope-label">全部地区</span><button id="clear-filter" class="filter-chip" hidden aria-label="清除地区筛选"></button><span id="status" role="status" aria-live="polite">正在载入…</span><a id="reauth" href="/admin/" hidden>重新登录</a></div>
 <section class="metrics" aria-label="访问概况">
-<article><p>累计浏览次数</p><strong id="lifetime">—</strong><small>从统计启用时起</small></article>
-<article><p>所选期间浏览次数</p><strong id="views">—</strong><small>一次页面载入记一次</small></article>
-<article><p>独立 IP 数</p><strong id="ips">—</strong><small>网络出口数量，不代表人数</small></article>
-<article><p>国家 / 地区数</p><strong id="countries">—</strong><small>IP 推测位置，不含未知位置</small></article>
+<article class="metric primary"><p><span class="metric-dot"></span>浏览次数</p><strong id="views">—</strong><span class="metric-sub">所选期间</span></article>
+<article class="metric"><p>独立 IP</p><strong id="ips">—</strong><span class="metric-sub">所选期间</span></article>
+<article class="metric"><p>国家 / 地区</p><strong id="countries">—</strong><span class="metric-sub">已识别来源</span></article>
+<article class="metric lifetime"><p>累计访问</p><strong id="lifetime">—</strong><span class="metric-sub">全部地区 · 启用至今</span></article>
 </section>
-<section class="panel"><h2>每日访问</h2><svg id="chart" viewBox="0 0 900 170" role="img" aria-label="每日浏览次数"></svg><p id="chart-caption"></p></section>
-<div class="breakdowns"><section class="panel"><h2>来源国家 / 地区</h2><ol id="country-list"></ol></section>
-<section class="panel"><h2>访问页面</h2><ol id="page-list"></ol></section></div>
-<section class="panel"><div class="table-heading"><h2>访问明细</h2><span>时间采用 UTC</span></div>
-<div class="table-wrap"><table><thead><tr><th>访问时间 (UTC)</th><th>页面</th><th>IP 地址</th><th>国家 / 地区</th><th>省 / 州</th><th>城市</th></tr></thead>
-<tbody id="events"></tbody></table></div><button type="button" id="more" hidden>加载更多</button></section>
-<footer><p>明细仅显示最近 30 天，源表每小时清理；不含 IP 的每日计数保留 365 天，累计计数长期保留。最早一天可能仅含部分时段。数据库恢复备份有独立保留周期。</p>
-<p>IP 可能来自 VPN、代理或共享网络，地区可能不准确或为空；不能据此确认访客姓名、单位或实际位置。浏览器拦截、隐私信号及基础机器人过滤会使计数不完整；自动化流量仍可能混入。</p>
-<p>关闭 JavaScript、DNT 或 GPC 开启时不会上报。没有 Cookie、持久访客 ID 或浏览器指纹。统计无法还原启用前的访问。</p></footer>
+<section class="panel geo-panel" aria-labelledby="geo-title">
+<div class="panel-heading"><div><span class="section-index">01</span><h2 id="geo-title">访问来自哪里</h2></div><span class="subtle">悬停查看 · 点击筛选</span></div>
+<div class="geo-grid"><div class="map-column"><div class="map-stage" id="map-stage">
+<svg id="world-map" viewBox="0 0 960 480" role="group" aria-label="访问来源世界地图，点击国家筛选，下方列表也可操作"><g id="map-grid" aria-hidden="true"></g><g id="map-countries"></g></svg>
+<div id="map-tooltip" class="map-tooltip" role="status" aria-live="polite" hidden></div><div id="map-empty" class="map-empty" hidden><strong>等待第一位访客</strong><span>有访问后，来源会在这里亮起</span></div>
+<div class="zoom-tools" aria-label="地图缩放"><button id="zoom-in" aria-label="放大地图">+</button><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-reset" aria-label="重置地图">↺</button></div>
+</div><div class="map-footer"><span>国家 / 地区概览</span><div class="map-legend"><span>0</span><i class="legend-zero"></i><i class="legend-scale"></i><span id="map-max">—</span><span>次</span></div></div></div>
+<aside class="country-panel" aria-label="来源排行"><div class="list-heading"><h3>来源排行</h3><span>浏览次数</span></div><label class="search"><span class="sr-only">查找国家或地区</span><input id="country-search" type="search" placeholder="查找国家 / 地区" autocomplete="off"></label><ol id="country-list"></ol><span class="ranking-note">全部地区 · 所选期间</span></aside></div></section>
+<div class="insights"><section class="panel trend-panel"><div class="panel-heading"><div><span class="section-index">02</span><h2>访问趋势</h2></div><span id="chart-caption" class="subtle">每日 · UTC</span></div><svg id="chart" viewBox="0 0 800 180" role="img" aria-label="每日浏览次数"></svg></section>
+<section class="panel pages-panel"><div class="panel-heading"><div><span class="section-index">03</span><h2>热门页面</h2></div></div><ol id="page-list"></ol></section></div>
+<section class="panel records-panel" id="visits" aria-labelledby="records-title"><div class="panel-heading"><div><span class="section-index">04</span><h2 id="records-title">访问记录</h2><span id="record-count" class="count-badge"></span></div><span class="subtle">最新优先 · UTC</span></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="访问明细，可横向滚动"><table><thead><tr><th>时间</th><th>IP 地址</th><th>位置</th><th>页面</th></tr></thead><tbody id="events"></tbody></table></div>
+<div class="records-footer"><span id="loaded-count"></span><button type="button" id="more" class="button" hidden>加载更多 ↓</button></div></section>
+<footer class="footer"><span><span class="footer-dot"></span>PRIVATE BY DESIGN</span><button id="help-footer" class="text-button">统计口径与地图说明 ↗</button></footer>
+<dialog id="date-dialog" aria-labelledby="date-title"><form id="filters"><div class="dialog-heading"><h2 id="date-title">选择日期</h2><button class="icon-button" type="button" data-close="date-dialog" aria-label="关闭">×</button></div><div class="date-fields"><label>开始日期<input id="from" type="date" required></label><label>结束日期<input id="to" type="date" required></label></div><p class="subtle">最近 30 天内 · UTC</p><button class="button primary-button" type="submit">应用日期</button></form></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-heading"><h2 id="help-title">关于这些数据</h2><button class="icon-button" data-close="help-dialog" aria-label="关闭">×</button></div>
+<dl class="help-list"><dt>浏览次数与独立 IP</dt><dd>每次页面载入计一次。独立 IP 是网络出口数量，不代表人数；累计访问不受当前筛选影响。</dd>
+<dt>地图与位置</dt><dd>地图按 IP 推测的国家 / 地区汇总，颜色越深代表访问越多。点击可筛选，放大后可拖动。城市在记录中查看。VPN、代理和共享网络会影响位置，无法据此确认访客身份或精确地点。</dd>
+<dt>数据范围</dt><dd>地图和来源排行始终显示所选日期的全部地区，其他数据随地区筛选。未知来源单列，小型地区可能仅在列表中显示。底图来自 Natural Earth，采用其默认边界数据，仅用于访问统计。</dd>
+<dt>保留周期</dt><dd>IP 明细保留 30 天，每小时清理；每日计数保留 365 天，累计计数长期保留。最早一天可能不完整。数据库恢复备份有独立保留周期。</dd>
+<dt>计数边界</dt><dd>只统计启用后的访问。没有 Cookie 或持久访客 ID；关闭 JavaScript、DNT 或 GPC 开启时不计数。拦截器和基础机器人过滤可能造成遗漏，自动化访问仍可能混入。</dd></dl></dialog>
 </main></body></html>`;
 export const dashboardCSS = `
-:root{color-scheme:light;--ink:#152a36;--muted:#5a6d78;--line:#d9e3e7;--accent:#087a78}*{box-sizing:border-box}
-body{margin:0;background:#f3f6f7;color:var(--ink);font:15px/1.6 system-ui,"Microsoft YaHei",sans-serif}
-.wrap{max-width:1200px;margin:auto;padding:40px 24px}header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
-h1{font-size:32px;letter-spacing:-1px;margin:4px 0}h2{font-size:18px;margin:0 0 18px}p{margin:0 0 8px}
-.eyebrow{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}a{color:var(--accent)}
-.signout{padding:8px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;background:white;white-space:nowrap}
-form{display:flex;align-items:end;flex-wrap:wrap;gap:10px;margin:28px 0 10px}label{display:grid;gap:5px;font-size:12px;color:var(--muted)}
-input,button{font:inherit;min-height:42px;border:1px solid var(--line);border-radius:7px;background:white;color:var(--ink);padding:8px 12px}
-button{cursor:pointer}button[type=submit]{background:var(--accent);color:white;border-color:var(--accent)}button:disabled{opacity:.5;cursor:default}
-:focus-visible{outline:3px solid #b87610;outline-offset:3px}#status{min-height:24px;color:var(--muted);margin-bottom:18px}#status.error{color:#a12626}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.metrics article,.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
-.metrics strong{display:block;font-size:34px;line-height:1.4;font-variant-numeric:tabular-nums}.metrics p,.metrics small{color:var(--muted)}.metrics small{font-size:12px}
-.panel{margin-top:20px}.breakdowns{display:grid;grid-template-columns:1fr 1fr;gap:20px}ol{padding:0;list-style:none;margin:0}
-li{display:flex;justify-content:space-between;gap:20px;padding:8px 0;border-bottom:1px solid #eff3f4}li:last-child{border:0}
-#chart{display:block;width:100%;max-height:190px}#chart rect{fill:var(--accent)}#chart text{fill:var(--muted);font-size:13px}#chart-caption{font-size:12px;color:var(--muted)}
-.table-heading{display:flex;justify-content:space-between;gap:20px}.table-heading span{color:var(--muted);font-size:12px}.table-wrap{overflow:auto;max-height:560px}th{position:sticky;top:0;z-index:1}
-table{border-collapse:collapse;width:100%;text-align:left;font-size:13px}td,th{padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-weight:600;background:#f6f8f9}td:nth-child(3){font-family:ui-monospace,monospace}#more{margin-top:18px}
-footer{font-size:12px;color:var(--muted);margin-top:24px;max-width:95ch}body.busy #filters button{cursor:progress}
-@media(max-width:740px){.wrap{padding:24px 16px}.metrics{grid-template-columns:repeat(2,1fr);gap:10px}.metrics article,.panel{padding:16px}.breakdowns{grid-template-columns:1fr;gap:0}h1{font-size:27px}.metrics strong{font-size:28px}}
-@media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
+:root{color-scheme:light;--ink:#152d32;--muted:#667a7e;--line:#e2e9e7;--accent:#117e70;--wash:#eef6f3;--surface:#fff}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:#f5f7f6;color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+button,input,a{-webkit-tap-highlight-color:transparent}button,input{font:inherit}button,a,input{outline-offset:4px}button{color:inherit;cursor:pointer}button:disabled{opacity:.45;cursor:default}
+a{color:var(--accent)}button{border:0;background:none}button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid #c27920}svg:focus-visible{outline:2px solid #c27920}p,h1,h2,h3{margin:0}
+.wrap{max-width:1360px;padding:0 40px 26px;margin:auto}.topbar{height:86px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:16px}
+.brand{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;letter-spacing:1.4px}.monogram{display:grid;place-items:center;position:relative;width:34px;height:34px;border:1px solid #c7d4cf;border-radius:10px;font-size:13px;letter-spacing:-.5px}.monogram>span{position:absolute;background:var(--accent);width:5px;height:5px;border-radius:50%;right:4px;bottom:4px}.brand-divider{margin:0 8px;color:#b1c0ba}.brand-sub{font-weight:500;color:var(--muted)}
+.header-actions{display:flex;align-items:center;gap:12px}.private-badge{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px}.private-badge>span,.footer-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;display:inline-block}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;flex-shrink:0;border:1px solid var(--line);border-radius:9px;text-decoration:none;background:white;font-size:24px;line-height:1;color:var(--muted)}
+.icon-button svg,.button svg{width:17px;height:17px}.page-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:30px 0 18px}.eyebrow{color:var(--muted);font-size:11px;letter-spacing:.7px;margin-bottom:5px}h1{font-size:26px;font-weight:650;letter-spacing:-.8px}
+.toolbar{display:flex;align-items:center;gap:8px}.segments{display:flex;align-items:center;background:#eaf0ed;border:1px solid #e1e8e4;border-radius:9px;padding:3px}.segments button{height:30px;min-width:47px;border-radius:6px;font-size:12px;color:var(--muted)}.segments button[aria-pressed=true]{background:white;color:var(--ink);box-shadow:0 1px 4px #233c3110}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:7px 13px;border:1px solid var(--line);border-radius:9px;background:white;font-size:12px}.export-button{background:var(--ink);border-color:var(--ink);color:white}.date-toggle{font-variant-numeric:tabular-nums;min-width:142px}
+.context-line{display:flex;align-items:center;gap:10px;min-height:26px;font-size:11px;color:var(--muted);margin-bottom:14px}#scope-label{font-weight:600}.context-line #status{margin-left:auto}.error{color:#af342c!important}.filter-chip{background:#dfede6;border:1px solid #c8e0d5;border-radius:20px;color:#0f6659;padding:4px 10px;font-size:11px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.metric{background:white;border:1px solid var(--line);border-radius:13px;padding:20px 22px;position:relative}.metric p{font-size:12px;color:var(--muted)}.metric strong{font-size:42px;line-height:1.25;font-weight:580;letter-spacing:-1.8px;font-variant-numeric:tabular-nums;display:block;margin:7px 0}.metric-sub{font-size:10px;color:var(--muted)}.metric-dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:#79dbb3;margin-right:7px}.metric.primary{background:var(--ink);border-color:var(--ink);color:white}.metric.primary p,.metric.primary .metric-sub{color:#b7cfca}.lifetime{background:transparent}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px 16px}.panel-heading>div{display:flex;align-items:center;gap:10px;min-width:0}.section-index{font-size:10px;font-family:ui-monospace,monospace;color:#9aaba5}h2{font-size:14px;letter-spacing:-.15px;font-weight:650}h3{font-size:12px;font-weight:600}.subtle{font-size:10px;color:var(--muted)}
+.geo-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px}.map-column{min-width:0;padding:0 22px 14px}.map-stage{position:relative;border-radius:10px;overflow:hidden;background:#f9fbfa;min-height:160px}#world-map{display:block;width:100%;height:auto;touch-action:pan-y}#world-map.zoomed{cursor:grab;touch-action:none}#world-map.dragging{cursor:grabbing}
+.map-graticule{fill:none;stroke:#e7eeea;stroke-width:.65;stroke-dasharray:2 5}.country-shape{stroke:#f9fbfa;stroke-width:.8;vector-effect:non-scaling-stroke;cursor:pointer}.country-shape:hover,.country-shape.hovered{stroke:#637c70;stroke-width:1.4}.country-shape[aria-pressed=true]{stroke:#153d35;stroke-width:2}.country-shape:focus-visible{outline:none;stroke:#bd7725;stroke-width:2.2}.zoom-tools{position:absolute;bottom:12px;left:12px;display:flex;background:white;border:1px solid var(--line);border-radius:7px;box-shadow:0 2px 8px #21382a08}.zoom-tools button{font-size:18px;width:32px;height:32px;border-right:1px solid var(--line)}.zoom-tools button:last-child{border:0}
+.map-tooltip{position:absolute;top:14px;left:14px;padding:9px 13px;background:#15352fed;color:#fff;border-radius:9px;box-shadow:0 5px 20px #15352f20;pointer-events:none;max-width:calc(100% - 28px);font-size:11px}.map-tooltip strong{margin-right:10px;font-weight:600}.map-tooltip span{color:#c7e5d5}.map-empty{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;background:#ffffffeb;border:1px solid var(--line);padding:16px 22px;border-radius:12px;pointer-events:none;white-space:nowrap}.map-empty strong{display:block;font-size:14px;font-weight:600}.map-empty span{font-size:11px;color:var(--muted)}
+.map-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:var(--muted);margin-top:10px}.map-legend{display:flex;align-items:center;gap:5px}.map-legend i{height:6px;border-radius:2px}.legend-zero{width:9px;background:#dfe8e2}.legend-scale{width:75px;background:linear-gradient(90deg,#b7dbc7,#117e70)}
+.country-panel{border-left:1px solid var(--line);padding:0 20px 15px;min-width:0}.list-heading{display:flex;justify-content:space-between;align-items:center;margin:2px 0 14px}.list-heading>span{font-size:10px;color:var(--muted)}.search input{width:100%;height:33px;font-size:11px;border:1px solid var(--line);background:#f9fbfa;border-radius:7px;padding:0 10px;color:var(--ink);margin-bottom:10px}.search input::placeholder{color:#788d83}ol{list-style:none;padding:0;margin:0}#country-list{max-height:272px;min-height:150px;overflow-y:auto;scrollbar-width:thin}#country-list li{margin-bottom:3px}.country-row{display:block;width:100%;text-align:left;position:relative;overflow:hidden;border-radius:7px;padding:9px 8px}.country-row>span{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1}.country-row .country-name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.country-row b{font-weight:600;font-size:12px;font-variant-numeric:tabular-nums}.country-row .code{display:inline-block;color:var(--muted);font-size:9px;width:24px;font-family:ui-monospace,monospace}.country-row i{position:absolute;left:0;bottom:0;top:0;background:#f0f6f2;max-width:100%}.country-row[aria-pressed=true]{box-shadow:inset 0 0 0 1px #88b5a4}.country-row[aria-pressed=true] i{background:#dcefe4}.ranking-note{display:block;font-size:9px;color:var(--muted);margin-top:12px}.empty-list{font-size:12px;color:var(--muted);padding:20px 8px}
+.insights{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:18px;margin-top:18px}.trend-panel{padding-bottom:14px}#chart{display:block;width:calc(100% - 40px);margin:0 20px;height:180px}#chart .grid{stroke:var(--line);stroke-dasharray:3 5}#chart .bar{fill:#1d8b76}#chart .bar:hover,#chart .bar:focus{fill:#174a3e}#chart text{fill:var(--muted);font-size:10px;font-family:inherit}#page-list{padding:0 22px 18px}#page-list li{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;padding:10px 0;border-bottom:1px solid #edf2ef}#page-list li:last-child{border:0}#page-list small{font-family:ui-monospace,monospace;color:var(--muted);margin-left:8px;font-size:10px}#page-list strong{font-size:12px;font-weight:600}
+.records-panel{margin-top:18px;scroll-margin-top:20px}.count-badge{font-size:10px;color:var(--muted);background:#f0f4f2;border-radius:20px;padding:2px 7px;font-variant-numeric:tabular-nums}.table-wrap{overflow:auto;max-height:450px;scrollbar-width:thin}table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}td,th{padding:13px 22px;border-bottom:1px solid #edf1ef;white-space:nowrap}th{position:sticky;top:0;background:#f8faf9;font-size:10px;color:var(--muted);font-weight:500;z-index:1}td:nth-child(2){font:11px ui-monospace,SFMono-Regular,Consolas,monospace}td .date-part{display:block;font-size:10px;color:var(--muted);margin-top:2px}.location-cell strong{font-weight:500}.location-cell small{display:block;font-size:10px;color:var(--muted);max-width:320px;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.page-tag{font-size:10px;padding:4px 8px;background:#f0f4f2;color:#52685c;border-radius:5px}tbody tr:hover{background:#fafcfb}.empty-row{text-align:center;color:var(--muted);padding:35px}
+.records-footer{min-height:54px;display:flex;justify-content:space-between;align-items:center;padding:10px 22px;font-size:10px;color:var(--muted)}.records-footer .button{min-height:32px;font-size:11px}.footer{display:flex;align-items:center;justify-content:space-between;margin-top:20px;color:#7b8c83;font-size:9px;letter-spacing:1px}.footer-dot{margin-right:6px}.text-button{color:var(--muted);font-size:10px;letter-spacing:0;padding:8px 0}
+dialog{width:min(520px,calc(100% - 32px));padding:26px;border:1px solid var(--line);border-radius:16px;color:var(--ink);box-shadow:0 24px 100px #102b3026;max-height:85vh}dialog::backdrop{background:#15352f66;backdrop-filter:blur(3px)}.dialog-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.dialog-heading h2{font-size:19px}.date-fields{display:flex;gap:14px;margin-bottom:12px}.date-fields label{display:grid;gap:7px;font-size:11px;color:var(--muted);flex:1;min-width:0}.date-fields input{height:40px;border:1px solid var(--line);border-radius:7px;padding:7px;width:100%;min-width:0;color:var(--ink);background:white}.primary-button{background:var(--accent);color:white;border-color:var(--accent);margin-top:18px;width:100%;font-size:13px}.help-list{font-size:12px;line-height:1.8;margin:0}.help-list dt{font-weight:650;margin-top:15px}.help-list dd{color:var(--muted);margin:4px 0 0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;left:20px;top:-100px;background:var(--ink);color:white;padding:10px 15px;border-radius:8px;z-index:20}.skip:focus{top:12px}
+@media(hover:hover){.icon-button:hover,.button:not(.export-button):hover{background:#eef5f1}.export-button:hover{background:#2f494a}.country-row:hover{background:#e9f3ed}.text-button:hover{text-decoration:underline}}
+@media(min-width:1500px){.wrap{max-width:1450px}.map-stage{max-height:430px}#world-map{max-height:430px}}
+@media(max-width:1050px){.wrap{padding:0 24px 24px}.page-heading{align-items:flex-start;flex-direction:column;gap:16px}.toolbar{width:100%;justify-content:flex-end}.page-heading>div:first-child{width:100%}.geo-grid{grid-template-columns:minmax(0,1fr) 230px}.country-panel{padding:0 14px 14px}#country-list{max-height:210px}.map-column{padding:0 14px 12px}.metric{padding:18px}.metric strong{font-size:36px}.brand-sub{font-size:10px}}
+@media(max-width:740px){.wrap{padding:0 16px 20px}.topbar{height:68px}.brand{gap:9px;font-size:10px;letter-spacing:.7px}.brand-sub{display:none}.brand-divider{display:none}.private-badge{font-size:10px}.header-actions{gap:7px}.header-actions .icon-button{width:32px;height:32px}.page-heading{margin:22px 0 12px;gap:17px}h1{font-size:24px}.toolbar{gap:6px;justify-content:space-between;flex-wrap:wrap}.segments{flex-shrink:0}.segments button{min-width:42px}.date-toggle{min-width:0;flex:1;padding:7px 8px}.date-toggle span{font-size:10px}.toolbar .icon-button{width:36px}.export-button{width:36px;padding:0;min-height:38px}.export-button span{display:none}.context-line{flex-wrap:wrap;gap:6px;font-size:10px}.context-line #status{font-size:9px}.metrics{grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}.metric{padding:15px 17px;border-radius:11px}.metric p{font-size:11px}.metric strong{font-size:35px;margin:6px 0}.metric-sub{font-size:9px}.geo-grid{display:block}.panel-heading{padding:17px 16px 13px}.panel-heading .subtle{font-size:9px}.map-column{padding:0 10px 12px}.map-footer{font-size:9px;padding:0 4px}.zoom-tools{bottom:8px;left:8px}.zoom-tools button{width:30px;height:30px}.country-panel{border-left:0;border-top:1px solid var(--line);padding:15px 16px}.country-panel .search{display:block}.list-heading{margin-bottom:10px}#country-list{max-height:185px;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}#country-list .empty-list{grid-column:1/-1}.country-row{padding:9px 6px}.country-row .country-name{font-size:11px}.ranking-note{font-size:9px;margin-top:9px}.insights{grid-template-columns:1fr;gap:14px;margin-top:14px}.trend-panel{padding-bottom:9px}#chart{width:calc(100% - 24px);margin:0 12px;height:180px}.records-panel{margin-top:14px}.table-wrap{max-height:370px}td,th{padding:12px 16px}.records-footer{padding:10px 16px}.footer{font-size:8px;letter-spacing:.8px;gap:12px}.footer .text-button{font-size:9px}.map-tooltip{font-size:10px;padding:7px 10px;top:8px;left:8px}.map-empty{padding:12px 16px}.map-empty strong{font-size:12px}.map-empty span{font-size:10px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background .15s,color .15s}.country-shape{transition:fill .2s}.metric strong{transition:opacity .15s}body.busy .metric strong{opacity:.4}}
 `;
-export const dashboardJS = `
-'use strict';
-const el = id => document.getElementById(id);
-const day = 86400000;
-const iso = date => new Date(date).toISOString().slice(0,10);
-let cursor = null, active = '', busy = false;
-function dates(n) { const now = Date.now(); el('to').value = iso(now); el('from').value = iso(now - (n-1)*day); }
-for (const name of ['from','to']) { el(name).max = iso(Date.now()); el(name).min = iso(Date.now()-30*day); }
-const regions = new Intl.DisplayNames(['zh-CN'], {type:'region'});
-function country(code) { try { return code ? regions.of(code) + ' (' + code + ')' : '未知'; } catch { return code || '未知'; } }
-const pageNames = {'/':'英文首页','/zh/':'中文首页','/cv/':'英文 CV','/zh/cv/':'中文 CV'};
-function status(text, error=false) { el('status').textContent=text; el('status').classList.toggle('error',error); }
-async function api(route) {
-  const response = await fetch(route,{credentials:'same-origin',cache:'no-store',redirect:'error'});
-  if (response.status === 403 || response.status === 401) throw new Error('登录已失效，请重新打开后台并登录。');
-  if (!response.headers.get('content-type')?.includes('application/json')) throw new Error('登录已失效，或服务暂不可用。请重新登录。');
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error || '暂时无法读取统计。');
-  return data;
-}
-function list(id, rows, name) {
-  el(id).replaceChildren();
-  for (const row of rows) {
-    const li=document.createElement('li'), text=document.createElement('span'), count=document.createElement('strong');
-    text.textContent=name(row); count.textContent=Number(row.views).toLocaleString('zh-CN'); li.append(text,count); el(id).append(li);
-  }
-  if (!rows.length) { const li=document.createElement('li'); li.textContent='暂无记录'; el(id).append(li); }
-}
-function chart(data) {
-  const svg=el('chart'); svg.replaceChildren();
-  const byDay=new Map(data.daily.map(row=>[row.day,row.views]));
-  const days=[]; for(let t=Date.parse(data.range.from);t<=Date.parse(data.range.to);t+=day) days.push([iso(t),byDay.get(iso(t))||0]);
-  const max=Math.max(1,...days.map(item=>item[1])), width=900/days.length;
-  days.forEach(([date,count],i)=>{
-    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect'), title=document.createElementNS('http://www.w3.org/2000/svg','title');
-    rect.setAttribute('x',String(i*width+3)); rect.setAttribute('width',String(Math.max(1,width-6)));
-    rect.setAttribute('y',String(145-count/max*135)); rect.setAttribute('height',String(count/max*135));
-    title.textContent=date+': '+count; rect.append(title); svg.append(rect);
-    if(i===0||i===days.length-1||i%Math.max(1,Math.ceil(days.length/6))===0){
-      const text=document.createElementNS('http://www.w3.org/2000/svg','text'); text.setAttribute('x',String(i*width+3));text.setAttribute('y','166');text.textContent=date.slice(5);svg.append(text);
-    }
-  });
-  svg.setAttribute('aria-label',days.map(([date,n])=>date+': '+n).join('; '));
-  el('chart-caption').textContent=data.range.from+' 至 '+data.range.to+' · 每日浏览次数 · UTC';
-}
-function rows(data, append=false) {
-  if(!append) el('events').replaceChildren();
-  for(const row of data.rows){
-    const tr=document.createElement('tr');
-    for(const value of [new Date(row.occurred_at).toISOString().replace('T',' ').slice(0,19),pageNames[row.path]||row.path,row.ip,country(row.country),row.region||'—',row.city||'—']){
-      const td=document.createElement('td');td.textContent=value;tr.append(td);
-    }
-    el('events').append(tr);
-  }
-  if(!data.rows.length&&!append){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.textContent='所选日期暂无访问记录。';tr.append(td);el('events').append(tr);}
-  cursor=data.next;el('more').hidden=!cursor;
-}
-function controls(loading){busy=loading;document.body.classList.toggle('busy',loading);for(const button of document.querySelectorAll('#filters button'))button.disabled=loading;el('more').disabled=loading;}
-async function load(){
-  if(busy)return;controls(true);el('export').disabled=true;el('more').hidden=true;status('正在读取…');
-  active=new URLSearchParams({from:el('from').value,to:el('to').value}).toString();
-  try{
-    const [summary,events]=await Promise.all([api('/api/summary?'+active),api('/api/events?'+active)]);
-    for(const [id,value] of [['lifetime',summary.lifetime.views],['views',summary.totals.views],['ips',summary.totals.unique_ips],['countries',summary.totals.countries]])el(id).textContent=Number(value).toLocaleString('zh-CN');
-    list('country-list',summary.countries,row=>country(row.country));list('page-list',summary.pages,row=>pageNames[row.path]||row.path);
-    chart(summary);rows(events);status('更新于 '+new Date().toISOString().replace('T',' ').slice(0,19)+' UTC');controls(false);
-  }catch(error){
-    for(const id of ['lifetime','views','ips','countries'])el(id).textContent='—';
-    for(const id of ['events','country-list','page-list','chart'])el(id).replaceChildren();el('chart-caption').textContent='';
-    cursor=null;controls(false);el('more').hidden=true;el('export').disabled=true;status(error.message,true);
-  }
-}
-el('filters').addEventListener('submit',event=>{event.preventDefault();load();});
-el('week').addEventListener('click',()=>{dates(7);load();});el('month').addEventListener('click',()=>{dates(30);load();});
-el('more').addEventListener('click',async()=>{
-  if(!cursor||busy)return;controls(true);
-  try{rows(await api('/api/events?'+active+'&cursor='+encodeURIComponent(cursor)),true);status('已加载更多记录。');}
-  catch(error){status(error.message,true);}finally{controls(false);}
-});
-el('export').addEventListener('click',async()=>{
-  if(busy)return;controls(true);status('正在准备导出…');
-  try{
-    const response=await fetch('/api/export.csv?'+active,{credentials:'same-origin',cache:'no-store',redirect:'error'});
-    if(!response.ok||!response.headers.get('content-type')?.includes('text/csv'))throw new Error('导出失败：请确认登录有效；超过 10,000 条时请缩小日期范围。');
-    const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download='visits-'+new URLSearchParams(active).get('from')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status('CSV 已导出，内含 IP 明细，请妥善保管。');
-  }catch(error){status(error.message,true);}finally{controls(false);}
-});
-dates(7);load();
-`;
+export const dashboardJS = '(' + dashboardScript + ')(' + JSON.stringify(worldMap) + ');';

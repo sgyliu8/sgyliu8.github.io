@@ -47,25 +47,31 @@ export default {
     let dates;
     try { dates = range(url); } catch { return json({error: 'Choose valid UTC dates within the last 30 days.'}, 400); }
     const {start, end, from, to} = dates;
+    const country = url.searchParams.get('country');
+    if (country !== null && country !== '_unknown' && !/^[A-Z]{2}$/.test(country))
+      return json({error: 'Invalid country filter'}, 400);
+    const filter = country === null ? '' : ' AND country = ?';
+    const args = country === null ? [start, end] : [start, end, country === '_unknown' ? '' : country];
+    const where = 'occurred_at >= ? AND occurred_at < ?' + filter;
     try {
       if (route === '/api/summary') {
         // All queries in a D1 batch share a transaction, including the totals and rows.
         const results = await env.DB.batch([
           env.DB.prepare(`SELECT COUNT(*) AS views, COUNT(DISTINCT ip) AS unique_ips,
-            COUNT(DISTINCT NULLIF(country, '')) AS countries FROM events WHERE occurred_at >= ? AND occurred_at < ?`).bind(start, end),
+            COUNT(DISTINCT NULLIF(country, '')) AS countries FROM events WHERE ${where}`).bind(...args),
           env.DB.prepare('SELECT COALESCE(SUM(views), 0) AS views, MIN(first_at) AS first_at FROM lifetime_counts'),
-          env.DB.prepare('SELECT day, COUNT(*) AS views FROM events WHERE occurred_at >= ? AND occurred_at < ? GROUP BY day ORDER BY day').bind(start, end),
+          env.DB.prepare(`SELECT day, COUNT(*) AS views FROM events WHERE ${where} GROUP BY day ORDER BY day`).bind(...args),
           env.DB.prepare(`SELECT country, COUNT(*) AS views FROM events WHERE occurred_at >= ? AND occurred_at < ?
-            GROUP BY country ORDER BY views DESC, country LIMIT 30`).bind(start, end),
-          env.DB.prepare(`SELECT path, COUNT(*) AS views FROM events WHERE occurred_at >= ? AND occurred_at < ?
-            GROUP BY path ORDER BY views DESC, path`).bind(start, end),
+            GROUP BY country ORDER BY views DESC, country`).bind(start, end),
+          env.DB.prepare(`SELECT path, COUNT(*) AS views FROM events WHERE ${where}
+            GROUP BY path ORDER BY views DESC, path`).bind(...args),
         ]);
-        return json({range: dates, totals: results[0].results[0], lifetime: results[1].results[0],
+        return json({range: dates, country, totals: results[0].results[0], lifetime: results[1].results[0],
           daily: results[2].results, countries: results[3].results, pages: results[4].results});
       }
       if (route === '/api/export.csv') {
         const data = await env.DB.prepare(`SELECT occurred_at, path, ip, country, region, city FROM events
-          WHERE occurred_at >= ? AND occurred_at < ? ORDER BY occurred_at DESC, event_id DESC LIMIT 10001`).bind(start, end).all();
+          WHERE ${where} ORDER BY occurred_at DESC, event_id DESC LIMIT 10001`).bind(...args).all();
         if (data.results.length > 10000) return json({error: 'Export exceeds 10,000 rows. Choose a shorter date range.'}, 413);
         const lines = [CSV_FIELDS.join(','), ...data.results.map(row => CSV_FIELDS.map(key =>
           csvCell(key === 'occurred_at' ? new Date(row[key]).toISOString() : row[key])).join(','))];
@@ -80,8 +86,8 @@ export default {
         beforeTime = Number(match[1]); beforeId = match[2];
       }
       const data = await env.DB.prepare(`SELECT event_id, occurred_at, path, ip, country, region, city FROM events
-        WHERE occurred_at >= ? AND occurred_at < ? AND (occurred_at < ? OR (occurred_at = ? AND event_id < ?))
-        ORDER BY occurred_at DESC, event_id DESC LIMIT 101`).bind(start, end, beforeTime, beforeTime, beforeId).all();
+        WHERE ${where} AND (occurred_at < ? OR (occurred_at = ? AND event_id < ?))
+        ORDER BY occurred_at DESC, event_id DESC LIMIT 101`).bind(...args, beforeTime, beforeTime, beforeId).all();
       const rows = data.results.slice(0, 100);
       const last = rows.at(-1);
       return json({range: dates, rows, next: data.results.length > 100 ? last.occurred_at + ':' + last.event_id : null});

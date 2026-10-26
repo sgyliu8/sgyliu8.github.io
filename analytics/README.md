@@ -29,6 +29,21 @@ owner email. A forged JWT/email header, missing Access configuration or wrong ac
 closed. No Static Assets binding is used because it prevents this direct Access context
 from reaching the Worker in the current platform routing model.
 
+## Dashboard and map
+
+The dashboard opens with compact metrics and an interactive world map. Hover or focus a country for its count and share; click it to filter the totals, trend, page breakdown, visit table and CSV export. The map and source ranking deliberately retain all countries for the chosen date range so it is easy to switch between them. Clear the filter with the country chip.
+
+- Today / 7 days / 30 days shortcuts, custom UTC dates, refresh and CSV in one toolbar.
+- Local country heatmap with zoom, drag, keyboard selection and a searchable source list.
+- Country/region/city and IP in the private records; no precise-location marker or GPS.
+- Unknown locations are explicit and searchable. Small regions absent from the generalized map remain in the ranking.
+- Help is opened with “?”; long explanations do not occupy the main view.
+- Responsive layouts verified at 320, 390, 768 and 1440 pixels.
+- Map geometry is bundled locally. No map provider receives IPs or visitor data. See [map source and license](data/NOTICE.md).
+- Regenerate map paths with `node scripts/build-map.mjs` from this directory; the pinned upstream download is verified by SHA-256.
+
+Browser code is authored in `src/dashboard-app.mjs`. Run `npm run build:ui` after edits; admin deployment also runs it automatically. The checked-in payload keeps server bundler helpers out of the browser, and CI rejects stale generated code.
+
 ## Data and counting
 
 | Item | Behaviour |

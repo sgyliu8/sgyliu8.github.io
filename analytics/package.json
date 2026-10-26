@@ -10,10 +10,13 @@
     "test:browser": "node test/browser.mjs",
     "check:deploy": "node scripts/check-deployment.mjs",
     "deploy:collector": "wrangler deploy --config .private/collector.json",
-    "deploy:admin": "wrangler deploy --config .private/admin.json"
+    "deploy:admin": "wrangler deploy --config .private/admin.json",
+    "build:ui": "node scripts/build-dashboard.mjs",
+    "predeploy:admin": "npm run build:ui"
   },
   "devDependencies": {
+    "d3-geo": "3.1.1",
     "playwright": "1.56.1",
-    "wrangler": "4.144.0"
+    "wrangler": "4.153.0"
   }
 }

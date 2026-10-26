@@ -134,3 +134,41 @@ test('database failures return generic errors without leaking request or IP data
  const collected=await collector.fetch(eventRequest(),env);assert.equal(collected.status,503);assert.doesNotMatch(await collected.text(),/secret|192\.0\.2/);
  const queried=await admin.fetch(request('/api/summary'),env,owner);assert.equal(queried.status,503);assert.doesNotMatch(await queried.text(),/secret/);
 });
+
+
+test('country filter keeps summary, daily counts, pages, records and CSV consistent',async()=>{
+ const db=new TestDB(),env=environment(db);
+ for(let i=0;i<105;i++)fixture(db,{country:'GB',ip:'192.0.2.1'});
+ fixture(db,{country:'CN',ip:'198.51.100.8',city:'Shanghai',path:'/zh/'});
+ fixture(db,{country:'',ip:'2001:db8::8',city:''});
+ const data=await (await admin.fetch(request('/api/summary?country=CN'),env,owner)).json();
+ assert.equal(data.totals.views,1);assert.equal(data.totals.unique_ips,1);assert.equal(data.lifetime.views,107);
+ assert.equal(data.daily.reduce((n,r)=>n+r.views,0),1);assert.equal(data.pages[0].path,'/zh/');
+ assert.equal(data.countries.reduce((n,r)=>n+r.views,0),107,'World map retains all countries in the date range');
+ const first=await (await admin.fetch(request('/api/events?country=GB'),env,owner)).json();
+ const second=await (await admin.fetch(request('/api/events?country=GB&cursor='+encodeURIComponent(first.next)),env,owner)).json();
+ assert.equal(first.rows.length,100);assert.equal(second.rows.length,5);assert([...first.rows,...second.rows].every(r=>r.country==='GB'));
+ const csv=await (await admin.fetch(request('/api/export.csv?country=CN'),env,owner)).text();
+ assert.match(csv,/Shanghai/);assert.doesNotMatch(csv,/192\.0\.2\.1/);assert.equal(csv.trim().split('\r\n').length,2);
+ const unknown=await (await admin.fetch(request('/api/summary?country=_unknown'),env,owner)).json();
+ assert.equal(unknown.totals.views,1);assert.equal(unknown.totals.countries,0);
+ for(const filter of ['', 'gb', "GB' OR 1=1", 'GB,US', '<svg>'])
+  for(const route of ['/api/summary','/api/events','/api/export.csv'])
+   assert.equal((await admin.fetch(request(route+'?country='+encodeURIComponent(filter)),env,owner)).status,400);
+ db.close();
+});
+test('map totals include more than thirty source countries and zero-result filters are valid',async()=>{
+ const db=new TestDB(),env=environment(db);
+ const codes=['US','GB','CN','DE','FR','NO','IT','ES','PT','NL','BE','CH','AT','SE','FI','DK','PL','CZ','HU','RO','GR','IE','CA','MX','BR','AR','CL','CO','PE','AU','NZ','JP','KR','SG','IN','TH','MY','ID','ZA','EG'];
+ for(const country of codes)fixture(db,{country});
+ const data=await (await admin.fetch(request('/api/summary?country=IS'),env,owner)).json();
+ assert.equal(data.countries.length,40);assert.equal(data.totals.views,0);assert.deepEqual(data.pages,[]);
+ const events=await (await admin.fetch(request('/api/events?country=IS'),env,owner)).json();assert.deepEqual(events.rows,[]);
+ db.close();
+});
+
+test('checked-in browser payload matches its authored source before Worker transformation',async()=>{
+ const {dashboardApp}=await import('../src/dashboard-app.mjs');
+ const {dashboardScript}=await import('../src/dashboard-script.mjs');
+ assert.equal(dashboardScript,dashboardApp.toString(),'Run npm run build:ui in analytics after editing dashboard-app.mjs');
+});
