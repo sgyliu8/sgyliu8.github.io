@@ -170,5 +170,5 @@ test('map totals include more than thirty source countries and zero-result filte
 test('checked-in browser payload matches its authored source before Worker transformation',async()=>{
  const {dashboardApp}=await import('../src/dashboard-app.mjs');
  const {dashboardScript}=await import('../src/dashboard-script.mjs');
- assert.equal(dashboardScript,dashboardApp.toString(),'Run npm run build:ui in analytics after editing dashboard-app.mjs');
+ assert.equal(dashboardScript,dashboardApp.toString().replaceAll('\r\n', '\n'),'Run npm run build:ui in analytics after editing dashboard-app.mjs');
 });

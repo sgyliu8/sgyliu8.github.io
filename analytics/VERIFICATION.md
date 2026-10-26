@@ -69,3 +69,6 @@ The actual runtime then started successfully and passed the database checks.
 - Upgraded the pinned development CLI to Wrangler 4.153.0; npm audit now reports zero vulnerabilities.
 
 - Actual Wrangler/workerd/D1 acceptance found a browser script serialization issue: server bundling injected a helper unavailable in the browser. Browser source is now frozen before Worker bundling, with a generated-file consistency check in CI. The actual bundled runtime then rendered the map and passed country selection and help interaction.
+
+- Production owner browser rendered the redesigned dashboard and real counts successfully after deployment (admin version `fbf0c6a5-30db-455f-aa29-5077d5a98a58`). Anonymous checks still passed.
+- Browser payload generation normalizes CRLF/LF so clean Windows and Linux checkouts produce the same result.
