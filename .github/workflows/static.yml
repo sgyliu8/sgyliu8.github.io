@@ -26,13 +26,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Validate public site
-        run: node scripts/check-site.mjs
+        run: |
+          node scripts/check-site.mjs
+          node --test analytics/test/*.test.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

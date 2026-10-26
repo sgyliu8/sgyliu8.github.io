@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 *.log
+
+.local/
+**/.private/
+**/.wrangler/
+**/.dev.vars*
+**/.env*

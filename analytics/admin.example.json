@@ -1,0 +1,25 @@
+{
+  "name": "yang-portfolio-analytics",
+  "main": "src/admin.mjs",
+  "compatibility_date": "2026-10-03",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": false
+  },
+  "vars": {
+    "OWNER_EMAIL": "sgyliu@gmail.com",
+    "ACCESS_AUD": "REPLACE_WITH_ACCESS_APPLICATION_AUD"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "yang-portfolio-analytics",
+      "database_id": "REPLACE_WITH_D1_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

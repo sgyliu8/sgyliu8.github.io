@@ -1,0 +1,22 @@
+{
+  "name": "yang-private-analytics",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node test/browser.mjs",
+    "check:deploy": "node scripts/check-deployment.mjs",
+    "deploy:collector": "wrangler deploy --config .private/collector.json",
+    "deploy:admin": "wrangler deploy --config .private/admin.json",
+    "build:ui": "node scripts/build-dashboard.mjs",
+    "predeploy:admin": "npm run build:ui"
+  },
+  "devDependencies": {
+    "d3-geo": "3.1.1",
+    "playwright": "1.56.1",
+    "wrangler": "4.153.0"
+  }
+}
