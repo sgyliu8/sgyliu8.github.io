@@ -36,6 +36,16 @@ jobs:
           node scripts/check-site.mjs
           node --test analytics/test/*.test.mjs
 
+      - name: Install browser test dependencies
+        working-directory: analytics
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Verify analytics and public pages in Chromium
+        working-directory: analytics
+        run: npm run test:browser
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
 

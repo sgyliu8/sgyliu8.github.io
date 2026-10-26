@@ -22,6 +22,13 @@ export async function purge(db, now = Date.now()) {
   // The query layer independently applies the same cutoff if a cron is delayed.
   return db.batch([
     db.prepare('DELETE FROM events WHERE occurred_at < ?').bind(now - RETENTION_DAYS * DAY),
-    db.prepare('DELETE FROM daily_counts WHERE day < ?').bind(new Date(now - 365 * DAY).toISOString().slice(0, 10)),
+    db.prepare('DELETE FROM daily_counts WHERE day <= ?').bind(new Date(now - 365 * DAY).toISOString().slice(0, 10)),
   ]);
+}
+
+export async function cleanupWithRetry(db, now=Date.now(), pause=ms=>new Promise(resolve=>setTimeout(resolve,ms))) {
+  for(let attempt=0;attempt<3;attempt++) {
+    try { return await purge(db,now); }
+    catch { if(attempt===2)throw new Error('analytics_retention_cleanup_failed'); await pause(250*(attempt+1)); }
+  }
 }

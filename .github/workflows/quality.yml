@@ -12,7 +12,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -24,3 +24,13 @@ jobs:
         run: |
           node scripts/check-site.mjs
           node --test analytics/test/*.test.mjs
+
+      - name: Install browser test dependencies
+        working-directory: analytics
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Verify analytics and public pages in Chromium
+        working-directory: analytics
+        run: npm run test:browser

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 const collector='https://yang-portfolio-events.sgyliu.workers.dev';
 const admin='https://yang-portfolio-analytics.sgyliu.workers.dev';
 async function get(url,options={}){return fetch(url,{...options,redirect:'manual',signal:AbortSignal.timeout(12000)});}
-for(const route of ['/admin/','/admin/app.js','/api/summary','/api/events','/api/export.csv']){
+for(const route of ['/api/dashboard','/admin/','/admin/app.js','/api/summary','/api/events','/api/export.csv']){
  const response=await get(admin+route,{headers:{'Cf-Access-Authenticated-User-Email':'sgyliu@gmail.com','Cf-Access-Jwt-Assertion':'forged'}});
  assert([302,401,403].includes(response.status),route+' must deny anonymous and forged identities');
  if(response.status===302)assert.match(response.headers.get('location')||'',/^https:\/\/[^/]+\.cloudflareaccess\.com\//);

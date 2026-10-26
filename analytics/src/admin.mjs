@@ -42,7 +42,7 @@ export default {
     if (route === '/admin/') return reply(dashboardHTML, 200, {...assetHeaders, 'Content-Type': 'text/html; charset=utf-8'});
     if (route === '/admin/app.css') return reply(dashboardCSS, 200, {...assetHeaders, 'Content-Type': 'text/css; charset=utf-8'});
     if (route === '/admin/app.js') return reply(dashboardJS, 200, {...assetHeaders, 'Content-Type': 'text/javascript; charset=utf-8'});
-    if (!['/api/summary', '/api/events', '/api/export.csv'].includes(route)) return reply('Not found', 404);
+    if (!['/api/dashboard', '/api/summary', '/api/events', '/api/export.csv'].includes(route)) return reply('Not found', 404);
     if (!env.DB) return json({error: 'Database unavailable'}, 503);
     let dates;
     try { dates = range(url); } catch { return json({error: 'Choose valid UTC dates within the last 30 days.'}, 400); }
@@ -54,7 +54,7 @@ export default {
     const args = country === null ? [start, end] : [start, end, country === '_unknown' ? '' : country];
     const where = 'occurred_at >= ? AND occurred_at < ?' + filter;
     try {
-      if (route === '/api/summary') {
+      if (route === '/api/summary' || route === '/api/dashboard') {
         // All queries in a D1 batch share a transaction, including the totals and rows.
         const results = await env.DB.batch([
           env.DB.prepare(`SELECT COUNT(*) AS views, COUNT(DISTINCT ip) AS unique_ips,
@@ -65,8 +65,12 @@ export default {
             GROUP BY country ORDER BY views DESC, country`).bind(start, end),
           env.DB.prepare(`SELECT path, COUNT(*) AS views FROM events WHERE ${where}
             GROUP BY path ORDER BY views DESC, path`).bind(...args),
+          ...(route === '/api/dashboard' ? [env.DB.prepare(`SELECT event_id, occurred_at, path, ip, country, region, city FROM events WHERE ${where} ORDER BY occurred_at DESC, event_id DESC LIMIT 101`).bind(...args)] : []),
         ]);
-        return json({range: dates, country, totals: results[0].results[0], lifetime: results[1].results[0],
+        const firstRows = results[5]?.results.slice(0, 100);
+        const last = firstRows?.at(-1);
+        const events = firstRows ? {range: dates, rows: firstRows, next: results[5].results.length > 100 ? last.occurred_at + ':' + last.event_id : null} : undefined;
+        return json({events, range: dates, country, totals: results[0].results[0], lifetime: results[1].results[0],
           daily: results[2].results, countries: results[3].results, pages: results[4].results});
       }
       if (route === '/api/export.csv') {

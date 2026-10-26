@@ -5,7 +5,7 @@ import {randomUUID} from 'node:crypto';
 export class TestDB {
   constructor() {
     this.sqlite=new DatabaseSync(':memory:');
-    this.sqlite.exec(readFileSync(new URL('../migrations/0001_events.sql',import.meta.url),'utf8'));
+    for(const file of ['0001_events.sql','0002_counter_ordering.sql'])this.sqlite.exec(readFileSync(new URL('../migrations/'+file,import.meta.url),'utf8'));
   }
   prepare(sql) {
     const statement=this.sqlite.prepare(sql);
@@ -43,5 +43,5 @@ export function eventRequest(options={}) {
   return request;
 }
 export function environment(db) {return {DB:db,COLLECTION_ENABLED:'true',
-  RATE_LIMITER:{limit:async()=>({success:true})},OWNER_EMAIL:'owner@example.test',ACCESS_AUD:'test-aud'};}
+  RATE_LIMITER:{limit:async()=>({success:true})},EDGE_RATE_LIMITER:{limit:async()=>({success:true})},OWNER_EMAIL:'owner@example.test',ACCESS_AUD:'test-aud'};}
 export const owner={access:{aud:'test-aud',getIdentity:async()=>({email:'owner@example.test'})}};

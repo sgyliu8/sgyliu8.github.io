@@ -7,7 +7,7 @@ Feature branch: `feat/private-visitor-analytics`.
 
 - Existing site validator: **passed** — 14 HTML files, 192 public files, zero broken
   internal references; root compatibility mirror matches public/.
-- SQLite-backed automated tests: **18 passed, 0 failed**.
+- SQLite-backed automated tests: **22 passed, 0 failed**.
 - Chromium: desktop 1440×1000 and mobile/tablet widths 320, 390 and 768; **passed**.
 - Four primary public routes each emitted exactly one event when explicitly enabled in
   the test fixture. No query strings, fragments, referrers, cookies, persistent storage,
@@ -72,3 +72,10 @@ The actual runtime then started successfully and passed the database checks.
 
 - Production owner browser rendered the redesigned dashboard and real counts successfully after deployment (admin version `fbf0c6a5-30db-455f-aa29-5077d5a98a58`). Anonymous checks still passed.
 - Browser payload generation normalizes CRLF/LF so clean Windows and Linux checkouts produce the same result.
+
+## Release reliability follow-up
+
+- Atomic dashboard snapshot, per-edge admission before D1, cleanup retries, out-of-order lifetime endpoints and UTC aggregate-retention boundary passed regression tests.
+- Browser tests now use the checked-in enabled config and validate query-free route values and distinct UUIDs. Network and HTTP 503 retries share one UUID; HTTP 403 is not retried.
+- PR and Pages workflows run the Chromium suite before publishing.
+- Detailed review triage and limits: [REVIEW.md](REVIEW.md).
