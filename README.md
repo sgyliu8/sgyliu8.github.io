@@ -73,3 +73,7 @@ The validator byte-compares every file under `public/` with its root counterpart
 The portfolio includes only public, independently developed or deliberately high-level professional information. It excludes private contact details, compensation, non-public internal organisation details, unpublished employer intellectual property, internal test evidence and private repositories.
 
 Organisation names and the September 2026 role transition are included at the owner’s explicit request. The Siemens Energy start month is June 2024, consistent with the supplied CV and LinkedIn profile.
+
+## Private visitor analytics
+
+The optional visitor analytics implementation and deployment plan are in [analytics/README.md](analytics/README.md), with the current [verification record](analytics/VERIFICATION.md). Collection remains disabled until Cloudflare deployment and owner-only access pass production acceptance. The public website adds no visible analytics UI.
