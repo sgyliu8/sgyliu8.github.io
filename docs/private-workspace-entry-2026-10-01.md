@@ -17,6 +17,18 @@ static files and is deliberately unnecessary here.
 
 ## Maintenance
 
+The separate **Opportunity Radar pilot** link on each homepage opens `/emc/`.
+During an invited session this page checks the supplied session locator against
+its published SHA-256 digest, then opens the app login over HTTPS. After expiry
+the public page shows the offline message. The invitation page runs no analytics.
+
+For each new session, from the website checkout run `npm run emc:session -- <digest> <UTC-expiry>`,
+then `npm run check`. Commit and publish the two updated `emc/session.json` files
+from the canonical and mirror trees. Use the SHA-256 of the lowercase UTF-8 tunnel
+slug and a future UTC timestamp ending in `Z`. The homepage and its links already
+point to the permanent entry. Share the invitation locator and the application
+credential privately.
+
 Edit `public/index.html`, `public/zh/index.html` and
 `public/assets/css/site.css`; regenerate the root mirror with
 `npm run sync:root`, then run `npm run check`.

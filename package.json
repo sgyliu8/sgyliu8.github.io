@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "check": "node scripts/check-site.mjs",
+    "emc:session": "node scripts/set-emc-session.mjs",
     "sync:root": "node scripts/sync-root.mjs",
     "test:analytics": "node --test analytics/test/*.test.mjs",
     "test:browser": "npm --prefix analytics run test:browser"
